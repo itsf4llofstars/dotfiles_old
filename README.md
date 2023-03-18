@@ -1,2 +1,6 @@
-# dotfiles
-Linux dotfiles
+# Linux Dotfiles
+
+## Linux Repositories
+
+- Mint
+
