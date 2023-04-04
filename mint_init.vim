@@ -48,7 +48,6 @@ set sidescroll=8
 set statusline=
 set updatetime=100
 set nowrap
-" set completeopt=menuone,preview,noinsert
 set completeopt=menuone,preview
 set wildmode=list:longest,full
 
@@ -76,9 +75,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
 Plug 'nvie/vim-flake8'
 Plug 'itchyny/lightline.vim'
-" Plug 'msanders/snipmate.vim'
-" Plug 'honza/vim-snippets'
-" Plug 'SirVer/ultisnips'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'valloric/youcompleteme'
 call plug#end()
@@ -133,8 +129,6 @@ let g:user_emmet_leader_key=','
 "" LIGHTLINE ADVANCED
 "" See Vim-Awesome
 let g:lightline = {'colorscheme': 'one',}
-
-"" YCM
 "" END PLUGINS }}}
 
 "" MAPPINGS {{{
@@ -146,7 +140,6 @@ let NERDTreeQuitOnOpen = 1
 nnoremap <leader>o :NERDTree<CR>gg2j
 
 "" EASY MOTION
-" map <Leader> <Plug>(easymotion-prefix)
 nnoremap ,f <Plug>(easymotion-bd-f)
 nnoremap ,f <Plug>(easymotion-overwin-f)
 nnoremap ,s <Plug>(easymotion-overwin-f2)
@@ -222,9 +215,9 @@ nnoremap <leader>kk :resize+2<CR>
 nnoremap <leader>jj :resize-2<CR>
 nnoremap <leader>rs <C-w>=
 
-" Ours
+" HEAD
 nnoremap <localleader>so gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>
-" Theirs
+" branch
 nnoremap <localleader>st gg/<<<<<<<<CR>V/=======<CR>d/>>>>>>><CR>dd<ESC>
 " Both
 nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
@@ -243,25 +236,24 @@ augroup END
 
 augroup VIM
   autocmd!
-  " autocmd FileType vim silent setlocal ts=2 sw=2 fdm=marker fdc=2
-  autocmd BufRead *.vim source ~/.config/nvim/main.vim
+  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 et nowrap cc=80 fdm=marker fdc=2
   autocmd BufEnter $MYVIMRC call Indent()
 augroup END
 
 augroup PYTHON
   autocmd!
-  autocmd FileType python silent setlocal fdm=indent fdc=4
+  autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=4
   autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<cr>
 augroup END
 
 augroup SH
   autocmd!
-  autocmd FileType sh silent setlocal ts=2 sw=2 nofen fdc=0 cc=80
+  autocmd FileType sh setlocal ts=2 sw=2 sts=2 tw=0 nofen fdc=0 cc=80
 augroup END
 
 augroup HTML_CSS
   autocmd!
-  autocmd FileType html setlocal ts=2 sw=2 cc=80,100,120 fdc=6 fdm=manual aw updatetime=500
+  autocmd FileType html setlocal ts=2 sw=2 sts=2 tw=0 cc=80,100,120 fdc=6 fdm=manual aw updatetime=500
   autocmd FileType html,css nnoremap <buffer> <localleader>f Vatzf
   autocmd BufRead,BufEnter *.html nnoremap <buffer> <localleader>c i<!----><esc>2hi<space><esc>i<space>
   autocmd BufRead,BufEnter *.css nnoremap <buffer> <localleader>c i/**/<esc>hi<space><esc>i<space>
@@ -273,13 +265,13 @@ augroup END
 
 augroup C_CPP
   autocmd!
-  autocmd FileType c,cpp,rust setlocal noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
+  autocmd FileType c,cpp,rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
   autocmd FileType c,cpp,rust nnoremap <buffer> <leader>nb A<space>{<cr>}<esc>ko
 augroup END
 
 augroup TEXT
   autocmd!
-  autocmd FileType text silent setlocal tw=78 wrap fdc=1 cc=80
+  autocmd FileType text setlocal ts=8 sw=4 sts=0 tw=78 wrap fdc=1 cc=80
 augroup END
 
 augroup NERDTREE
@@ -293,7 +285,7 @@ augroup END
 
 augroup GITCOMMIT
   autocmd!
-  autocmd FileType gitcommit setlocal ts=2 sw=2 tw=55 cc=55
+  autocmd FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=55 cc=55
   autocmd FileType gitcommit call GitBuf()
 augroup END
 "" END AUGROUP AUTOCMD }}}
