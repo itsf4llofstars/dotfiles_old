@@ -1,4 +1,6 @@
+" Last Change: 2023 Apr 09 01:24:37
 "" init.vim
+"" <F2> to set last change
 
 "" FUNCTIONS & SCRIPTS {{{
 function Indent()
@@ -65,6 +67,69 @@ let maplocalleader="\\"
 "" END SETTINGS }}}
 
 "" PLUGINS {{{
+"" YCM {{{
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_min_num_identifier_candidate_chars = 0
+let g:ycm_max_num_candidates = 50
+" let g:ycm_max_num_candidates_to_detail = 0
+let g:ycm_max_num_identifier_candidates = 10
+let g:ycm_auto_trigger = 1
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar': 1,
+      \ 'notes': 1,
+      \ 'markdown': 1,
+      \ 'netrw': 1,
+      \ 'unite': 1,
+      \ 'text': 1,
+      \ 'vimwiki': 1,
+      \ 'pandoc': 1,
+      \ 'infolog': 1,
+      \ 'leaderf': 1,
+      \ 'mail': 1
+      \}
+let g:ycm_filetype_specific_completion_to_disable = {
+      \ 'gitcommit': 1
+      \}
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_error_symbol = '>>'
+let g:ycm_warning_symbol = '>>'
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 1
+let g:ycm_echo_current_diagnostic = 1
+nmap <leader>D <plug>(YCMHover)
+
+"" See, :help location-list
+let g:ycm_always_populate_location_list = 0
+
+"" Try set to 0 for no-extra window
+let g:ycm_open_loclist_on_ycm_diags = 1
+let g:ycm_seed_identifiers_with_syntax = 0
+
+"" set 0 for no previews or popups. preview or popup needed in comleteopt
+let g:ycm_add_preview_to_completeopt = 1
+
+"" Defaults for completion/insertion = 0
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+"" Some like adding 'enter' the list
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
+
+"" Closes popup if it's blocking view
+let g:ycm_key_list_stop_completion = ['<C-y>']
+
+"" try enter
+let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_key_detailed_diagnostics = '<leader>d'
+
+let g:ycm_use_clangd = 1
+" let g:ycm_clangd_binary_path = ''
+
+"" Set to 0 if seeing the new diags is not wanted
+let g:ycm_update_diagnostics_in_insert_mode = 1
+"" END YCM}}}
+
 call plug#begin()
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
@@ -81,7 +146,7 @@ call plug#end()
 
 colorscheme gruvbox
 
-"" FZF
+"" FZF {{{
 let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-x': 'split',
@@ -114,6 +179,7 @@ nnoremap <leader>fz :FZF<space>
 "" :FZF --reverse --info=inline /tmp
 "" Bang version starts fzf in fullscreen mode
 "" :FZF!
+"" END FZF }}}
 
 "" NERDTREE
 let g:NERDTreeDirArrowExpandable = '▸'
@@ -184,8 +250,13 @@ nnoremap <F8> @
 nnoremap <F9> @@
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
+
 nnoremap <leader>* :%s/\<C-r><C-w>//gI<left><left><left>
 nnoremap <leader>& :%s/\<C-r><C-w>//gcI<left><left><left><left>
+
+map <F2> msHmtgg/Last [cC]hange:\s*/e+1<CR>"_D"=strftime("%Y %b %d %H:%M:%S")<CR>p'tzt`s
+map <F4> mpHmtGoHello There<ESC>'tzt`p
+
 nnoremap <leader>bn :bnext<cr>
 nnoremap <leader>bp :bprevious<cr>
 nnoremap Y y$
@@ -249,6 +320,7 @@ augroup END
 augroup SH
   autocmd!
   autocmd FileType sh setlocal ts=2 sw=2 sts=2 tw=0 nofen fdc=0 cc=80
+  autocmd BufWritePre,BufEnter *.sh call Indent()
 augroup END
 
 augroup HTML_CSS
@@ -261,12 +333,14 @@ augroup HTML_CSS
   autocmd CursorHold *.html,*.css write
   autocmd BufEnter *.html,*.css colorscheme jellybeans
   autocmd BufLeave *.html,*.css colorscheme gruvbox
+  autocmd BufEnter *.html,*.css call Indent()
 augroup END
 
 augroup C_CPP
   autocmd!
   autocmd FileType c,cpp,rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
   autocmd FileType c,cpp,rust nnoremap <buffer> <leader>nb A<space>{<cr>}<esc>ko
+  autocmd BufEnter *.c,*.h,*.cpp,*.rs call Indent()
 augroup END
 
 augroup TEXT
@@ -288,4 +362,9 @@ augroup GITCOMMIT
   autocmd FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=55 cc=55
   autocmd FileType gitcommit call GitBuf()
 augroup END
+
+" augroup TEST
+"   au!
+"   au BufWritePre * :normal! mpgg`p
+" augroup END
 "" END AUGROUP AUTOCMD }}}
