@@ -313,13 +313,14 @@ augroup END
 
 augroup PYTHON
   autocmd!
-  autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=4
+  autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=4 fdl=99 fdls=99
   autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<cr>
 augroup END
 
 augroup SH
   autocmd!
-  autocmd FileType sh setlocal ts=2 sw=2 sts=2 tw=0 nofen fdc=0 cc=80
+  autocmd FileType sh setlocal ts=4 sw=4 sts=4 tw=0 nofen fdc=0 cc=80
+  autocmd BufEnter *.sh nnoremap <buffer> <F5> :write<cr>:!./%<cr>
   autocmd BufWritePre,BufEnter *.sh call Indent()
 augroup END
 
