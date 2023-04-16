@@ -23,9 +23,13 @@
 	editor = gvim
 [alias]
 	ac = commit -am
-    ll = log --oneline --decorate --graph --all
-    la = log --oneline --decorate --all
-    lo = log -1
+	ll = log --oneline --decorate --graph --all
+	la = log --oneline --decorate --all
+	lo = log -1
 	st = status
+	sw = switch
+	br = branch
 [commit]
 	gpgSign = false
+
+# vim:ft=gitconfig:ts=4:sts=4:sw=4:noet:

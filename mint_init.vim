@@ -1,4 +1,4 @@
-" Last Change: 2023 Apr 09 01:24:37
+" Last Change: 2023 Apr 13 11:11:27
 "" init.vim
 "" <F2> to set last change
 
@@ -130,6 +130,7 @@ let g:ycm_use_clangd = 1
 let g:ycm_update_diagnostics_in_insert_mode = 1
 "" END YCM}}}
 
+"" VIM-PLUG {{{
 call plug#begin()
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
@@ -145,6 +146,7 @@ Plug 'valloric/youcompleteme'
 call plug#end()
 
 colorscheme gruvbox
+"" }}}
 
 "" FZF {{{
 let g:fzf_action = {
@@ -181,20 +183,23 @@ nnoremap <leader>fz :FZF<space>
 "" :FZF!
 "" END FZF }}}
 
-"" NERDTREE
+"" NERDTREE {{{
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+"" }}}
 
-"" EMMET
+"" EMMET {{{
 let g:user_emmet_mode='inv'
 let g:user_emmet_leader_key=','
+"" }}}
 
-"" LIGHTLINE
+"" LIGHTLINE {{{
 "" laststatus equals 2, noshowmode must be set
 "" powerline, wombat, solarized, PaperColor, one
 "" LIGHTLINE ADVANCED
 "" See Vim-Awesome
 let g:lightline = {'colorscheme': 'one',}
+"" }}}
 "" END PLUGINS }}}
 
 "" MAPPINGS {{{
@@ -218,11 +223,13 @@ nnoremap ,w <Plug>(easymotion-overwin-w)
 nnoremap <leader>ut :UndotreeToggle<CR>
 
 "" FUGITIVE
-nnoremap <leader>ga :Git add .<cr>
+nnoremap <leader>ga :write<cr>:Git add .<cr>
 nnoremap <leader>gc :Git commit<cr>
 nnoremap <leader>gs :Git status<cr>
-nnoremap <leader>gb :Git branch<ck>
+nnoremap <leader>gb :Git branch<cr>
 nnoremap <leader>gr :Git remote<cr>
+nnoremap <leader>gdd :Git diff<cr>
+nnoremap <leader>gds :Git diff --staged<cr>
 
 "" YCM
 nnoremap <leader>m <C-w>kZQ
@@ -307,7 +314,7 @@ augroup END
 
 augroup VIM
   autocmd!
-  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 et nowrap cc=80 fdm=marker fdc=2
+  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 et nowrap cc=80 fdm=marker fdc=2 fdl=99 fdls=99
   autocmd BufEnter $MYVIMRC call Indent()
 augroup END
 
@@ -364,8 +371,10 @@ augroup GITCOMMIT
   autocmd FileType gitcommit call GitBuf()
 augroup END
 
-" augroup TEST
-"   au!
-"   au BufWritePre * :normal! mpgg`p
-" augroup END
+augroup TEST
+  au!
+  " au BufEnter *.txt :normal! ggGoHello augroup TEST
+  autocmd BufEnter *.txt nnoremap <buffer> <leader>x :<c-u>execute "normal! mpgg03j4w2lbi{\<lt>esc>ea}\<lt>esc>`p"<cr>
+augroup END
 "" END AUGROUP AUTOCMD }}}
+
