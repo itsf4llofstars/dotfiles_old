@@ -234,6 +234,8 @@ nnoremap <leader>gds :Git diff --staged<cr>
 "" YCM
 nnoremap <leader>m <C-w>kZQ
 
+" map <C-U> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
+" map <C-D> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
 nnoremap <leader>w :write<cr>
 nnoremap <leader>q :quit!<cr>
 nnoremap <leader>z :write<cr>:quit<cr>
