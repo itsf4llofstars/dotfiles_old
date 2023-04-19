@@ -1,3 +1,6 @@
+"" Vim vimrc file: using mkview and loadview
+
+"" functions
 function Indent()
   :normal! mpgg=G`p
 endfunction
@@ -6,6 +9,7 @@ function GitBuf()
   :normal! gg0
 endfunction
 
+"" settings
 filetype plugin indent on
 syntax on
 set guicursor=""
@@ -60,6 +64,9 @@ set noswapfile
 let mapleader=" "
 let maplocalleader="\\"
 
+"" plugins
+"" ale
+let g:ale_lint_delay = 500
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
 let g:ale_sign_column_always = 1
@@ -69,7 +76,7 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_text_changed = 'always'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
@@ -78,6 +85,7 @@ let g:ale_set_quickfix = 0
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 
+"" vim-plug
 call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
@@ -98,6 +106,11 @@ call plug#end()
 
 colorscheme gruvbox
 
+"" fugitive
+nnoremap <leader>ga :Git add .<CR>
+nnoremap <leader>gc :Git commit<CR>
+
+"" ale
 let g:ale_linters = {
       \ 'python': ['flake8', 'pylint'],
       \ 'vim': ['vimls', 'vint'],
@@ -107,6 +120,7 @@ let g:ale_fixers = {
       \   'python': ['black'],
       \}
 
+"" nerdtree
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeQuitOnOpen = 1
@@ -115,15 +129,18 @@ nnoremap <leader>o :NERDTreeFocus<CR>
 " nnoremap <leader>o :NERDTree<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
 
+"" emmet
 let g:user_emmet_mode='inv'
 let g:user_emmet_leader_key=','
 
+"" lightline
 "" laststatus equals 2, noshowmode must be set
 "" powerline, wombat, solarized, PaperColor, one
 "" LIGHTLINE ADVANCED
 "" See Vim-Awesome
 let g:lightline = {'colorscheme': 'wombat',}
 
+"" easymotion
 " <Leader>f{char} to move to {char}
 map ,f <Plug>(easymotion-bd-f)
 nmap ,f <Plug>(easymotion-overwin-f)
@@ -133,6 +150,7 @@ nmap ,L <Plug>(easymotion-overwin-line)
 map ,w <Plug>(easymotion-bd-w)
 nmap ,w <Plug>(easymotion-overwin-w)
 
+"" mappings
 inoremap kj <ESC>
 vnoremap kj <ESC>
 
@@ -185,6 +203,7 @@ nnoremap <leader>jj :resize+1<CR>
 nnoremap <leader>kk :resize-1<CR>
 nnoremap <leader>rs :<C-w>=<cr>
 
+"" GROUPS
 augroup ALL
   autocmd!
   autocmd InsertLeave * set rnu
@@ -196,15 +215,16 @@ augroup END
 
 augroup VIM
   autocmd!
-  autocmd FileType $MYVIMRC,vim setlocal ts=2 sw=2 sts=2 fdc=1 cc=80
-  autocmd BufWritePre,BufEnter $MYVIMRC set ts=2 sw=2 sts=2 tw=0 fdc=1
+  autocmd FileType $MYVIMRC,vim setlocal ts=2 sw=2 sts=2 fdc=3 cc=80
+  autocmd BufEnter $MYVIMRC silent loadview
   autocmd BufWritePre $MYVIMRC,*.vim :normal! mpgg=G`p
+  autocmd BufWritePre $MYVIMRC  mkview
 augroup END
 
 augroup PYTHON
   autocmd!
   autocmd FileType python setlocal cc=88,100 fdm=indent fdc=3 fdl=2 fdls=2
-  autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<CR>
+  autocmd BufEnter *.py nnoremap <buffer> <F5> :!python3 %<CR>
 augroup END
 
 augroup C
@@ -230,8 +250,15 @@ augroup END
 augroup TEXT
   autocmd!
   autocmd FileType text silent setlocal ts=8 sw=8 sts=4 tw=78 noet wrap cc=80
-  autocmd BufEnter *.txt colorscheme darkblue
+  autocmd BufEnter *.txt colorscheme slate
   autocmd BufLeave *.txt colorscheme gruvbox
+augroup END
+
+augroup PLAINTEXT
+  autocmd!
+  autocmd Filetype plaintex silent setlocal ts=4 sw=4 sts=4 tw=60 noet wrap cc=60
+  autocmd BufEnter *.tex colorscheme darkblue
+  autocmd BufLeave *.tex colorscheme gruvbox
 augroup END
 
 augroup TEST
@@ -239,10 +266,10 @@ augroup TEST
   au Filetype * nnoremap <buffer> <leader>x :normal! mpGoHello from augroup TEST<ESC>`p
 augroup END
 
-augroup GiTCOMMIT
+augroup GITCOMMIT
   au!
-  au FileType gitcommit setlocal tw=50 cc=50
-  au FileType gitcommit call GitBuf()
+  au FileType gitcommit setlocal tw=67 cc=68
+  au BufEnter COMMIT_EDITMSG call GitBuf()
 augroup END
 
 augroup BOTTOM

@@ -18,7 +18,9 @@
 	textwidth = 80
 	fontdiff = Monospace,11,-1,5,50,0,0,0,0,0
 	expandtab = true
-	theme = default
+	theme = flat-dark-grey
+	icontheme = dark
+	statusshowtotals = true
 [gui]
 	editor = gvim
 [alias]
