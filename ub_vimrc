@@ -1,0 +1,385 @@
+"" Ubuntu Raspberry Pi 4 VIMRC
+
+"" FUNCTIONS {{{
+function Indent()
+  :normal! mpgg=G`p
+endfunction
+
+function GitBuf()
+  :normal! gg0
+endfunction
+
+"" }}}
+
+"" SETTINGS {{{
+filetype indent plugin on
+syntax on
+set backspace=indent,eol,start
+set guicursor=""
+set background=dark
+colorscheme torte
+
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set textwidth=0
+set expandtab
+set nowrap
+
+set number
+set relativenumber
+set autoindent
+set copyindent
+set autochdir
+set autoread
+set cursorline
+set cursorlineopt=number
+set foldlevel=99
+set foldlevelstart=99
+set nohlsearch
+set incsearch
+set hidden
+set laststatus=2
+set lazyredraw
+set modeline
+set noruler
+set signcolumn=yes
+set statusline=
+set statusline=(%c)\ %F\ %m%r%w%h%q%a\ %y\ \ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ \ |
+set showmode
+set path+=**
+set shortmess+=acsoOTSF
+set showmatch
+set showcmd
+set ignorecase
+set smartcase
+set smartindent
+set noshowmode
+set updatetime=250
+
+set scrolloff=5
+set foldcolumn=0
+set wildmode=list:longest,full
+
+" try popup
+set completeopt=menuone,popup
+
+set noundofile
+set nobackup
+set noswapfile
+
+let mapleader=" "
+let maplocalleader="\\"
+"" }}}
+
+"" PLUGINS {{{
+"" ALE {{{
+let g:ale_fix_on_save = 1
+let g:ale_linters_explicit = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:airline#extensions#ale#enabled = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_open_list = 0
+let g:ale_keep_list_window_open = 0
+""}}}
+
+"" YCM {{{
+let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_min_num_identifier_candidate_chars = 0
+let g:ycm_max_num_candidates = 50
+" let g:ycm_max_num_candidates_to_detail = 0
+let g:ycm_max_num_identifier_candidates = 10
+let g:ycm_auto_trigger = 1
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar': 1,
+      \ 'notes': 1,
+      \ 'markdown': 1,
+      \ 'netrw': 1,
+      \ 'unite': 1,
+      \ 'text': 1,
+      \ 'vimwiki': 1,
+      \ 'pandoc': 1,
+      \ 'infolog': 1,
+      \ 'leaderf': 1,
+      \ 'mail': 1
+      \}
+let g:ycm_filetype_specific_completion_to_disable = {
+      \ 'gitcommit': 1
+      \}
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_error_symbol = '>>'
+let g:ycm_warning_symbol = '>>'
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 1
+let g:ycm_echo_current_diagnostic = 1
+nmap <leader>D <plug>(YCMHover)
+
+"" See, :help location-list
+let g:ycm_always_populate_location_list = 0
+
+"" Try set to 0 for no-extra window
+let g:ycm_open_loclist_on_ycm_diags = 1
+let g:ycm_seed_identifiers_with_syntax = 0
+
+"" set 0 for no previews or popups. preview
+"" or popup must be set in completeopt
+let g:ycm_add_preview_to_completeopt = 1
+
+"" Defaults for completion/insertion = 0
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+"" Some like adding 'enter' the list
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
+
+"" Closes popup if it's blocking view
+let g:ycm_key_list_stop_completion = ['<C-y>']
+
+"" try enter
+let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_key_detailed_diagnostics = '<leader>d'
+
+let g:ycm_use_clangd = 1
+" let g:ycm_clangd_binary_path = ''
+
+"" Set to 0 if seeing the new diags is not wanted
+let g:ycm_update_diagnostics_in_insert_mode = 1
+"" }}}
+
+"" VIM-PLUG {{{
+call plug#begin()
+Plug 'morhetz/gruvbox'
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdtree'
+Plug 'airblade/vim-gitgutter'
+Plug 'mattn/emmet-vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'mbbill/undotree'
+Plug 'w0rp/ale'
+Plug 'nvie/vim-flake8'
+" Plug 'itchyny/lightline.vim'
+" Plug 'msanders/snipmate.vim'
+" Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'
+Plug 'valloric/youcompleteme'
+call plug#end()
+
+colorscheme gruvbox
+"" }}}
+
+"" NERDTREE {{{
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeShowHidden = 1
+nnoremap <leader>o :NERDTreeFocus<CR>
+" nnoremap <leader>o :NERDTree<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
+""}}}
+
+"" GITGUTTER {{{
+""}}}
+
+"" EMMET {{{
+let g:user_emmet_mode='inv'
+let g:user_emmet_leader_key=','
+""}}}
+
+"" LIGHTLINE {{{
+"" laststatus equals 2, noshowmode must be set
+"" powerline, wombat, solarized, PaperColor, one
+"" LIGHTLINE ADVANCED
+"" See Vim-Awesome
+" let g:lightline = {'colorscheme': 'one',}
+"" }}}
+
+"" EASYMOTION {{{
+" <Leader>f{char} to move to {char}
+map ,f <Plug>(easymotion-bd-f)
+nmap ,f <Plug>(easymotion-overwin-f)
+nmap ,s <Plug>(easymotion-overwin-f2)
+map ,L <Plug>(easymotion-bd-jk)
+nmap ,L <Plug>(easymotion-overwin-line)
+map ,w <Plug>(easymotion-bd-w)
+nmap ,w <Plug>(easymotion-overwin-w)
+""}}}
+
+"" UNDOTREE {{{
+"" }}}
+
+"" ALE {{{
+let g:ale_linters = {
+      \ 'python': ['flake8', 'pylint'],
+      \ 'vim': ['vimls', 'vint'],
+      \ }
+let g:ale_fixers = {
+      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \   'python': ['black'],
+      \}
+""}}}
+
+"" FLAKE8 {{{
+""}}}
+
+"" YCM {{{
+"" }}}
+"" END PLUGINS }}}
+
+"" MAPPINGS {{{
+inoremap kj <ESC>
+vnoremap kj <ESC>
+
+nnoremap <silent> <leader>w :write<cr>
+nnoremap <silent> <leader>q ZQ
+nnoremap <silent> <leader>z ZZ
+" nnoremap <leader>o :edit .<cr>
+nnoremap <silent> <localleader>e :edit $MYVIMRC<cr>
+nnoremap <silent> <localleader>ve :vsplit<cr><C-w>l:edit $MYVIMRC<cr>
+nnoremap <localleader>s :write<cr>:source $MYVIMRC<cr>
+nnoremap <leader>t :write<CR>:shell<CR>
+
+nnoremap <leader>p "+p
+nnoremap w W
+nnoremap ,a zt
+nnoremap ,b zb
+nnoremap ,z zz
+nnoremap <S-b> _
+nnoremap <S-e> $
+nnoremap <S-y> y$
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap ' `
+nnoremap '' ``
+nnoremap <F8> @
+nnoremap <F9> @@
+nnoremap J :m '>+1<CR>gv=gv
+nnoremap K :m '<-2<CR>gv=gv
+vnoremap < <gv
+vnoremap > >gv
+nnoremap <leader>bn :bnext<cr>
+nnoremap <leader>bp :bprevious<cr>
+nnoremap <leader>* :%s/\<<C-r><C-w>\>//gI<left><left><left>
+nnoremap <leader>& :%s/\<<C-r><C-w>\>//gIc<left><left><left><left>
+nnoremap <localleader>sh gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>
+nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>dd/>>>>>>><CR>dd<ESC>
+nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
+nnoremap <localleader>fc /<<<<<<<<CR>
+
+nnoremap <silent> <leader>v :vsplit<cr><C-w>l
+nnoremap <silent> <leader>s :split<cr><C-w>j
+nnoremap <silent> <C-h> <C-w>h
+nnoremap <silent> <C-j> <C-w>j
+nnoremap <silent> <C-k> <C-w>k
+nnoremap <silent> <C-l> <C-w>l
+nnoremap <leader>hh :vertical resize+1<CR>
+nnoremap <leader>ll :vertical resize-1<CR>
+nnoremap <leader>jj :resize+1<CR>
+nnoremap <leader>kk :resize-1<CR>
+nnoremap <leader>rs :<C-w>=<cr>
+"" }}}
+
+"" AUTOGROUP AUGROUP {{{
+augroup ALL " {{{
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$")
+        \ | exe "normal g'\"" | endif
+  autocmd BufWritePre * %s/\s\+$//e
+  autocmd BufWritePre $MYVIMRC,*.vim,*.c,*.h,*.py,*.sh :call Indent()
+augroup END " }}}
+
+augroup VIM " {{{
+  autocmd!
+  autocmd FileType $MYVIMRC,vim setlocal ts=2 sw=2 sts=2 tw=0 fdc=1 fdm=marker
+        \ cc=80
+augroup END " }}}
+
+augroup PYTHON " {{{
+  autocmd!
+  autocmd FileType python setlocal cc=88,100 fdm=indent fdc=3
+  autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<CR>
+augroup END " }}}
+
+augroup C " {{{
+  autocmd!
+  autocmd FileType c,cpp silent setlocal ts=4 sw=4 sts=4 tw=0 et nowrap noai
+        \ nosi noci cin cino=ln,c2 fdc=4 fdm=indent cc=80
+  autocmd FileType c nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
+  autocmd BufEnter *.c nnoremap <buffer> <F5> :!./main<cr>
+  autocmd BufEnter *.c nnoremap <buffer> <leader>mm :write<cr>:!make main<cr>
+augroup END " }}}
+
+augroup BASH " {{{
+  autocmd!
+  autocmd FileType sh silent setlocal ts=2 sts=2 sw=2 tw=0 cc=80 nofen fdc=0
+augroup END " }}}
+
+augroup TEXT " {{{
+  autocmd!
+  autocmd FileType text silent setlocal ts=8 sw=8 sts=0 tw=78 noet wrap cc=80
+augroup END " }}}
+
+augroup NERDTREE " {{{
+  autocmd!
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+  autocmd BufEnter * if tabpagenr('$') == 1
+        \ && winnr('$') == 1
+        \ && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+  autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree')
+        \ && b:NERDTree.isTabTree() | quit | endif
+  autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+'
+        \ && bufname('%') !~ 'NERD_tree_\d\+'
+        \ && winnr('$') > 1 | let buf=bufnr() | buffer#
+        \ | execute =======>\"normal! \<C-W>w" | execute 'buffer'.buf | endif
+augroup END " }}}
+
+augroup GITCOMMIT " {{{
+  au!
+  au FileType gitcommit setlocal tw=55 cc=55
+  au FileType gitcommit call GitBuf()
+augroup END " }}}
+
+augroup MyYCMCustom " {{{
+  autocmd!
+  autocmd FileType c,cpp let b:ycm_hover = {
+        \ 'command': 'GetDoc',
+        \ 'syntax': &filetype
+        \ }
+augroup END " }}}
+
+augroup TEST " {{{
+  au!
+  " au BufEnter *.txt nnoremap <leader>x :<c-u>execute
+  "       \ \"normal! mpgg02Wdwi\<lt>tab>butter \<lt>esc>\<lt>NL>`p"<cr>
+augroup END " }}}
+
+augroup SKELETON " {{{
+  au!
+  au BufNewFile *.py 0r ~/.vim/skeleton/skeleton.py
+  au BufNewFile *.c 0r ~/.vim/skeleton/skeleton.c
+augroup END " }}}
+
+augroup BOTTOM " {{{
+  autocmd!
+  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+        \ :onoremap ib :<C-u>normal! 0f[vi[<CR>
+  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+        \ :onoremap it :<C-u>normal! 0f<vi<<CR>
+  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+        \ :onoremap ir :<C-u>normal! 0f{vi{<CR>
+  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+        \ :onoremap ip :<C-u>normal! 0f(vi(<CR>
+augroup END " }}}
+"" }}}
