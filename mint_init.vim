@@ -1,4 +1,4 @@
-" Last Change: 2023 Apr 13 11:11:27
+" Last Change: 2023 Apr 20 00:09:39
 "" init.vim
 "" <F2> to set last change
 
@@ -31,6 +31,8 @@ set copyindent
 set cursorline
 set cursorlineopt=both
 set expandtab
+set foldlevel=99
+set foldlevelstart=99
 set nohlsearch
 set ignorecase
 set number
@@ -306,34 +308,34 @@ nnoremap <localleader>sn gg/<<<<<<<<CR>
 "" END MAPPINGS }}}
 
 "" AUGROUP AUTOCMD {{{
-augroup ALL
+augroup ALL " {{{
   autocmd!
   autocmd InsertEnter * set nornu
   autocmd InsertLeave * set rnu
   autocmd BufWritePre * %s/\s\+$//e
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-augroup END
+augroup END " }}}
 
-augroup VIM
+augroup VIM " {{{
   autocmd!
-  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 et nowrap cc=80 fdm=marker fdc=2 fdl=99 fdls=99
+  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 et nowrap cc=80 fdm=marker fdc=2
   autocmd BufEnter $MYVIMRC call Indent()
-augroup END
+augroup END " }}}
 
-augroup PYTHON
+augroup PYTHON " {{{
   autocmd!
-  autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=4 fdl=99 fdls=99
+  autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=4
   autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<cr>
-augroup END
+augroup END " }}}
 
-augroup SH
+augroup SH " {{{
   autocmd!
   autocmd FileType sh setlocal ts=4 sw=4 sts=4 tw=0 nofen fdc=0 cc=80
   autocmd BufEnter *.sh nnoremap <buffer> <F5> :write<cr>:!./%<cr>
   autocmd BufWritePre,BufEnter *.sh call Indent()
-augroup END
+augroup END " }}}
 
-augroup HTML_CSS
+augroup HTML_CSS " {{{
   autocmd!
   autocmd FileType html setlocal ts=2 sw=2 sts=2 tw=0 cc=80,100,120 fdc=6 fdm=manual aw updatetime=500
   autocmd FileType html,css nnoremap <buffer> <localleader>f Vatzf
@@ -344,39 +346,39 @@ augroup HTML_CSS
   autocmd BufEnter *.html,*.css colorscheme jellybeans
   autocmd BufLeave *.html,*.css colorscheme gruvbox
   autocmd BufEnter *.html,*.css call Indent()
-augroup END
+augroup END " }}}
 
-augroup C_CPP
+augroup C_CPP " {{{
   autocmd!
   autocmd FileType c,cpp,rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
   autocmd FileType c,cpp,rust nnoremap <buffer> <leader>nb A<space>{<cr>}<esc>ko
   autocmd BufEnter *.c,*.h,*.cpp,*.rs call Indent()
-augroup END
+augroup END " }}}
 
-augroup TEXT
+augroup TEXT " {{{
   autocmd!
   autocmd FileType text setlocal ts=8 sw=4 sts=0 tw=78 wrap fdc=1 cc=80
-augroup END
+augroup END " }}}
 
-augroup NERDTREE
+augroup NERDTREE " {{{
   autocmd!
   autocmd StdinReadPre * let s:std_in = 1
   autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
   autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
   autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
   autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
-augroup END
+augroup END " }}}
 
-augroup GITCOMMIT
+augroup GITCOMMIT " {{{
   autocmd!
   autocmd FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=55 cc=55
   autocmd FileType gitcommit call GitBuf()
-augroup END
+augroup END " }}}
 
-augroup TEST
+augroup TEST " {{{
   au!
   " au BufEnter *.txt :normal! ggGoHello augroup TEST
   autocmd BufEnter *.txt nnoremap <buffer> <leader>x :<c-u>execute "normal! mpgg03j4w2lbi{\<lt>esc>ea}\<lt>esc>`p"<cr>
-augroup END
+augroup END " }}}
 "" END AUGROUP AUTOCMD }}}
 
