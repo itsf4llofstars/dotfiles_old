@@ -54,7 +54,6 @@ set showcmd
 set ignorecase
 set smartcase
 set smartindent
-set noshowmode
 set updatetime=250
 
 set scrolloff=5
@@ -217,16 +216,19 @@ nmap ,w <Plug>(easymotion-overwin-w)
 ""}}}
 
 "" UNDOTREE {{{
+nnoremap <leader>ut :UndotreeToggle<cr>
 "" }}}
 
 "" ALE {{{
 let g:ale_linters = {
       \ 'python': ['flake8', 'pylint'],
+      \ 'rust': ['analyzer', 'rustc', 'cargo'],
       \ 'vim': ['vimls', 'vint'],
       \ }
 let g:ale_fixers = {
       \   '*': ['remove_trailing_lines', 'trim_whitespace'],
       \   'python': ['black'],
+      \   'rust': ['rustfmt'],
       \}
 ""}}}
 
@@ -240,6 +242,8 @@ let g:ale_fixers = {
 "" MAPPINGS {{{
 inoremap kj <ESC>
 vnoremap kj <ESC>
+
+nnoremap <space> za
 
 nnoremap <silent> <leader>w :write<cr>
 nnoremap <silent> <leader>q ZQ
@@ -288,6 +292,8 @@ nnoremap <leader>ll :vertical resize-1<CR>
 nnoremap <leader>jj :resize+1<CR>
 nnoremap <leader>kk :resize-1<CR>
 nnoremap <leader>rs :<C-w>=<cr>
+
+" nnoremap <leader>x :<c-u>execute normal! mpgg02WdwiHELLO \<lt>esc>'p<cr>
 "" }}}
 
 "" AUTOGROUP AUGROUP {{{
@@ -296,7 +302,10 @@ augroup ALL " {{{
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$")
         \ | exe "normal g'\"" | endif
   autocmd BufWritePre * %s/\s\+$//e
-  autocmd BufWritePre $MYVIMRC,*.vim,*.c,*.h,*.py,*.sh :call Indent()
+  " autocmd BufWritePre $MYVIMRC,*.vim,*.c,*.h,*.py,*.sh :call Indent()
+  autocmd BufEnter $MYVIMRC,*.vim,*.c,*.h,*.py,*.sh,*.rs nnoremap <buffer> <leader>ci
+        \ :call Indent()<cr>
+  autocmd BufEnter * source ~/.vim/init.vim
 augroup END " }}}
 
 augroup VIM " {{{
@@ -319,6 +328,15 @@ augroup C " {{{
   autocmd BufEnter *.c nnoremap <buffer> <F5> :!./main<cr>
   autocmd BufEnter *.c nnoremap <buffer> <leader>mm :write<cr>:!make main<cr>
 augroup END " }}}
+
+augroup RUST
+  autocmd!
+  autocmd FileType rust silent setlocal ts=4 sw=4 sts=4 tw=0 et nowrap noai
+        \ nosi noci cin cino=ln,c2 fdc=4 fdm=indent cc=80
+  autocmd FileType rust nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
+  autocmd BufEnter *.rs nnoremap <buffer> <F5> :!cargo run<cr>
+  autocmd BufEnter *.rs nnoremap <buffer> <leader>mm :write<cr>:!cargo build<cr>:!cargo check<cr>
+augroup END
 
 augroup BASH " {{{
   autocmd!
@@ -361,8 +379,8 @@ augroup END " }}}
 
 augroup TEST " {{{
   au!
-  " au BufEnter *.txt nnoremap <leader>x :<c-u>execute
-  "       \ \"normal! mpgg02Wdwi\<lt>tab>butter \<lt>esc>\<lt>NL>`p"<cr>
+  " au BufEnter *.txt nnoremap <leader>x :<c-u>execute \"normal! mpgg02Wdwi\<lt>tab>butter \<lt>esc>\<lt>NL>`p"<cr>
+  " nnoremap <leader>x :<c-u>execute normal! mpgg02WdwiHELLO \<lt>esc>'p<cr>
 augroup END " }}}
 
 augroup SKELETON " {{{

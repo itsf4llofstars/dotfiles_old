@@ -13,12 +13,13 @@
 	interactive = auto
 	diff = auto
 [cola]
-	spellcheck = false
+	spellcheck = true
 	tabwidth = 4
-	textwidth = 80
+	textwidth = 55
 	fontdiff = Monospace,11,-1,5,50,0,0,0,0,0
 	expandtab = true
-	theme = default
+	theme = flat-dark-grey
+	icontheme = dark
 [gui]
 	editor = gvim
 [alias]
@@ -27,5 +28,6 @@
     la = log --oneline --decorate --all
     lo = log -1
 	st = status
+    br = branch
 [commit]
 	gpgSign = false
