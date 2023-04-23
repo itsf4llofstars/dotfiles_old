@@ -71,7 +71,7 @@ let mapleader=" "
 let maplocalleader="\\"
 "" }}}
 
-"" PLUGINS {{{
+"" PLUGINS {{{d
 "" ALE {{{
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
@@ -243,8 +243,6 @@ let g:ale_fixers = {
 inoremap kj <ESC>
 vnoremap kj <ESC>
 
-nnoremap <space> za
-
 nnoremap <silent> <leader>w :write<cr>
 nnoremap <silent> <leader>q ZQ
 nnoremap <silent> <leader>z ZZ
@@ -303,40 +301,42 @@ augroup ALL " {{{
         \ | exe "normal g'\"" | endif
   autocmd BufWritePre * %s/\s\+$//e
   " autocmd BufWritePre $MYVIMRC,*.vim,*.c,*.h,*.py,*.sh :call Indent()
-  autocmd BufEnter $MYVIMRC,*.vim,*.c,*.h,*.py,*.sh,*.rs nnoremap <buffer> <leader>ci
+  autocmd BufEnter $MYVIMRC,*.vim,*.c,*.h,*.py,*.sh,*.rs nnoremap <leader>ci
         \ :call Indent()<cr>
   autocmd BufEnter * source ~/.vim/init.vim
 augroup END " }}}
 
 augroup VIM " {{{
   autocmd!
-  autocmd FileType $MYVIMRC,vim setlocal ts=2 sw=2 sts=2 tw=0 fdc=1 fdm=marker
+  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 fdc=1 fdm=marker
         \ cc=80
 augroup END " }}}
 
 augroup PYTHON " {{{
   autocmd!
   autocmd FileType python setlocal cc=88,100 fdm=indent fdc=3
-  autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<CR>
+  autocmd BufEnter *.py nnoremap <F5> :write<cr>:!python3 %<CR>
+  autocmd BufEnter *.py nnoremap <F3> :Git add .<cr>
+  autocmd BufEnter *.py nnoremap <F4> :Git commit<cr>
 augroup END " }}}
 
 augroup C " {{{
   autocmd!
   autocmd FileType c,cpp silent setlocal ts=4 sw=4 sts=4 tw=0 et nowrap noai
         \ nosi noci cin cino=ln,c2 fdc=4 fdm=indent cc=80
-  autocmd FileType c nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
-  autocmd BufEnter *.c nnoremap <buffer> <F5> :!./main<cr>
-  autocmd BufEnter *.c nnoremap <buffer> <leader>mm :write<cr>:!make main<cr>
+  autocmd FileType c nnoremap  <leader>b A<space>{<cr>}<esc>ko
+  autocmd BufEnter *.c nnoremap <F5> :!./main<cr>
+  autocmd BufEnter *.c nnoremap <leader>mm :write<cr>:!make main<cr>
 augroup END " }}}
 
-augroup RUST
+augroup RUST " {{{
   autocmd!
   autocmd FileType rust silent setlocal ts=4 sw=4 sts=4 tw=0 et nowrap noai
         \ nosi noci cin cino=ln,c2 fdc=4 fdm=indent cc=80
-  autocmd FileType rust nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
-  autocmd BufEnter *.rs nnoremap <buffer> <F5> :!cargo run<cr>
-  autocmd BufEnter *.rs nnoremap <buffer> <leader>mm :write<cr>:!cargo build<cr>:!cargo check<cr>
-augroup END
+  autocmd FileType rust nnoremap <leader>b A<space>{<cr>}<esc>ko
+  autocmd BufEnter *.rs nnoremap <F5> :!cargo run<cr>
+  autocmd BufEnter *.rs nnoremap <leader>mm :write<cr>:!cargo build<cr>:!cargo check<cr>
+augroup END " }}}
 
 augroup BASH " {{{
   autocmd!
@@ -364,9 +364,11 @@ augroup NERDTREE " {{{
 augroup END " }}}
 
 augroup GITCOMMIT " {{{
-  au!
-  au FileType gitcommit setlocal tw=55 cc=55
-  au FileType gitcommit call GitBuf()
+  autocmd!
+  autocmd FileType gitcommit setlocal tw=55 cc=55
+  autocmd FileType gitcommit call GitBuf()
+  autocmd BufEnter *.py nnoremap <leader>ga :Git add .<cr>
+  autocmd BufEnter *.py nnoremap <leader>gc :Git commit<cr>
 augroup END " }}}
 
 augroup MyYCMCustom " {{{
@@ -377,16 +379,10 @@ augroup MyYCMCustom " {{{
         \ }
 augroup END " }}}
 
-augroup TEST " {{{
-  au!
-  " au BufEnter *.txt nnoremap <leader>x :<c-u>execute \"normal! mpgg02Wdwi\<lt>tab>butter \<lt>esc>\<lt>NL>`p"<cr>
-  " nnoremap <leader>x :<c-u>execute normal! mpgg02WdwiHELLO \<lt>esc>'p<cr>
-augroup END " }}}
-
 augroup SKELETON " {{{
-  au!
-  au BufNewFile *.py 0r ~/.vim/skeleton/skeleton.py
-  au BufNewFile *.c 0r ~/.vim/skeleton/skeleton.c
+  autocmd!
+  autocmd BufNewFile *.py 0r ~/.vim/skeleton/skeleton.py
+  autocmd BufNewFile *.c 0r ~/.vim/skeleton/skeleton.c
 augroup END " }}}
 
 augroup BOTTOM " {{{

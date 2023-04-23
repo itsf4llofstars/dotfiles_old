@@ -29,5 +29,6 @@
     lo = log -1
 	st = status
     br = branch
+    sw = switch
 [commit]
 	gpgSign = false
