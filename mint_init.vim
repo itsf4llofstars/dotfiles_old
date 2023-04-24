@@ -1,4 +1,4 @@
-" Last Change: 2023 Apr 20 00:09:39
+" Last Change: 2023 Apr 21 16:13:39
 "" init.vim
 "" <F2> to set last change
 
@@ -40,7 +40,6 @@ set laststatus=2
 set lazyredraw
 set mouse=a
 set path+=**
-set relativenumber
 set noruler
 set scrolloff=5
 set shortmess=aoOstT
@@ -236,8 +235,6 @@ nnoremap <leader>gds :Git diff --staged<cr>
 "" YCM
 nnoremap <leader>m <C-w>kZQ
 
-" map <C-U> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
-" map <C-D> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
 nnoremap <leader>w :write<cr>
 nnoremap <leader>q :quit!<cr>
 nnoremap <leader>z :write<cr>:quit<cr>
@@ -314,6 +311,7 @@ augroup ALL " {{{
   autocmd InsertLeave * set rnu
   autocmd BufWritePre * %s/\s\+$//e
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  au BufWinEnter * source ~/.config/nvim/main.vim
 augroup END " }}}
 
 augroup VIM " {{{
@@ -377,8 +375,7 @@ augroup END " }}}
 
 augroup TEST " {{{
   au!
-  " au BufEnter *.txt :normal! ggGoHello augroup TEST
-  autocmd BufEnter *.txt nnoremap <buffer> <leader>x :<c-u>execute "normal! mpgg03j4w2lbi{\<lt>esc>ea}\<lt>esc>`p"<cr>
+  autocmd BufEnter *.txt nnoremap <leader>x :<c-u>execute "normal! GoHELLO\<lt>esc>"<cr>
 augroup END " }}}
 "" END AUGROUP AUTOCMD }}}
 
