@@ -267,7 +267,7 @@ augroup END
 
 augroup GITCOMMIT
   au!
-  au FileType gitcommit setlocal tw=67 cc=68
+  au FileType gitcommit setlocal tw=50 cc=50
   au BufEnter COMMIT_EDITMSG call GitBuf()
 augroup END
 
