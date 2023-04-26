@@ -31,8 +31,8 @@ set cursorline
 set cursorlineopt=number
 set completeopt=menuone,popup
 set foldcolumn=0
-set foldlevel=1
-set foldlevelstart=1
+set foldlevel=99
+set foldlevelstart=99
 set hidden
 set incsearch
 set ignorecase
@@ -85,68 +85,6 @@ let g:ale_set_quickfix = 0
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
 
-" ycm
-let g:ycm_min_num_of_chars_for_completion = 2
-let g:ycm_min_num_identifier_candidate_chars = 0
-let g:ycm_max_num_candidates = 50
-" let g:ycm_max_num_candidates_to_detail = 0
-let g:ycm_max_num_identifier_candidates = 10
-let g:ycm_auto_trigger = 1
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar': 1,
-      \ 'notes': 1,
-      \ 'markdown': 1,
-      \ 'netrw': 1,
-      \ 'unite': 1,
-      \ 'text': 1,
-      \ 'vimwiki': 1,
-      \ 'pandoc': 1,
-      \ 'infolog': 1,
-      \ 'leaderf': 1,
-      \ 'mail': 1
-      \}
-let g:ycm_filetype_specific_completion_to_disable = {
-      \ 'gitcommit': 1
-      \}
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_error_symbol = '>>'
-let g:ycm_warning_symbol = '>>'
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1
-let g:ycm_echo_current_diagnostic = 1
-nmap <leader>D <plug>(YCMHover)
-
-"" See, :help location-list
-let g:ycm_always_populate_location_list = 0
-
-"" Try set to 0 for no-extra window
-let g:ycm_open_loclist_on_ycm_diags = 1
-let g:ycm_seed_identifiers_with_syntax = 0
-
-"" set 0 for no previews or popups. preview or popup needed in comleteopt
-let g:ycm_add_preview_to_completeopt = 1
-
-"" Defaults for completion/insertion = 0
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
-"" Some like adding 'enter' the list
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
-
-"" Closes popup if it's blocking view
-let g:ycm_key_list_stop_completion = ['<C-y>']
-
-"" try enter
-let g:ycm_key_invoke_completion = '<C-Space>'
-let g:ycm_key_detailed_diagnostics = '<leader>d'
-
-let g:ycm_use_clangd = 1
-" let g:ycm_clangd_binary_path = ''
-
-"" Set to 0 if seeing the new diags is not wanted
-let g:ycm_update_diagnostics_in_insert_mode = 1
-
 "" vim-plug
 call plug#begin()
 Plug 'morhetz/gruvbox'
@@ -163,7 +101,6 @@ Plug 'itchyny/lightline.vim'
 " Plug 'msanders/snipmate.vim'
 " Plug 'honza/vim-snippets'
 " Plug 'SirVer/ultisnips'
-Plug 'valloric/youcompleteme'
 call plug#end()
 
 colorscheme gruvbox
@@ -285,7 +222,7 @@ augroup END
 
 augroup PYTHON
   autocmd!
-  autocmd FileType python setlocal cc=88,100 fdm=indent fdc=3 fdl=2 fdls=2
+  autocmd FileType python setlocal cc=88,100 fdm=indent fdc=3
   autocmd BufEnter *.py nnoremap <buffer> <F5> :!python3 %<CR>
 augroup END
 
@@ -330,7 +267,7 @@ augroup END
 
 augroup GITCOMMIT
   au!
-  au FileType gitcommit setlocal tw=67 cc=68
+  au FileType gitcommit setlocal tw=50 cc=50
   au BufEnter COMMIT_EDITMSG call GitBuf()
 augroup END
 

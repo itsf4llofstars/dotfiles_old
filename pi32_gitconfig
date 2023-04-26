@@ -25,9 +25,14 @@
 	editor = gvim
 [alias]
 	ac = commit -am
+    ap = add . -p
     ll = log --oneline --decorate --graph --all
     la = log --oneline --decorate --all
     lo = log -1
 	st = status
+    br = branch
+    sw = switch
 [commit]
 	gpgSign = false
+[pull]
+	rebase = false
