@@ -103,7 +103,7 @@ Plug 'itchyny/lightline.vim'
 " Plug 'SirVer/ultisnips'
 call plug#end()
 
-colorscheme gruvbox
+colorscheme retrobox
 
 "" fugitive
 nnoremap <leader>ga :Git add .<CR>
@@ -222,7 +222,7 @@ augroup END
 
 augroup PYTHON
   autocmd!
-  autocmd FileType python setlocal cc=88,100 fdm=indent fdc=3
+  autocmd FileType python setlocal cc=90,100 fdm=indent fdc=3
   autocmd BufEnter *.py nnoremap <buffer> <F5> :!python3 %<CR>
 augroup END
 
@@ -249,15 +249,15 @@ augroup END
 augroup TEXT
   autocmd!
   autocmd FileType text silent setlocal ts=8 sw=8 sts=4 tw=78 noet wrap cc=80
-  autocmd BufEnter *.txt colorscheme slate
-  autocmd BufLeave *.txt colorscheme gruvbox
+  autocmd BufEnter *.txt colorscheme quiet
+  autocmd BufLeave *.txt colorscheme retrobox
 augroup END
 
 augroup PLAINTEXT
   autocmd!
   autocmd Filetype plaintex silent setlocal ts=4 sw=4 sts=4 tw=60 noet wrap cc=60
-  autocmd BufEnter *.tex colorscheme darkblue
-  autocmd BufLeave *.tex colorscheme gruvbox
+  autocmd BufEnter *.tex colorscheme quiet
+  autocmd BufLeave *.tex colorscheme retrobox
 augroup END
 
 augroup TEST
@@ -267,8 +267,9 @@ augroup END
 
 augroup GITCOMMIT
   au!
-  au FileType gitcommit setlocal tw=50 cc=50
+  au FileType gitcommit setlocal tw=70 wrap cc=50,70
   au BufEnter COMMIT_EDITMSG call GitBuf()
+  autocmd BufEnter COMMIT_EDITMSG colorscheme wildcharm
 augroup END
 
 augroup BOTTOM
