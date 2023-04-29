@@ -36,7 +36,7 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now :)
 --]]
--- }}} 
+-- }}}
 
 -- {{{ PLUGINS
 -- Set <space> as the leader key
@@ -262,7 +262,6 @@ vim.opt.backup = false
 
 -- {{{ KEYMAPS
 -- [[ Basic Keymaps ]]
-
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 -- vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -277,6 +276,7 @@ vim.keymap.set(
   ':edit ~/.config/nvim/init.lua<CR>',
   { silent = true}
 )
+vim.keymap.set({ 'n' }, '<leader>o', ':edit .<CR>', { silent = true })
 vim.keymap.set({ 'n' }, '<leader>t', ':terminal<CR>', { silent = true})
 vim.keymap.set({ 't' }, '<ESC>', '<C-\\><C-n>', { silent = true })
 vim.keymap.set({ 't' }, '<C-v><ESC>', '<ESC>', { silent = true })
@@ -328,7 +328,26 @@ vim.keymap.set({ 'n' }, '<leader>rs', ':<C-w>=', { silent = true })
 vim.keymap.set({ 'n' }, '<leader>ga', ':Git add .', { silent = true })
 vim.keymap.set({ 'n' }, '<leader>gc', ':Git commit', { silent = true })
 
--- vim.keymap.set({ '' }, '', '', { silent = true })
+vim.keymap.set({ 'n' },
+  '<localleader>sh',
+  'gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>',
+  { silent = true }
+)
+vim.keymap.set({ 'n' },
+  '<localleader>st',
+  'gg/<<<<<<<<CR>V/=======<CR>d/>>>>>>><CR>dd<ESC>',
+  { silent = true }
+)
+vim.keymap.set({ 'n' },
+  '<localleader>sb',
+  'gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>',
+  { silent = true }
+)
+vim.keymap.set({ 'n' },
+  '<localleader>sn',
+  'gg/<<<<<<<<CR>',
+  { silent = true }
+)
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -588,9 +607,14 @@ cmp.setup {
 -- }}} END CONFIGS
 
 -- {{{ AUTOCMDS
+-- GROUPS {{{
 local ALL = vim.api.nvim_create_augroup("all_files", { clear = true })
+local VIMLUA = vim.api.nvim_create_augroup("vimlua_files", { clear = true })
+local C = vim.api.nvim_create_augroup("c_files", { clear = true })
+local RUST = vim.api.nvim_create_augroup("rust_files", { clear = true })
 local TEXT = vim.api.nvim_create_augroup("text_files", { clear = true })
 local PYTHON = vim.api.nvim_create_augroup("python_files", { clear = true })
+-- GROUPS }}}
 
 -- ALL {{{
 vim.api.nvim_create_autocmd({ "InsertEnter" }, {
@@ -599,20 +623,76 @@ vim.api.nvim_create_autocmd({ "InsertEnter" }, {
   command = "set nornu",
   desc = "Turn off relative numbers when entering insertmode",
 })
-
 vim.api.nvim_create_autocmd({ "InsertLeave" }, {
   pattern = { "*" },
   group = ALL,
   command = "set rnu",
   desc = "Turn on relative numbers when exiting insertmode",
 })
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+  pattern = { "*" },
+  group = ALL,
+  command = ":source /home/bumper/.config/nvim/neovim.vim",
+  desc = "Place cursor at beginning of line that it was at at last file exit",
+})
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  group = ALL,
+  command = ":%s/\\s\\+$//e",
+  desc = "Remove trailing whitspace on file save"
+})
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  group = ALL,
+  command = ":normal! mpgg=G`p",
+  desc = "Auto indent on file save"
+})
 -- ALL }}}
+
+-- VIM {{{
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "vim", "lua" },
+  group = VIMLUA,
+  command = "set ts=2 sw=2 sts=2 tw=0 et nowrap fdc=3 fdm=marker",
+  desc = "Settings for entering a lua or vim file",
+})
+-- Vim }}}
+
+-- C {{{
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "c", "cpp", "rust" },
+  group = C,
+  command = "set ts=4 sw=4 sts=4 tw=0 nosi noai noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent",
+  desc = "Settings for entering a c files",
+})
+-- C }}}
+
+-- RUST {{{
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "rust"},
+  group = RUST,
+  command = "nnoremap <leader>cc :!cargo check<CR>",
+  desc = "Run cargo check",
+})
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "rust"},
+  group = RUST,
+  command = "nnoremap <leader>cb :!cargo build<CR>",
+  desc = "Run cargo build",
+})
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "rust"},
+  group = RUST,
+  command = "nnoremap <leader>cr :!cargo run<CR>",
+  desc = "Run cargo run",
+})
+-- RUST }}}
 
 -- TEXT {{{
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   pattern = { "*.txt" },
   group = TEXT,
-  command = "colorscheme habamax",
+  command = "colorscheme slate",
   desc = "Set colorscheme entering text files",
 })
 
@@ -633,6 +713,3 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 -- PYTHON }}}
 -- }}} END AUTOCMDS
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et fdm=marker fdc=4
