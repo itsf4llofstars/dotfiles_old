@@ -1,4 +1,4 @@
-" Last Change: 2023 Apr 21 16:13:39
+" Last Change: 2023 Apr 26 14:28:02
 "" init.vim
 "" <F2> to set last change
 
@@ -311,13 +311,13 @@ augroup ALL " {{{
   autocmd InsertLeave * set rnu
   autocmd BufWritePre * %s/\s\+$//e
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  au BufWinEnter * source ~/.config/nvim/main.vim
+  autocmd BufWinEnter * source ~/.config/nvim/main.vim
+  autocmd BufWritePre * call Indent()
 augroup END " }}}
 
 augroup VIM " {{{
   autocmd!
   autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 et nowrap cc=80 fdm=marker fdc=2
-  autocmd BufEnter $MYVIMRC call Indent()
 augroup END " }}}
 
 augroup PYTHON " {{{
@@ -330,7 +330,6 @@ augroup SH " {{{
   autocmd!
   autocmd FileType sh setlocal ts=4 sw=4 sts=4 tw=0 nofen fdc=0 cc=80
   autocmd BufEnter *.sh nnoremap <buffer> <F5> :write<cr>:!./%<cr>
-  autocmd BufWritePre,BufEnter *.sh call Indent()
 augroup END " }}}
 
 augroup HTML_CSS " {{{
@@ -343,14 +342,13 @@ augroup HTML_CSS " {{{
   autocmd CursorHold *.html,*.css write
   autocmd BufEnter *.html,*.css colorscheme jellybeans
   autocmd BufLeave *.html,*.css colorscheme gruvbox
-  autocmd BufEnter *.html,*.css call Indent()
 augroup END " }}}
 
 augroup C_CPP " {{{
   autocmd!
   autocmd FileType c,cpp,rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
   autocmd FileType c,cpp,rust nnoremap <buffer> <leader>nb A<space>{<cr>}<esc>ko
-  autocmd BufEnter *.c,*.h,*.cpp,*.rs call Indent()
+  autocmd Filetype c nnoremap <buffer> <leader>mm :!make main<CR>
 augroup END " }}}
 
 augroup TEXT " {{{
@@ -369,7 +367,7 @@ augroup END " }}}
 
 augroup GITCOMMIT " {{{
   autocmd!
-  autocmd FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=55 cc=55
+  autocmd FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=70 wrap cc=50
   autocmd FileType gitcommit call GitBuf()
 augroup END " }}}
 
