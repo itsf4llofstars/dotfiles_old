@@ -1,15 +1,19 @@
 "" Ubuntu Raspberry Pi 4 VIMRC
 
-"" FUNCTIONS {{{
-function Indent()
+" FUNCTIONS {{{
+fun Indent()
   :normal! mpgg=G`p
-endfunction
+endfun
 
-function GitBuf()
+fun GitBuf()
   :normal! gg0
-endfunction
-
-"" }}}
+endfun
+fun GetCursor()
+  if line("'\"") > 1 && line("'\"") <= line("$")
+    exe "normal g'\""
+  endif
+endfun
+" }}}
 
 "" SETTINGS {{{
 filetype indent plugin on
@@ -17,7 +21,6 @@ syntax on
 set backspace=indent,eol,start
 set guicursor=""
 set background=dark
-colorscheme torte
 
 set tabstop=4
 set shiftwidth=4
@@ -26,41 +29,39 @@ set textwidth=0
 set expandtab
 set nowrap
 
-set number
-set relativenumber
-set autoindent
-set copyindent
 set autochdir
+set autoindent
 set autoread
+set copyindent
 set cursorline
 set cursorlineopt=number
+set foldcolumn=0
 set foldlevel=99
 set foldlevelstart=99
-set nohlsearch
-set incsearch
 set hidden
+set nohlsearch
+set ignorecase
+set incsearch
 set laststatus=2
 set lazyredraw
 set modeline
 set noruler
-set signcolumn=yes
-set statusline=
-set statusline=(%c)\ %F\ %m%r%w%h%q%a\ %y\ \ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ \ |
-set showmode
+set number
 set path+=**
+set relativenumber
+set scrolloff=5
 set shortmess+=acsoOTSF
-set showmatch
 set showcmd
-set ignorecase
+set showmatch
+set showmode
+set signcolumn=yes
 set smartcase
 set smartindent
+set statusline=
+set statusline=(%c)\ %F\ %m%r%w%h%q%a\ %y\ \ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ \ |
 set updatetime=250
 
-set scrolloff=5
-set foldcolumn=0
 set wildmode=list:longest,full
-
-" try popup
 set completeopt=menuone,popup
 
 set noundofile
@@ -71,7 +72,7 @@ let mapleader=" "
 let maplocalleader="\\"
 "" }}}
 
-"" PLUGINS {{{d
+"" PLUGINS {{{
 "" ALE {{{
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
@@ -191,6 +192,11 @@ nnoremap <leader>nf :NERDTreeFind<CR>
 "" GITGUTTER {{{
 ""}}}
 
+" FUGITIVE {{{
+nnoremap <leader>ga :Git add .<cr>
+nnoremap <leader>gc :Git commit<cr>
+" }}}
+
 "" EMMET {{{
 let g:user_emmet_mode='inv'
 let g:user_emmet_leader_key=','
@@ -246,7 +252,6 @@ vnoremap kj <ESC>
 nnoremap <silent> <leader>w :write<cr>
 nnoremap <silent> <leader>q ZQ
 nnoremap <silent> <leader>z ZZ
-" nnoremap <leader>o :edit .<cr>
 nnoremap <silent> <localleader>e :edit $MYVIMRC<cr>
 nnoremap <silent> <localleader>ve :vsplit<cr><C-w>l:edit $MYVIMRC<cr>
 nnoremap <localleader>s :write<cr>:source $MYVIMRC<cr>
@@ -266,18 +271,24 @@ nnoremap ' `
 nnoremap '' ``
 nnoremap <F8> @
 nnoremap <F9> @@
-nnoremap J :m '>+1<CR>gv=gv
-nnoremap K :m '<-2<CR>gv=gv
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 vnoremap < <gv
 vnoremap > >gv
 nnoremap <leader>bn :bnext<cr>
 nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader>* :%s/\<<C-r><C-w>\>//gI<left><left><left>
 nnoremap <leader>& :%s/\<<C-r><C-w>\>//gIc<left><left><left><left>
+
 nnoremap <localleader>sh gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>
-nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>dd/>>>>>>><CR>dd<ESC>
+nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>d/>>>>>>><CR>dd<ESC>
 nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
-nnoremap <localleader>fc /<<<<<<<<CR>
+nnoremap <localleader>sn /<<<<<<<<CR>
+
+nnoremap ,w( :normal! ebi(<esc>ea)<esc>
+nnoremap ,w[ :normal! ebi[<esc>ea]<esc>
+nnoremap ,w{ :normal! ebi{<esc>ea}<esc>
+nnoremap ,w< :normal! ebi<<esc>ea><esc>
 
 nnoremap <silent> <leader>v :vsplit<cr><C-w>l
 nnoremap <silent> <leader>s :split<cr><C-w>j
@@ -289,7 +300,7 @@ nnoremap <leader>hh :vertical resize+1<CR>
 nnoremap <leader>ll :vertical resize-1<CR>
 nnoremap <leader>jj :resize+1<CR>
 nnoremap <leader>kk :resize-1<CR>
-nnoremap <leader>rs :<C-w>=<cr>
+nnoremap <leader>rs <C-w>=
 
 " nnoremap <leader>x :<c-u>execute normal! mpgg02WdwiHELLO \<lt>esc>'p<cr>
 "" }}}
@@ -297,55 +308,55 @@ nnoremap <leader>rs :<C-w>=<cr>
 "" AUTOGROUP AUGROUP {{{
 augroup ALL " {{{
   autocmd!
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$")
-        \ | exe "normal g'\"" | endif
+  autocmd BufReadPost * call GetCursor()
+  " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$")
+  "       \ | exe "normal g'\"" | endif
   autocmd BufWritePre * %s/\s\+$//e
-  " autocmd BufWritePre $MYVIMRC,*.vim,*.c,*.h,*.py,*.sh :call Indent()
-  autocmd BufEnter $MYVIMRC,*.vim,*.c,*.h,*.py,*.sh,*.rs nnoremap <leader>ci
-        \ :call Indent()<cr>
-  autocmd BufEnter * source ~/.vim/init.vim
+  autocmd BufWritePre * call Indent()
 augroup END " }}}
 
 augroup VIM " {{{
   autocmd!
-  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 fdc=1 fdm=marker
-        \ cc=80
+  autocmd FileType vim setlocal ts=2 sw=2 sts=2 fdc=3 fdm=marker
 augroup END " }}}
 
 augroup PYTHON " {{{
   autocmd!
-  autocmd FileType python setlocal cc=88,100 fdm=indent fdc=3
+  autocmd FileType python setlocal cc=80,90,100 fdm=indent fdc=3
   autocmd BufEnter *.py nnoremap <F5> :write<cr>:!python3 %<CR>
-  autocmd BufEnter *.py nnoremap <F3> :Git add .<cr>
-  autocmd BufEnter *.py nnoremap <F4> :Git commit<cr>
 augroup END " }}}
 
 augroup C " {{{
   autocmd!
-  autocmd FileType c,cpp silent setlocal ts=4 sw=4 sts=4 tw=0 et nowrap noai
-        \ nosi noci cin cino=ln,c2 fdc=4 fdm=indent cc=80
-  autocmd FileType c nnoremap  <leader>b A<space>{<cr>}<esc>ko
-  autocmd BufEnter *.c nnoremap <F5> :!./main<cr>
-  autocmd BufEnter *.c nnoremap <leader>mm :write<cr>:!make main<cr>
+  autocmd FileType c,cpp silent setlocal ts=4 sw=4 sts=4 et nowrap noai nosi
+        \ noci cin cino=ln,c2 fdc=3 fdm=indent cc=80
+  autocmd BufEnter *.c nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
+  autocmd BufEnter *.c nnoremap <buffer> <F5> :!./main<cr>
+  autocmd BufEnter *.c nnoremap <buffer> <leader>mm :write<cr>:!make main<cr>
 augroup END " }}}
 
 augroup RUST " {{{
   autocmd!
-  autocmd FileType rust silent setlocal ts=4 sw=4 sts=4 tw=0 et nowrap noai
-        \ nosi noci cin cino=ln,c2 fdc=4 fdm=indent cc=80
-  autocmd FileType rust nnoremap <leader>b A<space>{<cr>}<esc>ko
-  autocmd BufEnter *.rs nnoremap <F5> :!cargo run<cr>
-  autocmd BufEnter *.rs nnoremap <leader>mm :write<cr>:!cargo build<cr>:!cargo check<cr>
+  autocmd FileType rust silent setlocal ts=4 sw=4 sts=4 et nowrap noai nosi
+        \ noci cin cino=ln,c2 fdc=3 fdm=indent cc=80
+  autocmd BufEnter *.rs nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
+  autocmd BufEnter *.rs nnoremap <buffer> <F5> :!cargo run<cr>
+  autocmd BufEnter *.rs nnoremap <buffer> <leader>mm :write<cr>:!cargo build<cr>
 augroup END " }}}
 
 augroup BASH " {{{
   autocmd!
-  autocmd FileType sh silent setlocal ts=2 sts=2 sw=2 tw=0 cc=80 nofen fdc=0
+  autocmd FileType sh silent setlocal ts=4 sts=4 sw=4 cc=80 fdc=0
 augroup END " }}}
 
 augroup TEXT " {{{
   autocmd!
-  autocmd FileType text silent setlocal ts=8 sw=8 sts=0 tw=78 noet wrap cc=80
+  autocmd FileType text silent setlocal noet wrap cc=80
+augroup END " }}}
+
+augroup PLAINTEX " {{{
+  au!
+  au FileType plaintex silent setlocal cc=80
 augroup END " }}}
 
 augroup NERDTREE " {{{
@@ -365,10 +376,8 @@ augroup END " }}}
 
 augroup GITCOMMIT " {{{
   autocmd!
-  autocmd FileType gitcommit setlocal tw=55 cc=55
+  autocmd FileType gitcommit setlocal tw=50 cc=50
   autocmd FileType gitcommit call GitBuf()
-  autocmd BufEnter *.py nnoremap <leader>ga :Git add .<cr>
-  autocmd BufEnter *.py nnoremap <leader>gc :Git commit<cr>
 augroup END " }}}
 
 augroup MyYCMCustom " {{{
