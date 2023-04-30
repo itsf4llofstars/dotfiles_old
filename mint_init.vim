@@ -348,6 +348,7 @@ augroup C_CPP " {{{
   autocmd!
   autocmd FileType c,cpp,rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
   autocmd FileType c,cpp,rust nnoremap <buffer> <leader>nb A<space>{<cr>}<esc>ko
+  autocmd Filetype c nnoremap <buffer> <leader>mm :!make main<CR>
 augroup END " }}}
 
 augroup TEXT " {{{
