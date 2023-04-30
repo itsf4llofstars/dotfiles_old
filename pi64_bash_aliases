@@ -1,0 +1,34 @@
+# Bash Aliases
+
+# ls
+alias ls='ls -F --color=auto --group-directories-first --quoting-style=shell'
+alias lx='ls -lhgGAF --color=auto --group-directories-first --quoting-style=shell'
+alias la='ls -A --color=auto --group-directories-first --quoting-style=shell'
+alias ll='ls -1 --color=auto --group-directories-first --quoting-style=shell'
+alias lh='ls -lh --color=auto --group-directories-first --quoting-style=shell'
+
+# Linux
+alias srn='sudo reboot'
+alias ssn='sudo shutdown now'
+alias ..='cd ../'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias path='echo $PATH | tr -s ":" "\n"'
+alias df='df -h /'
+alias sob='exec bash'
+alias tree='tree --dirsfirst -F'
+
+# Editors
+alias vim='nvim'
+alias nv='nvim'
+alias vi='nvim'
+alias nconf='cd ~/.config/nvim/'
+alias vimrc='nvim ~/.config/nvim/init.lua'
+alias ed='ed -E -v -p "ed: "'
+alias nano='nano --guidestripe=80'
+
+# Develop
+alias mm='python3 main.py'
+alias py='python3'
+alias act='source venv/bin/activate'
+alias dact='deactivate'
