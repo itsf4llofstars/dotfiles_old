@@ -13,7 +13,7 @@ alias vim='nvim'
 alias vi='nvim'
 alias nconf='cd ~/.config/nvim'
 alias vimrc='nvim ~/.config/nvim/init.vim'
-# alias ed='ed -E -v -p "ed: "'
+alias ed='ed -E -v -p "ed: "'
 alias nano='nano -r 78'
 
 alias ard='arduino-cli'
@@ -30,6 +30,7 @@ alias ....='cd ../../../;pwd'
 alias path='echo $PATH | tr -s ":" "\n"'
 alias df='df -h /'
 alias sob='exec bash'
+alias kittyconf='vim ~/.config/kitty/kitty.conf'
 
 alias colorz='bash -c "$(wget -qO- https://git.io/vQgMr)"'
 
