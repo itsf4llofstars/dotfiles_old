@@ -312,7 +312,7 @@ augroup ALL " {{{
   autocmd BufWritePre * %s/\s\+$//e
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
   autocmd BufWinEnter * source ~/.config/nvim/main.vim
-  autocmd BufWritePre * call Indent()
+  autocmd BufWritePre *.py,*.c,*.h,*.cpp,*.html,*.css,*.sh call Indent()
 augroup END " }}}
 
 augroup VIM " {{{
