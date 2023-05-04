@@ -22,16 +22,16 @@ set atblanks
 set autoindent
 
 ## Back up files to the current filename plus a tilde.
-# set backup
+set backup
 
 ## The directory to put unique backup files in.
-# set backupdir ""
+set backupdir "/home/bumper/.vim/backupdir"
 
 ## Use bold text instead of reverse video text.
 set boldtext
 
 ## Treat any line with leading whitespace as the beginning of a paragraph.
-set bookstyle
+# set bookstyle
 
 ## The characters treated as closing brackets when justifying paragraphs.
 ## This may not include any blank characters.  Only closing punctuation,
@@ -39,10 +39,10 @@ set bookstyle
 set brackets ""')>]}"
 
 ## Automatically hard-wrap the current line when it becomes overlong.
-set breaklonglines
+# set breaklonglines
 
 ## Do case-sensitive searches by default.
-# set casesensitive
+set casesensitive
 
 ## Constantly display the cursor position in the status bar or minibar.
 set constantshow
@@ -161,7 +161,7 @@ set regexp
 set smarthome
 
 ## Spread overlong lines over multiple screen lines.
-set softwrap
+# set softwrap
 
 ## Use this spelling checker instead of the internal one.  This option
 ## does not have a default value.
@@ -207,20 +207,25 @@ set zap
 ## Hide the bars plus help lines and use the whole terminal as edit area.
 # set zero
 
-
 ## Paint the interface elements of nano.  These are examples; there are
 ## no colors by default, except for errorcolor and spotlightcolor.
-set titlecolor white
-set promptcolor white
-set statuscolor white
-set errorcolor white
+# red,  green, blue, magenta, yellow, cyan, white, and black.
+
+# pink, purple, mauve, lagoon, mint, lime, peach, orange, latte, rosy, beet,
+# plum, sea, sky, slate, teal, sage, brown, ocher, sand, tawny, brick, crimson,
+# and normal
+
+set titlecolor bold,white
+set promptcolor bold,blue
+set statuscolor bold,lightblack
+set errorcolor bold,lightwhite,lightred
 set spotlightcolor white
-set selectedcolor bold,white,red
-set stripecolor ,white
-# set scrollercolor cyan
-set numbercolor white
-set keycolor white
-set functioncolor white
+set selectedcolor black,white
+set stripecolor white
+set scrollercolor white
+set numbercolor bold,lightblack
+set keycolor bold,lightblack
+set functioncolor bold,lightblack
 
 ## In root's .nanorc you might want to use:
 # set titlecolor bold,white,magenta
