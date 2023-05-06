@@ -73,26 +73,6 @@ let maplocalleader="\\"
 "" }}}
 
 "" PLUGINS {{{
-"" ALE {{{
-let g:ale_fix_on_save = 1
-let g:ale_linters_explicit = 1
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
-let g:airline#extensions#ale#enabled = 1
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 0
-let g:ale_open_list = 0
-let g:ale_keep_list_window_open = 0
-""}}}
-
 "" YCM {{{
 let g:ycm_min_num_of_chars_for_completion = 3
 let g:ycm_min_num_identifier_candidate_chars = 0
@@ -122,7 +102,6 @@ let g:ycm_warning_symbol = '>>'
 let g:ycm_enable_diagnostic_signs = 1
 let g:ycm_enable_diagnostic_highlighting = 1
 let g:ycm_echo_current_diagnostic = 1
-nmap <leader>D <plug>(YCMHover)
 
 "" See, :help location-list
 let g:ycm_always_populate_location_list = 0
@@ -157,6 +136,51 @@ let g:ycm_use_clangd = 1
 let g:ycm_update_diagnostics_in_insert_mode = 1
 "" }}}
 
+"" ALE {{{
+let g:ale_enabled = 1
+" let g:ale_set_signs = 1
+" let g:ale_max_signs = -1
+" let g:ale_fix_on_save = 0
+" let g:ale_close_preview_on_insert = 1
+" let g:ale_completion_enabled = 1
+" let g:ale_disable_lsp = 1
+" let g:ale_set_highlights = 1
+
+" let g:ale_popup_menu_enabled = 0
+" let g:ale_detail_to_floating_preview = 1
+" let g:ale_cursor_detail = 0
+" let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
+
+" let g:ale_hover_cursor = 1
+
+" let g:ale_sign_column_always = 1
+" let g:ale_sign_error = 'E'
+" let g:ale_sign_warning = 'W'
+" let g:airline#extensions#ale#enabled = 0
+
+" let g:ale_echo_cursor = 1
+" let g:ale_echo_msg_error_str = 'E'
+" let g:ale_echo_msg_warning_str = 'W'
+" let g:ale_echo_msg_info_str = 'I'
+" let g:ale_echo_msg_format = '%code% - %s [%linter%]'
+" let g:ale_loclist_msg_format = '%code% - %s [%linter%]'
+" let g:ale_lsp_show_message_format = ''
+
+let g:ale_lint_on_insert_leave = 1
+" let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 'normal'
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_linters_explicit = 0
+
+" let g:ale_lsp_suggestions = 0
+
+" let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 0
+" let g:ale_keep_list_window_open = 0
+""}}}
+
 "" VIM-PLUG {{{
 call plug#begin()
 Plug 'morhetz/gruvbox'
@@ -167,17 +191,36 @@ Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'nvie/vim-flake8'
 " Plug 'itchyny/lightline.vim'
 " Plug 'msanders/snipmate.vim'
 " Plug 'honza/vim-snippets'
 " Plug 'SirVer/ultisnips'
-Plug 'valloric/youcompleteme'
+" Plug 'valloric/youcompleteme'
 call plug#end()
 
 colorscheme gruvbox
 "" }}}
+
+"" ALE {{{
+" 'rust': ['analyzer', 'rustc', 'cargo'],
+let g:ale_linters = {
+      \ 'python': ['flake8'],
+      \ 'rust': ['analyzer'],
+      \ 'vim': ['vimls', 'vint'],
+      \ 'cpp': ['clangd', 'cpplint'],
+      \ 'json': ['eslint'],
+      \ }
+let g:ale_fixers = {
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \ 'python': ['black'],
+      \ 'rust': ['rustfmt'],
+      \ 'cpp': ['clang-format'],
+      \ 'json': ['prettier'],
+      \}
+""}}}
 
 "" NERDTREE {{{
 let g:NERDTreeDirArrowExpandable = '▸'
@@ -225,22 +268,6 @@ nmap ,w <Plug>(easymotion-overwin-w)
 nnoremap <leader>ut :UndotreeToggle<cr>
 "" }}}
 
-"" ALE {{{
-" 'rust': ['analyzer', 'rustc', 'cargo'],
-let g:ale_linters = {
-      \ 'python': ['flake8', 'pylint'],
-      \ 'rust': ['analyzer'],
-      \ 'vim': ['vimls', 'vint'],
-      \ 'cpp': ['clangd', 'cpplint'],
-      \ }
-let g:ale_fixers = {
-      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \ 'python': ['black'],
-      \ 'rust': ['rustfmt'],
-      \ 'cpp': ['clang-format'],
-      \}
-""}}}
-
 "" FLAKE8 {{{
 ""}}}
 
@@ -251,6 +278,14 @@ let g:ale_fixers = {
 "" MAPPINGS {{{
 inoremap kj <ESC>
 vnoremap kj <ESC>
+
+"" ALE
+nnoremap <leader>alf :ALEFix<CR>
+nnoremap <leader>alo :lopen<CR>
+nnoremap <leader>alc :copen<CR>
+nnoremap <leader>all :ALELint<CR>
+nnoremap <leader>alt :ALEToggle<CR>
+nnoremap <leader>ali :ALEInfo<CR>
 
 nnoremap <silent> <leader>w :write<cr>
 nnoremap <silent> <leader>q ZQ
@@ -305,6 +340,8 @@ nnoremap <leader>jj :resize+1<CR>
 nnoremap <leader>kk :resize-1<CR>
 nnoremap <leader>rs <C-w>=
 
+nnoremap <leader>x <Plug>(ale_hover)
+
 " nnoremap <leader>x :<c-u>execute normal! mpgg02WdwiHELLO \<lt>esc>'p<cr>
 "" }}}
 
@@ -331,9 +368,9 @@ augroup END " }}}
 
 augroup C " {{{
   autocmd!
-  autocmd FileType c,cpp silent setlocal ts=4 sw=4 sts=4 et nowrap noai nosi
-        \ noci cin cino=ln,c2 fdc=3 fdm=indent cc=80
-  autocmd BufEnter *.c nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
+  autocmd FileType c,cpp silent setlocal ts=8 sw=8 sts=8 et nowrap noai nosi
+        \ noci cin cino=ln,c2 fdc=4 fdm=indent cc=80
+  autocmd BufEnter *.c nnoremap <buffer> <leader>b o{<cr>}<esc>ko
   autocmd BufEnter *.c nnoremap <buffer> <F5> :!./main<cr>
   autocmd BufEnter *.c nnoremap <buffer> <leader>mm :write<cr>:!make main<cr>
 augroup END " }}}
