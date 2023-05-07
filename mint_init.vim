@@ -1,6 +1,6 @@
-" Last Change: 2023 Apr 26 14:28:02
-"" init.vim
+" Last Change: 2023 May 05 13:08:47
 "" <F2> to set last change
+"" init.vim
 
 "" FUNCTIONS & SCRIPTS {{{
 function Indent()
@@ -44,6 +44,7 @@ set noruler
 set scrolloff=5
 set shortmess=aoOstT
 set showmatch
+" set signcolumn=auto
 set noshowmode
 set smartcase
 set smartindent
@@ -51,7 +52,7 @@ set sidescroll=8
 set statusline=
 set updatetime=100
 set nowrap
-set completeopt=menuone,preview
+set completeopt=menuone
 set wildmode=list:longest,full
 
 let &undodir=expand('~/.local/state/nvim/undo')
@@ -68,6 +69,45 @@ let maplocalleader="\\"
 "" END SETTINGS }}}
 
 "" PLUGINS {{{
+"" ALE {{{
+let g:ale_close_preview_on_insert = 0 "0
+let g:ale_cursor_detail = 0 "1
+let g:ale_echo_cursor = 0 "1
+
+let g:ale_floating_preview = 1 "0
+let g:ale_hover_to_preview = 1 "0
+let g:ale_hover_cursor = 1 "0
+let g:ale_balloons = 1 "1
+let g:ale_hover_to_floating_preview = 1 "0
+
+let g:ale_completion_enabled = 1 "0
+let g:ale_cursor_detail = 0 "0
+let g:ale_detail_to_floating_preview = 0 "0
+let g:ale_popup_menu_enabled = 0 "0
+let g:ale_linters_explicit = 1 "0
+let g:ale_sign_column_always = 1 "0
+let g:ale_set_signs = 1 "1
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:airline#extensions#ale#enabled = 0 "0
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_exclude_highlights = ['First line']
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 1 "1
+let g:ale_lint_on_enter = 1 "1
+let g:ale_lint_on_save = 1 "1
+let g:ale_fix_on_save = 1 "1
+let g:ale_fix_on_save_ignore = 0 "0
+let g:ale_set_loclist = 0 "0
+let g:ale_set_quickfix = 1 "1
+let g:ale_open_list = 0 "1
+let g:ale_keep_list_window_open = 0 "0
+let g:ale_warn_about_trailing_blank_lines = 1 "1
+let g:ale_use_neovim_diagnostics_api = 1 "0
+"" }}}
+
 "" YCM {{{
 let g:ycm_min_num_of_chars_for_completion = 2
 let g:ycm_min_num_identifier_candidate_chars = 0
@@ -144,6 +184,7 @@ Plug 'nvie/vim-flake8'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'valloric/youcompleteme'
+Plug 'w0rp/ale'
 call plug#end()
 
 colorscheme gruvbox
@@ -201,6 +242,23 @@ let g:user_emmet_leader_key=','
 "" See Vim-Awesome
 let g:lightline = {'colorscheme': 'one',}
 "" }}}
+
+"" ALE {{{
+" 'rust': ['analyzer', 'rustc', 'cargo'],
+let g:ale_linters = {
+      \ 'python': ['pylint'],
+      \ 'rust': ['analyzer'],
+      \ 'vim': ['vimls', 'vint'],
+      \ 'cpp': ['clangd', 'cpplint'],
+      \ }
+let g:ale_fixers = {
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \ 'python': ['autoflake', 'black'],
+      \ 'rust': ['rustfmt'],
+      \ 'cpp': ['clang-format'],
+      \}
+""}}}
+
 "" END PLUGINS }}}
 
 "" MAPPINGS {{{
@@ -233,14 +291,19 @@ nnoremap <leader>gdd :Git diff<cr>
 nnoremap <leader>gds :Git diff --staged<cr>
 
 "" YCM
-nnoremap <leader>m <C-w>kZQ
+" nnoremap <leader>m <C-w>kZQ
+
+"" ALE
+nnoremap <leader>alf :ALEFix<CR>
+nnoremap <leader>all :ALELint<CR>
+nnoremap <leader>alt :ALEToggle<CR>
 
 nnoremap <leader>w :write<cr>
 nnoremap <leader>q :quit!<cr>
 nnoremap <leader>z :write<cr>:quit<cr>
 nnoremap <localleader>e :edit ~/.config/nvim/init.vim<cr>
 nnoremap <localleader>ve :vsplit<cr><C-w>l:edit ~/.config/nvim/init.vim<cr>
-nnoremap <localleader>s :source ~/.config/nvim/init.vim<cr>:write<cr>
+nnoremap <localleader>s :write<CR>:source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>t :write<cr>:terminal<cr>
 tnoremap <ESC> <C-\><C-n>
 tnoremap <C-v><ESC> <ESC>
@@ -376,4 +439,3 @@ augroup TEST " {{{
   autocmd BufEnter *.txt nnoremap <leader>x :<c-u>execute "normal! GoHELLO\<lt>esc>"<cr>
 augroup END " }}}
 "" END AUGROUP AUTOCMD }}}
-
