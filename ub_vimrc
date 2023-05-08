@@ -2,7 +2,7 @@
 
 " FUNCTIONS {{{
 fun Indent()
-  :normal! mpgg=G`p
+  :normal! mpHmogg=G'ozt`p
 endfun
 
 fun GitBuf()
@@ -58,7 +58,7 @@ set signcolumn=yes
 set smartcase
 set smartindent
 set statusline=
-set statusline=(%c)\ %F\ %m%r%w%h%q%a\ %y\ \ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ \ |
+set statusline=(%n)\ %F\ %m%r%w%h%q%a\ %y\ \ \ col:\ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ \ \ |
 set updatetime=250
 
 set wildmode=list:longest,full
@@ -98,7 +98,7 @@ let g:ycm_filetype_specific_completion_to_disable = {
       \}
 let g:ycm_show_diagnostics_ui = 1
 let g:ycm_error_symbol = '>>'
-let g:ycm_warning_symbol = '>>'
+let g:ycm_warning_symbol = '--'
 let g:ycm_enable_diagnostic_signs = 1
 let g:ycm_enable_diagnostic_highlighting = 1
 let g:ycm_echo_current_diagnostic = 1
@@ -138,47 +138,51 @@ let g:ycm_update_diagnostics_in_insert_mode = 1
 
 "" ALE {{{
 let g:ale_enabled = 1
-" let g:ale_set_signs = 1
-" let g:ale_max_signs = -1
-" let g:ale_fix_on_save = 0
+let g:airline#extensions#ale#enabled = 0
+set omnifunc=ale#completion#OmniFunc
+let g:ale_set_signs = 1
+let g:ale_max_signs = 100
 " let g:ale_close_preview_on_insert = 1
-" let g:ale_completion_enabled = 1
-" let g:ale_disable_lsp = 1
-" let g:ale_set_highlights = 1
+let g:ale_completion_enabled = 1
+let g:ale_disable_lsp = 0
+let g:ale_lsp_suggestions = 1
+let g:ale_use_neovim_diagnostics_api = 0
+let g:ale_set_highlights = 0
+" let g:ale_exclude_highlights = ['.*', '\w*', '\d*', 'local variable']
+let g:ale_virtualtext_cursor = 'disabled' " 'current'
+let g:ale_sign_column_always = 1
 
-" let g:ale_popup_menu_enabled = 0
-" let g:ale_detail_to_floating_preview = 1
-" let g:ale_cursor_detail = 0
-" let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
+let g:ale_popup_menu_enabled = 0
+let g:ale_detail_to_floating_preview = 1
+let g:ale_cursor_detail = 1 " popup balloon
+let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
+let g:ale_hover_cursor = 0
 
-" let g:ale_hover_cursor = 1
-
-" let g:ale_sign_column_always = 1
-" let g:ale_sign_error = 'E'
-" let g:ale_sign_warning = 'W'
-" let g:airline#extensions#ale#enabled = 0
-
-" let g:ale_echo_cursor = 1
-" let g:ale_echo_msg_error_str = 'E'
-" let g:ale_echo_msg_warning_str = 'W'
-" let g:ale_echo_msg_info_str = 'I'
-" let g:ale_echo_msg_format = '%code% - %s [%linter%]'
-" let g:ale_loclist_msg_format = '%code% - %s [%linter%]'
+let g:ale_echo_cursor = 0
+let g:ale_set_highlights = 0
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_info_str = 'I'
+let g:ale_echo_msg_format = ' [%linter%] %code% - %s'
+let g:ale_loclist_msg_format = '[%linter%] %code% - %s'
 " let g:ale_lsp_show_message_format = ''
 
+let g:ale_fix_on_save = 1
 let g:ale_lint_on_insert_leave = 1
-" let g:ale_lint_on_enter = 1
+let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'normal'
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_linters_explicit = 0
+let g:ale_linters_explicit = 1
 
-" let g:ale_lsp_suggestions = 0
-
-" let g:ale_set_loclist = 0
+let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
 let g:ale_open_list = 0
-" let g:ale_keep_list_window_open = 0
+let g:ale_keep_list_window_open = 0
+
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
 ""}}}
 
 "" VIM-PLUG {{{
@@ -191,17 +195,16 @@ Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
-" Plug 'w0rp/ale'
 Plug 'dense-analysis/ale'
 Plug 'nvie/vim-flake8'
 " Plug 'itchyny/lightline.vim'
 " Plug 'msanders/snipmate.vim'
 " Plug 'honza/vim-snippets'
 " Plug 'SirVer/ultisnips'
-" Plug 'valloric/youcompleteme'
+Plug 'valloric/youcompleteme'
 call plug#end()
 
-colorscheme gruvbox
+colorscheme retrobox
 "" }}}
 
 "" ALE {{{
@@ -215,7 +218,7 @@ let g:ale_linters = {
       \ }
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \ 'python': ['black'],
+      \ 'python': ['black', 'isort'],
       \ 'rust': ['rustfmt'],
       \ 'cpp': ['clang-format'],
       \ 'json': ['prettier'],
@@ -230,9 +233,6 @@ let g:NERDTreeShowHidden = 1
 nnoremap <leader>o :NERDTreeFocus<CR>
 " nnoremap <leader>o :NERDTree<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
-""}}}
-
-"" GITGUTTER {{{
 ""}}}
 
 " FUGITIVE {{{
@@ -270,9 +270,6 @@ nnoremap <leader>ut :UndotreeToggle<cr>
 
 "" FLAKE8 {{{
 ""}}}
-
-"" YCM {{{
-"" }}}
 "" END PLUGINS }}}
 
 "" MAPPINGS {{{
@@ -349,10 +346,10 @@ nnoremap <leader>x <Plug>(ale_hover)
 augroup ALL " {{{
   autocmd!
   autocmd BufReadPost * call GetCursor()
-  " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$")
-  "       \ | exe "normal g'\"" | endif
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$")
+        \ | exe "normal g'\"" | endif
   autocmd BufWritePre * %s/\s\+$//e
-  " autocmd BufWritePre * call Indent()
+  autocmd BufWritePre * call Indent()
 augroup END " }}}
 
 augroup VIM " {{{
@@ -362,8 +359,10 @@ augroup END " }}}
 
 augroup PYTHON " {{{
   autocmd!
-  autocmd FileType python setlocal cc=80,90,100 fdm=indent fdc=3
+  autocmd FileType python setlocal cc=80,100 fdm=indent fdc=4
   autocmd BufEnter *.py nnoremap <F5> :write<cr>:!python3 %<CR>
+  autocmd BufEnter *.py nnoremap <F6> :!black %<CR>
+  autocmd BufEnter *.py nnoremap <F7> call flake8#Flake8()<CR>
 augroup END " }}}
 
 augroup C " {{{
