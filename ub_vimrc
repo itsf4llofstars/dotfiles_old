@@ -1,19 +1,23 @@
 "" Ubuntu Raspberry Pi 4 VIMRC
 
-" FUNCTIONS {{{
-fun Indent()
-  :normal! mpHmogg=G'ozt`p
-endfun
-
-fun GitBuf()
-  :normal! gg0
-endfun
-fun GetCursor()
+"" FUNCTIONS {{{
+function GetLine()
+  " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe (WRAP IN QUOTES)normal g'\" | endif
   if line("'\"") > 1 && line("'\"") <= line("$")
-    exe "normal g'\""
+    exec "normal g'\""
   endif
-endfun
-" }}}
+endfunction
+
+function Indent()
+  :normal! mpHmogg=G'ozt`p
+endfunction
+
+function StripWhiteSpace()
+  :normal! mpHmo
+  %s/\s\+$//e
+  :normal! 'ozt`p
+endfunction
+"" }}}
 
 "" SETTINGS {{{
 filetype indent plugin on
@@ -54,7 +58,6 @@ set shortmess+=acsoOTSF
 set showcmd
 set showmatch
 set showmode
-set signcolumn=yes
 set smartcase
 set smartindent
 set statusline=
@@ -73,117 +76,44 @@ let maplocalleader="\\"
 "" }}}
 
 "" PLUGINS {{{
-"" YCM {{{
-let g:ycm_min_num_of_chars_for_completion = 3
-let g:ycm_min_num_identifier_candidate_chars = 0
-let g:ycm_max_num_candidates = 50
-" let g:ycm_max_num_candidates_to_detail = 0
-let g:ycm_max_num_identifier_candidates = 10
-let g:ycm_auto_trigger = 1
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar': 1,
-      \ 'notes': 1,
-      \ 'markdown': 1,
-      \ 'netrw': 1,
-      \ 'unite': 1,
-      \ 'text': 1,
-      \ 'vimwiki': 1,
-      \ 'pandoc': 1,
-      \ 'infolog': 1,
-      \ 'leaderf': 1,
-      \ 'mail': 1
-      \}
-let g:ycm_filetype_specific_completion_to_disable = {
-      \ 'gitcommit': 1
-      \}
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_error_symbol = '>>'
-let g:ycm_warning_symbol = '--'
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1
-let g:ycm_echo_current_diagnostic = 1
-
-"" See, :help location-list
-let g:ycm_always_populate_location_list = 0
-
-"" Try set to 0 for no-extra window
-let g:ycm_open_loclist_on_ycm_diags = 1
-let g:ycm_seed_identifiers_with_syntax = 0
-
-"" set 0 for no previews or popups. preview
-"" or popup must be set in completeopt
-let g:ycm_add_preview_to_completeopt = 1
-
-"" Defaults for completion/insertion = 0
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
-"" Some like adding 'enter' the list
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
-
-"" Closes popup if it's blocking view
-let g:ycm_key_list_stop_completion = ['<C-y>']
-
-"" try enter
-let g:ycm_key_invoke_completion = '<C-Space>'
-let g:ycm_key_detailed_diagnostics = '<leader>d'
-
-let g:ycm_use_clangd = 1
-" let g:ycm_clangd_binary_path = ''
-
-"" Set to 0 if seeing the new diags is not wanted
-let g:ycm_update_diagnostics_in_insert_mode = 1
-"" }}}
-
 "" ALE {{{
 let g:ale_enabled = 1
-let g:airline#extensions#ale#enabled = 0
-set omnifunc=ale#completion#OmniFunc
 let g:ale_set_signs = 1
-let g:ale_max_signs = 100
-" let g:ale_close_preview_on_insert = 1
+let g:ale_max_signs = -1
+let g:ale_close_preview_on_insert = 1
 let g:ale_completion_enabled = 1
 let g:ale_disable_lsp = 0
 let g:ale_lsp_suggestions = 1
-let g:ale_use_neovim_diagnostics_api = 0
-let g:ale_set_highlights = 0
-" let g:ale_exclude_highlights = ['.*', '\w*', '\d*', 'local variable']
-let g:ale_virtualtext_cursor = 'disabled' " 'current'
-let g:ale_sign_column_always = 1
-
-let g:ale_popup_menu_enabled = 0
-let g:ale_detail_to_floating_preview = 1
-let g:ale_cursor_detail = 1 " popup balloon
-let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-let g:ale_hover_cursor = 0
-
-let g:ale_echo_cursor = 0
-let g:ale_set_highlights = 0
+let g:ale_linters_explicit = 1
+let g:ale_warn_about_trailing_blank_lines = 1
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_virtualtext_cursor = 'disabled' " 'current', 'disabled', 'all'
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
+let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_info_str = 'I'
-let g:ale_echo_msg_format = ' [%linter%] %code% - %s'
-let g:ale_loclist_msg_format = '[%linter%] %code% - %s'
-" let g:ale_lsp_show_message_format = ''
-
-let g:ale_fix_on_save = 1
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_popup_menu_enabled = 0
+let g:ale_detail_to_floating_preview = 1
+let g:ale_cursor_detail = 1
+let g:ale_hover_cursor = 0
+let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
+let g:ale_echo_cursor = 1
+let g:ale_disable_lsp = 0
 let g:ale_lint_on_text_changed = 'normal'
-let g:ale_linters_explicit = 1
-
-let g:ale_set_loclist = 0
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 0
+let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 1
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
-
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
-""}}}
+"" }}}
 
 "" VIM-PLUG {{{
 call plug#begin()
@@ -197,10 +127,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
 Plug 'dense-analysis/ale'
 Plug 'nvie/vim-flake8'
-" Plug 'itchyny/lightline.vim'
-" Plug 'msanders/snipmate.vim'
-" Plug 'honza/vim-snippets'
-" Plug 'SirVer/ultisnips'
 Plug 'valloric/youcompleteme'
 call plug#end()
 
@@ -208,11 +134,10 @@ colorscheme retrobox
 "" }}}
 
 "" ALE {{{
-" 'rust': ['analyzer', 'rustc', 'cargo'],
 let g:ale_linters = {
       \ 'python': ['flake8'],
       \ 'rust': ['analyzer'],
-      \ 'vim': ['vimls', 'vint'],
+      \ 'vim': [''],
       \ 'cpp': ['clangd', 'cpplint'],
       \ 'json': ['eslint'],
       \ }
@@ -230,8 +155,8 @@ let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeShowHidden = 1
-nnoremap <leader>o :NERDTreeFocus<CR>
-" nnoremap <leader>o :NERDTree<CR>
+" nnoremap <leader>o :NERDTreeFocus<CR>
+nnoremap <leader>o :NERDTree<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
 ""}}}
 
@@ -244,14 +169,6 @@ nnoremap <leader>gc :Git commit<cr>
 let g:user_emmet_mode='inv'
 let g:user_emmet_leader_key=','
 ""}}}
-
-"" LIGHTLINE {{{
-"" laststatus equals 2, noshowmode must be set
-"" powerline, wombat, solarized, PaperColor, one
-"" LIGHTLINE ADVANCED
-"" See Vim-Awesome
-" let g:lightline = {'colorscheme': 'one',}
-"" }}}
 
 "" EASYMOTION {{{
 " <Leader>f{char} to move to {char}
@@ -267,9 +184,6 @@ nmap ,w <Plug>(easymotion-overwin-w)
 "" UNDOTREE {{{
 nnoremap <leader>ut :UndotreeToggle<cr>
 "" }}}
-
-"" FLAKE8 {{{
-""}}}
 "" END PLUGINS }}}
 
 "" MAPPINGS {{{
@@ -283,6 +197,8 @@ nnoremap <leader>alc :copen<CR>
 nnoremap <leader>all :ALELint<CR>
 nnoremap <leader>alt :ALEToggle<CR>
 nnoremap <leader>ali :ALEInfo<CR>
+nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+nmap <silent> <C-n> <Plug>(ale_next_wrap)
 
 nnoremap <silent> <leader>w :write<cr>
 nnoremap <silent> <leader>q ZQ
@@ -310,8 +226,8 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap < <gv
 vnoremap > >gv
-nnoremap <leader>bn :bnext<cr>
-nnoremap <leader>bp :bprevious<cr>
+nnoremap <silent> <leader>bn :bnext<cr>
+nnoremap <silent> <leader>bp :bprevious<cr>
 nnoremap <leader>* :%s/\<<C-r><C-w>\>//gI<left><left><left>
 nnoremap <leader>& :%s/\<<C-r><C-w>\>//gIc<left><left><left><left>
 
@@ -336,20 +252,16 @@ nnoremap <leader>ll :vertical resize-1<CR>
 nnoremap <leader>jj :resize+1<CR>
 nnoremap <leader>kk :resize-1<CR>
 nnoremap <leader>rs <C-w>=
-
-nnoremap <leader>x <Plug>(ale_hover)
-
 " nnoremap <leader>x :<c-u>execute normal! mpgg02WdwiHELLO \<lt>esc>'p<cr>
 "" }}}
 
 "" AUTOGROUP AUGROUP {{{
 augroup ALL " {{{
   autocmd!
-  autocmd BufReadPost * call GetCursor()
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$")
-        \ | exe "normal g'\"" | endif
-  autocmd BufWritePre * %s/\s\+$//e
-  autocmd BufWritePre * call Indent()
+  autocmd InsertEnter * set nornu
+  autocmd InsertLeave * set rnu
+  autocmd BufReadPost * call GetLine()
+  autocmd BufWritePre * call StripWhiteSpace()
 augroup END " }}}
 
 augroup VIM " {{{
@@ -360,9 +272,9 @@ augroup END " }}}
 augroup PYTHON " {{{
   autocmd!
   autocmd FileType python setlocal cc=80,100 fdm=indent fdc=4
-  autocmd BufEnter *.py nnoremap <F5> :write<cr>:!python3 %<CR>
-  autocmd BufEnter *.py nnoremap <F6> :!black %<CR>
-  autocmd BufEnter *.py nnoremap <F7> call flake8#Flake8()<CR>
+  autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<CR>
+  autocmd BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
+  autocmd BufEnter *.py nnoremap <buffer> <F7> call flake8#Flake8()<CR>
 augroup END " }}}
 
 augroup C " {{{
@@ -386,16 +298,17 @@ augroup END " }}}
 augroup BASH " {{{
   autocmd!
   autocmd FileType sh silent setlocal ts=4 sts=4 sw=4 cc=80 fdc=0
+  autocmd BufEnter *.sh nnoremap <buffer> <F5> :!./%<CR>
 augroup END " }}}
 
 augroup TEXT " {{{
   autocmd!
-  autocmd FileType text silent setlocal noet wrap cc=80
+  autocmd FileType text silent setlocal noai nosi ci noet wrap cc=80
 augroup END " }}}
 
 augroup PLAINTEX " {{{
   au!
-  au FileType plaintex silent setlocal cc=80
+  au FileType plaintex silent setlocal noai nosi ci cc=80
 augroup END " }}}
 
 augroup NERDTREE " {{{
@@ -416,7 +329,6 @@ augroup END " }}}
 augroup GITCOMMIT " {{{
   autocmd!
   autocmd FileType gitcommit setlocal tw=50 cc=50
-  autocmd FileType gitcommit call GitBuf()
 augroup END " }}}
 
 augroup MyYCMCustom " {{{
@@ -433,6 +345,23 @@ augroup SKELETON " {{{
   autocmd BufNewFile *.c 0r ~/.vim/skeleton/skeleton.c
   autocmd BufNewFile *.sh 0r ~/.vim/skeleton/skeleton.sh
 augroup END " }}}
+
+augroup TEST
+    au!
+    au BufEnter *.tex gg0GoBufEnter<esc>gg
+    au BufWinEnter *.tex echo "BufWinEnter 1"
+augroup END
+
+" augroup ALEGROUP
+"     autocmd!
+"     autocmd User ALELintPre    call YourFunction()
+"     autocmd User ALELintPost   call YourFunction()
+"
+"     autocmd User ALEJobStarted call YourFunction()
+"
+"     autocmd User ALEFixPre     call YourFunction()
+"     autocmd User ALEFixPost    call YourFunction()
+" augroup END
 
 augroup BOTTOM " {{{
   autocmd!

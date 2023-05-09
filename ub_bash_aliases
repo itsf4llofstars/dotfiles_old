@@ -1,6 +1,6 @@
 # BASH_ALIASES
 
-alias ls='ls -F --color=always --group-directories-first --quoting-style=shell'
+alias ls='ls --color=always --group-directories-first --quoting-style=shell'
 alias lx='ls -lhgGAF --color=always --group-directories-first --quoting-style=shell'
 alias la='ls -A --color=always --group-directories-first --quoting-style=shell'
 alias ll='ls -1 --color=always --group-directories-first --quoting-style=shell'
