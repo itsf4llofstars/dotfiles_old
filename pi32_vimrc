@@ -2,17 +2,17 @@
 
 "" functions (((
 function Indent()
-    :normal! mpHmogg=G'ozt`p
+  :normal! mpHmogg=G'ozt`p
 endfunction
 
 function GitBuf()
-    :normal! gg0
+  :normal! gg0
 endfunction
 
 function GetCursor()
-    if line("'\"") > 1 && line("'\"") <= line("$")
-        exe "normal g'\""
-    endif
+  if line("'\"") > 1 && line("'\"") <= line("$")
+    exe "normal g'\""
+  endif
 endfunction
 "" )))
 
@@ -38,8 +38,8 @@ set cursorline
 set cursorlineopt=number
 set completeopt=menuone,popup
 set foldcolumn=0
-set foldlevel=99
-set foldlevelstart=99
+set foldlevel=3
+set foldlevelstart=2
 set hidden
 set incsearch
 set ignorecase
@@ -78,47 +78,45 @@ let maplocalleader="\\"
 "" plugins (((
 "" ale (((
 let g:ale_enabled = 1
-let g:ale_sign_column_always = 1
-let g:ale_change_sign_column_color = 0
-
+let g:ale_set_signs = 1
+let g:ale_max_signs = -1
 let g:ale_close_preview_on_insert = 1
-let g:ale_cursor_detail = 0 " opens preview window
-
-let g:ale_completion_enabled = 1 " to change?
-let g:ale_echo_cursor = 1
-
-let g:ale_exclude_highlights = ['line too long', 'Syntax Error']
-
-let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-
-let g:ale_hover_to_preview = 0 " default 0
-
+let g:ale_completion_enabled = 1
+let g:ale_disable_lsp = 0
+let g:ale_lsp_suggestions = 1
+let g:ale_linters_explicit = 1
+let g:ale_warn_about_trailing_blank_lines = 1
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_virtualtext_cursor = 'all' " 'current', 'disabled', 'all'
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_info_str = 'I'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_set_balloons = 1
-let g:ale_set_highlights = 1
-let g:ale_set_signs = 1
-let g:ale_sign_column_always = 0 " default 0
+let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
 
-let g:ale_linters_explicit = 1
+let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 1
+let g:ale_popup_menu_enabled = 0
+let g:ale_detail_to_floating_preview = 1
+let g:ale_cursor_detail = 1
+let g:ale_hover_cursor = 0
+let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
+let g:ale_echo_cursor = 0
+let g:ale_disable_lsp = 0
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
-
-let g:ale_fix_on_save = 1
-let g:ale_fix_on_save_ignore = ['vim']
-
+let g:ale_fix_on_save = 0
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
 let g:ale_open_list = 0
-let g:ale_list_window_size = 5
+let g:ale_keep_list_window_open = 0
 " )))
 
-"" vim-plug
+"" vim-plug (((
 call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
@@ -137,26 +135,40 @@ Plug 'nvie/vim-flake8'
 call plug#end()
 
 colorscheme retrobox
+"" )))
 
-"" fugitive
+"" fugitive (((
 nnoremap <leader>ga :Git add .<CR>
 nnoremap <leader>gc :Git commit<CR>
+"" )))
 
 "" ale (((
 let g:ale_linters = {
-            \ 'python': ['flake8']
-            \ }
+      \ 'python': ['flake8'],
+      \ 'rust': ['analyzer'],
+      \ 'vim': [''],
+      \ 'cpp': ['clangd', 'cpplint'],
+      \ 'json': ['eslint'],
+      \ }
 let g:ale_fixers = {
-            \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \ 'python': ['black'],
-            \ }
+      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \ 'python': ['black', 'isort'],
+      \ 'rust': ['rustfmt'],
+      \ 'cpp': ['clang-format'],
+      \ 'json': ['prettier'],
+      \ }
 
-nnoremap <leader>alt :ALEToggle<CR>
 nnoremap <leader>alf :ALEFix<CR>
+nnoremap <leader>alo :lopen<CR>
+nnoremap <leader>alc :copen<CR>
 nnoremap <leader>all :ALELint<CR>
+nnoremap <leader>alt :ALEToggle<CR>
+nnoremap <leader>ali :ALEInfo<CR>
+nmap <silent> <C-p> <Plug>(ale_previous_wrap)
+nmap <silent> <C-n> <Plug>(ale_next_wrap)
 " )))
 
-"" nerdtree
+"" nerdtree (((
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeQuitOnOpen = 1
@@ -164,19 +176,22 @@ let g:NERDTreeShowHidden = 1
 nnoremap <leader>o :NERDTreeFocus<CR>
 " nnoremap <leader>o :NERDTree<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
+"" )))
 
-"" emmet
+"" emmet (((
 let g:user_emmet_mode='inv'
 let g:user_emmet_leader_key=','
+"" )))
 
-"" lightline
+"" lightline (((
 "" laststatus equals 2, noshowmode must be set
 "" powerline, wombat, solarized, PaperColor, one
 "" LIGHTLINE ADVANCED
 "" See Vim-Awesome
 " let g:lightline = {'colorscheme': 'wombat',}
+"" )))
 
-"" easymotion
+"" easymotion (((
 " <Leader>f{char} to move to {char}
 map ,f <Plug>(easymotion-bd-f)
 nmap ,f <Plug>(easymotion-overwin-f)
@@ -186,10 +201,13 @@ nmap ,L <Plug>(easymotion-overwin-line)
 map ,w <Plug>(easymotion-bd-w)
 nmap ,w <Plug>(easymotion-overwin-w)
 "" )))
+"" )))
 
 "" mappings (((
 inoremap kj <ESC>
 vnoremap kj <ESC>
+
+nnoremap <leader>in :call Indent()<CR>
 
 nnoremap <cr> <C-g>
 
@@ -242,85 +260,93 @@ nnoremap <leader>rs <C-w>=
 "" )))
 
 "" groups (((
-augroup ALL
-    autocmd!
-    autocmd InsertLeave * set rnu
-    autocmd InsertEnter * set nornu
-    autocmd BufReadPost * call GetCursor()
-    autocmd BufWritePre * %s/\s\+$//e
-    autocmd BufWritePre $MYVIMRC,*.vim,*.py,*.sh,*.c,*.h,*.html,*.css call Indent()
-    autocmd VimLeavePre $MYVIMRC,*.vim,*.py,*.sh,*.c,*.h,*.html,*.css :normal! mp
-    autocmd BufEnter $MYVIMRC,*.vim,*.py,*.sh,*.c,*.h,*.html,*.css :normal! `p
-augroup END
-
-augroup VIM
-    autocmd!
-    autocmd FileType vim setlocal ts=2 sw=2 sts=2 fdc=3 fdm=marker cc=80
-augroup END
-
-augroup PYTHON
-    autocmd!
-    autocmd FileType python setlocal cc=90,100 fdm=indent fdc=3
-    autocmd BufEnter *.py nnoremap <buffer> <F5> :!python3 %<CR>
-augroup END
-
-augroup C
-    autocmd!
-    autocmd FileType c,cpp silent setlocal noai nosi noci cin cino=ln,c2 fdc=4
-                \ fdm=indent cc=80
-    autocmd FileType c nnoremap <buffer> <leader>b o{<cr>}<esc>ko
-    autocmd BufEnter *.c,*.h,*.cpp nnoremap <buffer> <leader>mm :write<CR>:!make main<CR>
-    autocmd BufEnter *.c,*.h,*.cpp nnoremap <buffer> <F5> :!./main<CR>
-augroup END
-
-augroup ARDUINO
-    autocmd!
-    autocmd FileType arduino silent setlocal ts=2 sw=2 sts=2 noai nosi noci cin
-                \ cino=ln,c2 fdc=3 fdm=indent cc=80
-    autocmd FileType arduino nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
-augroup END
-
-augroup BASH
-    autocmd!
-    autocmd FileType sh silent setlocal cc=80 nofen fdc=0
-    autocmd BufEnter *.sh nnoremap <buffer> <F5> :write<cr>:!./%<CR>
-augroup END
-
-augroup TEXT
-    autocmd!
-    autocmd FileType text silent setlocal tw=78 noet wrap cc=80
-    autocmd BufEnter *.txt colorscheme quiet
-    autocmd BufLeave *.txt colorscheme retrobox
-augroup END
-
-augroup PLAINTEXT
-    autocmd!
-    autocmd Filetype plaintex silent setlocal tw=60 noet wrap cc=60
-    autocmd BufEnter *.tex colorscheme quiet
-    autocmd BufLeave *.tex colorscheme retrobox
-augroup END
-
-augroup TEST
-    au!
-    au Filetype * nnoremap <buffer> <leader>x :normal! mpHmoGoHello from augroup TEST<ESC>'ozt`p
-augroup END
-
-augroup GITCOMMIT " (((
-    au!
-    au FileType gitcommit setlocal tw=70 wrap cc=50,70
-    au BufEnter COMMIT_EDITMSG call GitBuf()
-    autocmd BufEnter COMMIT_EDITMSG colorscheme wildcharm
+augroup ALL " (((
+  autocmd!
+  autocmd InsertLeave * set rnu
+  autocmd InsertEnter * set nornu
+  autocmd BufReadPost * call GetCursor()
+  " autocmd BufWritePre * %s/\s\+$//e
+  autocmd BufWritePre $MYVIMRC,*.vim,*.sh,*.c,*.h,*.html,*.css call Indent()
+  autocmd VimLeavePre $MYVIMRC,*.vim,*.py,*.sh,*.c,*.h,*.html,*.css :normal! mp
+  autocmd BufEnter $MYVIMRC,*.vim,*.py,*.sh,*.c,*.h,*.html,*.css :normal! `p
 augroup END " )))
 
+augroup VIM " (((
+  autocmd!
+  autocmd FileType vim setlocal ts=2 sw=2 sts=2 fdc=3 fdm=marker cc=80 fdl=0 fdls=0
+augroup END " )))
+
+augroup PYTHON " (((
+  autocmd!
+  autocmd FileType python setlocal cc=90,100 fdm=indent fdc=3 fdl=3 fdls=2
+  autocmd BufEnter *.py nnoremap <buffer> <F5> :!python3 %<CR>
+  autocmd BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
+augroup END " )))
+
+augroup C " (((
+  autocmd!
+  autocmd FileType c,cpp silent setlocal noai nosi noci cin cino=ln,c4 fdc=4
+        \ fdm=indent cc=82 fdl=3 fdls=1
+  autocmd FileType c nnoremap <buffer> <leader>b o{<cr>}<esc>ko
+  autocmd BufEnter *.c,*.h,*.cpp nnoremap <buffer> <leader>mm :write<CR>:!make main<CR>
+  autocmd BufEnter *.c,*.h,*.cpp nnoremap <buffer> <F7> :!./main<CR>
+augroup END " )))
+
+augroup ARDUINO " (((
+  autocmd!
+  autocmd FileType arduino silent setlocal ts=3 sw=2 sts=2 noai nosi noci cin
+        \ cino=ln,c3 fdc=3 fdm=indent cc=80 fdl=3 fdls=1
+  autocmd FileType arduino nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
+augroup END " )))
+
+augroup BASH " (((
+  autocmd!
+  autocmd FileType sh silent setlocal cc=81 nofen fdc=0
+  autocmd BufEnter *.sh nnoremap <buffer> <F6> :write<cr>:!./%<CR>
+augroup END " )))
+
+augroup TEXT " (((
+  autocmd!
+  autocmd FileType text silent setlocal tw=79 noet wrap cc=80
+  autocmd BufEnter *.txt colorscheme quiet
+  autocmd BufLeave *.txt colorscheme retrobox
+augroup END " )))
+
+augroup PLAINTEXT " (((
+  autocmd!
+  autocmd Filetype plaintex silent setlocal tw=61 noet wrap cc=60
+  autocmd BufEnter *.tex colorscheme quiet
+  autocmd BufLeave *.tex colorscheme retrobox
+augroup END " )))
+
+augroup TEST " (((
+  au!
+  au Filetype * nnoremap <buffer> <leader>x :normal! mpHmoGoHello from augroup TEST<ESC>'ozt`p
+augroup END " )))
+
+augroup GITCOMMIT " (((
+  au!
+  autocmd FileType gitcommit setlocal tw=70 wrap cc=50,70
+  autocmd BufEnter COMMIT_EDITMSG call GitBuf()
+  autocmd BufEnter COMMIT_EDITMSG colorscheme wildcharm
+  autocmd BufLeave COMMIT_EDITMSG colorscheme retrobox
+augroup END " )))
+
+augroup HELP
+  au!
+  au Filetype help colorscheme retrobox
+  au BufEnter mstrvi.txt colorscheme retrobox
+augroup END
+
 augroup BOTTOM " (((
-    autocmd!
-    autocmd FileType arduino,python,c,cpp,sh,vim,rust
-                \ :onoremap ib :<C-u>normal! 0f[vi[<CR>
-    autocmd FileType arduino,python,c,cpp,sh,vim,rust
-                \ :onoremap it :<C-u>normal! 0f<vi<<CR>
-    autocmd FileType arduino,python,c,cpp,sh,vim,rust
-                \ :onoremap ir :<C-u>normal! 0f{vi{<CR>
-    autocmd FileType arduino,python,c,cpp,sh,vim,rust
-                \ :onoremap ip :<C-u>normal! 0f(vi(<CR>
+  autocmd!
+  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+        \ :onoremap ib :<C-u>normal! 0f[vi[<CR>
+  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+        \ :onoremap it :<C-u>normal! 0f<vi<<CR>
+  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+        \ :onoremap ir :<C-u>normal! 0f{vi{<CR>
+  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+        \ :onoremap ip :<C-u>normal! 0f(vi(<CR>
 augroup END " )))
 "" )))

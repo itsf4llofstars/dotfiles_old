@@ -19,6 +19,8 @@ alias tree='tree --dirsfirst -F'
 alias pw='pwd'
 alias ex='exit'
 
+alias 'unittest'='python3 -m unittest discover -v'
+
 alias vi='vim'
 alias vimrc='vim ~/.vimrc'
 alias ed='ed -E -v -p "ed: "'
