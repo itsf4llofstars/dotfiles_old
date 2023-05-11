@@ -131,4 +131,20 @@ fi
 export PATH="$HOME"/bin:$PATH
 PATH=$PATH:"$HOME"/.local/bin
 
-bash_prompt
+if [ "$TERM" == "xterm-256color" ]
+then
+    # PS1='\e[0;32 \A \e[0m\e[01;34m\] \$ \e[0m'
+    # CURRENT -> PS1='\e[1;32m\A\e[0m \e[1;33m(\s \V)\e[0m\n\e[0;33m\u\e[0m \e[1;34m\w \$\e[0m '
+    # PS1='\e[0;30m(Black)\e[0m \e[0;31m(Red)\e[0m \e[0;32m(Green)\e[0m \e[3;32m(Green)\e[0m \e[0;33m(Brown)\e[0m \e[0;34m(Blue)\e[0m \e[0;35m(Cyan)\e[0m \e[0;36m(Cyan)\e[0m \e[0;37m(Gray)\e[0m \$ '
+    bash_prompt
+elif [ "$TERM" == "tmux-256color" ]
+then
+    PS1='\e[1;32mT\A\e[0m \e[1;33m(\s v\V)\e[0m\n\e[0;33m[\u]\e[0m \e[1;34m\w \$\e[0m '
+elif [ "$TERM" == "linux" ]
+then
+    PS1='\e[0;37m \w \$\e[0m '
+else
+    bash_prompt
+fi
+
+. "$HOME/.cargo/env"

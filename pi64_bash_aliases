@@ -1,11 +1,12 @@
 # Bash Aliases
 
 # ls
-alias ls='ls -F --color=auto --group-directories-first --quoting-style=shell'
+alias ls='ls --color=auto --group-directories-first --quoting-style=shell'
 alias lx='ls -lhgGAF --color=auto --group-directories-first --quoting-style=shell'
 alias la='ls -A --color=auto --group-directories-first --quoting-style=shell'
 alias ll='ls -1 --color=auto --group-directories-first --quoting-style=shell'
 alias lh='ls -lh --color=auto --group-directories-first --quoting-style=shell'
+alias ld='ls -d .[!.]* --color=auto --group-directories-first --quoting-style=shell'
 
 # Linux
 alias srn='sudo reboot'
@@ -17,6 +18,8 @@ alias path='echo $PATH | tr -s ":" "\n"'
 alias df='df -h /'
 alias sob='exec bash'
 alias tree='tree --dirsfirst -F'
+alias pw='pwd'
+alias ex='exit'
 
 # Editors
 alias vim='nvim'
@@ -27,8 +30,13 @@ alias vimrc='nvim ~/.config/nvim/init.lua'
 alias ed='ed -E -v -p "ed: "'
 alias nano='nano --guidestripe=80'
 
-# Develop
+# Python
 alias mm='python3 main.py'
 alias py='python3'
 alias act='source venv/bin/activate'
 alias dact='deactivate'
+
+# Rust
+alias cr='clear && cargo run'
+alias cb='clear && cargo build'
+alias cc='clear && cargo check'
