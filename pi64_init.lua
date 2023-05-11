@@ -581,6 +581,12 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   command = "setlocal fdm=indent fdc=4 cc=100",
   desc = "Settings for python files",
 })
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  pattern = { "*.py" },
+  group = PYTHON,
+  command = "nnoremap <F5> <CMD>write<CR><CMD>!python3 %<CR>",
+  desc = "Saves and runs the current python script",
+})
 
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "lua",
