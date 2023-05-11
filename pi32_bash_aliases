@@ -4,9 +4,20 @@ alias ls='ls -F --color=always --group-directories-first --quoting-style=shell'
 alias lx='ls -lhgGAF --color=always --group-directories-first --quoting-style=shell'
 alias la='ls -A --color=always --group-directories-first --quoting-style=shell'
 alias ll='ls -1 --color=always --group-directories-first --quoting-style=shell'
+alias ld='ls -d .[!.]* --color=always --group-directories-first --quoting-style=shell'
 
 alias srn='sudo reboot now'
 alias ssn='sudo shutdowon now'
+alias ..='cd ../'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias path='echo $PATH | tr -s ":" "\n"'
+alias df='df -h /'
+alias sob='exec bash'
+alias hist='history'
+alias tree='tree --dirsfirst -F'
+alias pw='pwd'
+alias ex='exit'
 
 alias vi='vim'
 alias vimrc='vim ~/.vimrc'
@@ -18,23 +29,10 @@ alias py='python3'
 alias act='source ./venv/bin/activate'
 alias dact='deactivate'
 
-alias ..='cd ../'
-alias ...='cd ../../'
-alias ....='cd ../../../'
-
-alias path='echo $PATH | tr -s ":" "\n"'
-alias df='df -h /'
-alias sob='exec bash'
-
-alias colorz='bash -c "$(wget -qO- https://git.io/vQgMr)"'
-
-alias hist='history'
-alias tree='tree --dirsfirst -F'
-alias pw='pwd'
-alias ex='exit'
-
 alias comp='g++ -o main main.cpp'
 alias comc='gcc -o main main.c'
+
+alias colorz='bash -c "$(wget -qO- https://git.io/vQgMr)"'
 
 # GIT
 # alias gll='git log --oneline --decorate --graph --all'
