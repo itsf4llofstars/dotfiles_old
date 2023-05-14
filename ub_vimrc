@@ -17,6 +17,11 @@ function StripWhiteSpace()
   %s/\s\+$//e
   :normal! 'ozt`p
 endfunction
+
+function ShowWhitespace()
+  match ErrorMsg '\s\+$'
+endfunction
+
 "" }}}
 
 "" SETTINGS {{{
@@ -67,9 +72,23 @@ set updatetime=250
 set wildmode=list:longest,full
 set completeopt=menuone,popup
 
-set noundofile
-set nobackup
-set noswapfile
+if has("persistent_undo")
+  let target_path = expand("~/.vim/undodir")
+
+  if !isdirectory(target_path)
+    call mkdir(target_path, "p", 0700)
+  endif
+
+  let &undodir=target_path
+  set undofile
+  set swapfile
+else
+  set noundofile
+  set nobackup
+  set noswapfile
+endif
+
+call ShowWhitespace()
 
 let mapleader=" "
 let maplocalleader="\\"
@@ -201,8 +220,8 @@ nmap <silent> <C-p> <Plug>(ale_previous_wrap)
 nmap <silent> <C-n> <Plug>(ale_next_wrap)
 
 nnoremap <silent> <leader>w :write<cr>
-nnoremap <silent> <leader>q ZQ
-nnoremap <silent> <leader>z ZZ
+nnoremap <silent> zq ZQ
+nnoremap <silent> zz ZZ
 nnoremap <silent> <localleader>e :edit $MYVIMRC<cr>
 nnoremap <silent> <localleader>ve :vsplit<cr><C-w>l:edit $MYVIMRC<cr>
 nnoremap <localleader>s :write<cr>:source $MYVIMRC<cr>
@@ -241,6 +260,11 @@ nnoremap ,w[ :normal! ebi[<esc>ea]<esc>
 nnoremap ,w{ :normal! ebi{<esc>ea}<esc>
 nnoremap ,w< :normal! ebi<<esc>ea><esc>
 
+nnoremap <silent> <localleader>t :tabnew<CR>
+nnoremap <silent> <localleader>tn :tabnext<CR>
+nnoremap <silent> <localleader>tp :tabprevious<CR>
+nnoremap <silent> <localleader>tc :tabclose<CR>
+
 nnoremap <silent> <leader>v :vsplit<cr><C-w>l
 nnoremap <silent> <leader>s :split<cr><C-w>j
 nnoremap <silent> <C-h> <C-w>h
@@ -258,8 +282,8 @@ nnoremap <leader>rs <C-w>=
 "" AUTOGROUP AUGROUP {{{
 augroup ALL " {{{
   autocmd!
-  autocmd InsertEnter * set nornu
-  autocmd InsertLeave * set rnu
+  " autocmd InsertEnter * set nornu
+  " autocmd InsertLeave * set rnu
   autocmd BufReadPost * call GetLine()
   autocmd BufWritePre * call StripWhiteSpace()
 augroup END " }}}
@@ -303,7 +327,7 @@ augroup END " }}}
 
 augroup TEXT " {{{
   autocmd!
-  autocmd FileType text silent setlocal noai nosi ci noet wrap cc=80
+  autocmd FileType text silent setlocal noai nosi ci noet wrap cc=80 nornu
 augroup END " }}}
 
 augroup PLAINTEX " {{{
