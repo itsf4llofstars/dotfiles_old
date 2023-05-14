@@ -18,8 +18,8 @@ alias nano='nano -r 78'
 
 alias ard='arduino-cli'
 
-alias mm='python3 main.py'
-alias py='python3'
+alias mm='./main.py'
+# alias py='python3'
 alias act='source ./venv/bin/activate'
 alias dact='deactivate'
 

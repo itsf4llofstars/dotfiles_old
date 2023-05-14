@@ -71,39 +71,41 @@ let maplocalleader="\\"
 "" PLUGINS {{{
 "" ALE {{{
 let g:ale_enabled = 1
-let g:ale_cursor_detail = 0
-let g:ale_echo_cursor = 1 " Error msg in message line
-" let g:ale_close_preview_on_insert = 0
-
-" let g:ale_floating_preview = 1
-" let g:ale_hover_to_preview = 1
-" let g:ale_detail_to_floating_preview = 0
-" let g:ale_hover_cursor = 1
-" let g:ale_set_balloons = 0
-" let g:ale_hover_to_floating_preview = 1
-" let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-
-"" let g:ale_completion_enabled = 1
+let g:ale_set_signs = 1
+let g:ale_max_signs = -1
+let g:ale_close_preview_on_insert = 1
+let g:ale_completion_enabled = 1
+let g:ale_disable_lsp = 0
+let g:ale_lsp_suggestions = 1
 let g:ale_linters_explicit = 1
-"" let g:ale_sign_column_always = 0
-"" let g:ale_set_signs = 1
-"" let g:ale_sign_error = '>>'
-"" let g:ale_sign_warning = '--'
-"" let g:ale_echo_msg_error_str = 'E'
-"" let g:ale_echo_msg_warning_str = 'W'
+let g:ale_warn_about_trailing_blank_lines = 1
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_virtualtext_cursor = 'all' " 'current', 'disabled', 'all'
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_info_str = 'I'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-"" let g:ale_lint_on_text_changed = 'never'
-"" let g:ale_lint_on_insert_leave = 1
-"" let g:ale_lint_on_enter = 0
-"" let g:ale_lint_on_save = 1
-"" let g:ale_fix_on_save = 1
-"" let g:ale_set_loclist = 0
-"" let g:ale_set_quickfix = 1
-"" let g:ale_open_list = 0
+let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_popup_menu_enabled = 0
+let g:ale_detail_to_floating_preview = 1
+let g:ale_cursor_detail = 1
+let g:ale_hover_cursor = 0
+let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
+let g:ale_echo_cursor = 1
+let g:ale_disable_lsp = 0
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
-"" let g:ale_warn_about_trailing_blank_lines = 1
-"" let g:ale_use_neovim_diagnostics_api = 1
-" let g:ale_fix_on_save_ignore = 0
 " let g:ale_exclude_highlights = ['First line', 'Parsing failed', 'invalid syntax']
 "" }}}
 
@@ -179,14 +181,13 @@ Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
-Plug 'nvie/vim-flake8'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'valloric/youcompleteme'
 Plug 'dense-analysis/ale'
+Plug 'valloric/youcompleteme'
 call plug#end()
 
-colorscheme gruvbox
+colorscheme retrobox
 "" }}}
 
 "" FZF {{{
@@ -279,7 +280,7 @@ let g:ale_linters = {
       \ }
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \ 'python': ['autoflake'],
+      \ 'python': ['autopep8', 'isort'],
       \ 'rust': ['rustfmt'],
       \ 'cpp': ['clang-format'],
       \ 'sh': ['shfmt'],
@@ -336,6 +337,7 @@ nnoremap <leader>t :write<cr>:terminal<cr>
 tnoremap <ESC> <C-\><C-n>
 tnoremap <C-v><ESC> <ESC>
 
+nnoremap <C-f> <C-d>
 nnoremap <leader>p "+p
 nnoremap ' `
 nnoremap '' ``
@@ -386,9 +388,9 @@ nnoremap <leader>jj :resize-2<CR>
 nnoremap <leader>rs <C-w>=
 
 " HEAD
-nnoremap <localleader>so gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>
+nnoremap <localleader>sh gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>
 " branch
-nnoremap <localleader>st gg/<<<<<<<<CR>V/=======<CR>d/>>>>>>><CR>dd<ESC>
+nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>d/>>>>>>><CR>dd<ESC>
 " Both
 nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
 " Next
@@ -454,7 +456,7 @@ augroup END " }}}
 augroup NERDTREE " {{{
   autocmd!
   autocmd StdinReadPre * let s:std_in = 1
-  autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+  " autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
   autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
   autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
   autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
