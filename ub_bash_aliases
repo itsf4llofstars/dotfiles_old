@@ -38,12 +38,10 @@ alias comp='g++ -o main main.cpp'
 alias comc='gcc -o main main.c'
 
 # GIT
-# alias gll='git log --oneline --decorate --graph --all'
-# alias gl='git log --decorate --all'
-# alias glo='git log --oneline --decorate --all'
-# alias gst='git status'
-# alias gss='git status -s'
+alias gll='git log --oneline --decorate --graph --all'
+alias glo='git log --oneline --decorate --all'
+alias gst='git status'
+alias gss='git status -s'
+alias gap='git add -p'
 
 # du -sh <path> -> Size of Directory
-
-# vim:ft=sh:
