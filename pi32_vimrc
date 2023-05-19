@@ -125,7 +125,7 @@ Plug 'mbbill/undotree'
 Plug 'nvie/vim-flake8'
 Plug 'tpope/vim-fugitive'
 " Plug 'scrooloose/nerdtree'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 " Plug 'itchyny/lightline.vim'
 " Plug 'msanders/snipmate.vim'
 " Plug 'honza/vim-snippets'
@@ -248,10 +248,10 @@ augroup END
 
 augroup PYTHON
   au!
-  au FileType python silent setlocal fdm=indent fdc=3 fdl=3 fdls=2 cc=80
+  au FileType python silent setlocal fdm=indent fdc=3 fdl=99 fdls=99 cc=80
   au BufEnter *.py nnoremap <buffer> <F5> :write<CR>:python3 %<CR>
 augroup END
 
 augroup C
-  au FileType c,cpp silent setlocal fdm=indent fdc=4 fdl=2 fdls=1 cc=80
+  au FileType c,cpp silent setlocal fdm=syntax fdc=3 fdl=2 fdls=1 cc=80
 augroup END
