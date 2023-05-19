@@ -12,7 +12,7 @@ alias nv='nvim'
 alias vim='nvim'
 alias vi='nvim'
 alias nconf='cd ~/.config/nvim'
-alias vimrc='nvim ~/.config/nvim/init.vim'
+alias vimrc='nvim ~/.config/nvim/init.lua'
 alias ed='ed -E -v -p "ed: "'
 alias nano='nano -r 78'
 
@@ -23,6 +23,7 @@ alias py='python3'
 alias act='source ./venv/bin/activate'
 alias dact='deactivate'
 
+alias .='cd ~'
 alias ..='cd ../;pwd'
 alias ...='cd ../../;pwd'
 alias ....='cd ../../../;pwd'
@@ -43,11 +44,12 @@ alias comp='g++ -o main main.cpp'
 alias comc='gcc -o main main.c'
 
 # GIT
-# alias gll='git log --oneline --decorate --graph --all'
-# alias gl='git log --decorate --all'
-# alias glo='git log --oneline --decorate --all'
-# alias gst='git status'
-# alias gss='git status -s'
+alias gll='git log --oneline --decorate --graph --all'
+alias gl='git log --decorate --all'
+alias glo='git log --oneline --decorate --all'
+alias gst='git status'
+alias gss='git status -s'
+alias gbr='git branch'
 
 # du -sh <path> -> Size of Directory
 
@@ -64,4 +66,5 @@ alias oct='cal -m 010'
 alias nov='cal -m 011'
 alias dec='cal -m 012'
 
-alias xx='xrdb -merge ~/.Xresources && exit'
+# Used for Xterm terminal
+# alias xx='xrdb -merge ~/.Xresources && exit'
