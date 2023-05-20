@@ -23,10 +23,9 @@ alias py='python3'
 alias act='source ./venv/bin/activate'
 alias dact='deactivate'
 
-alias .='cd ~'
-alias ..='cd ../;pwd'
-alias ...='cd ../../;pwd'
-alias ....='cd ../../../;pwd'
+alias ..='cd ../'
+alias ...='cd ../../'
+alias ....='cd ../../../'
 
 alias path='echo $PATH | tr -s ":" "\n"'
 alias df='df -h /'
