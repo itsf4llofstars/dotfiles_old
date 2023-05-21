@@ -1,12 +1,12 @@
 "" Vim .vimrc file
 
-"" Table
-"" [s]ettings
-"" [v]im plug
-"" [m]appings
-"" [g]roups
+"" Table (Search for [nn])
+"" settings [sx]
+"" vim plug [px]
+"" mappings [mx]
+"" groups [gx]
 
-"" [s]ettings
+"" settings sx (((
 filetype plugin indent on
 syntax on
 set guicursor=""
@@ -52,7 +52,8 @@ set signcolumn=yes
 set laststatus=2
 set noruler
 set statusline=
-set statusline=(%n)\ %F\ %h%m%r%w\ [%Y]\ %q%=%-14.(%c\ %l:%L%)\ (%b\ 0x%B)\ (%o\ -\ 0x%O)\ %a\ %p%%\ %P\ %t\ |
+set statusline=(%n)\ %F\ %h%m%r%w\ [%Y]\ %q%=%-14.(col:\ %c\ [%l:%L]%)\ (%b\ 0x%B)\ (%o\ -\ 0x%O)\ %a\ %p%%\ %P\ %t\ |
+set modeline
 
 set showmatch
 set showcmd
@@ -73,7 +74,9 @@ set backup
 
 let mapleader=" "
 let maplocalleader="\\"
+" )))
 
+" plugins px (((
 let g:ale_set_signs = 1
 let g:ale_max_signs = -1
 " let g:ale_close_preview_on_insert = 1
@@ -108,13 +111,13 @@ let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1
+let g:ale_fix_on_save = 0
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
 let g:ale_open_list = 0
-let g:ale_enabled = 1
+let g:ale_enabled = 0
 
-"" [v]im plug
+"" vim plug
 call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'mattn/emmet-vim'
@@ -125,11 +128,10 @@ Plug 'mbbill/undotree'
 Plug 'nvie/vim-flake8'
 Plug 'tpope/vim-fugitive'
 " Plug 'scrooloose/nerdtree'
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 " Plug 'itchyny/lightline.vim'
-" Plug 'msanders/snipmate.vim'
-" Plug 'honza/vim-snippets'
-" Plug 'SirVer/ultisnips'
+Plug 'msanders/snipmate.vim'
+Plug 'honza/vim-snippets'
 call plug#end()
 
 let g:ale_linters = {
@@ -171,9 +173,14 @@ nmap ,w <Plug>(easymotion-overwin-w)
 
 nnoremap <leader>ut :UndotreeToggle<cr><C-w>h<C-w>l
 nnoremap <leader>ga :Git add .<CR>
-nnoremap <leader>gc :Git commit<CR>
+nnoremap <leader>gc :Git commit<CR> " )))
 
-"" [m]appings
+" macros (((
+
+let @s=":vsplitl:edit ~/notes/pysnips.snippets:vertical resize-45h"
+" )))
+
+"" mappings mx (((
 inoremap kj <ESC>
 vnoremap kj <ESC>
 
@@ -184,13 +191,14 @@ nnoremap <silent> <leader>o :edit .<CR>
 nnoremap <silent> <localleader>e :edit $MYVIMRC<cr>
 nnoremap <silent> <localleader>ve :vsplit<cr><C-w>l:edit $MYVIMRC<cr>
 nnoremap <localleader>s :write<cr>:source $MYVIMRC<cr>
-nnoremap <leader>t :write<CR>:shell<CR>
-" nnoremap <leader>t :write<CR>:terminal<CR>
+" nnoremap <leader>t :write<CR>:shell<CR>
+nnoremap <leader>t :write<CR>:terminal<CR>
 
+nnoremap <C-f> <C-d>
 nnoremap <silent> <leader>bn :bnext<cr>
 nnoremap <silent> <leader>bp :bprevious<cr>
 nnoremap w W
-nnoremap ,a zt
+nnoremap ,a 5jzt
 nnoremap ,b zb
 nnoremap ,z zz
 nnoremap <S-b> _
@@ -228,30 +236,48 @@ nnoremap <leader>hh :vertical resize+1<CR>
 nnoremap <leader>ll :vertical resize-1<CR>
 nnoremap <leader>jj :resize+1<CR>
 nnoremap <leader>kk :resize-1<CR>
-nnoremap <leader>rs <C-w>=
+nnoremap <leader>rs <C-w>= " )))
 
-"" [g]roups
-augroup ALL
+"" groups gx (((
+augroup ALL " (((
   au!
-  au BufWritepre $MYVIMRC,*.vim,*.c,*.h,*.html,*.css,*.cpp :normal! mpHmogg=G'ozt`p
+  au BufReadPost,BufWritepre $MYVIMRC,*.vim,*.c,*.h,*.html,*.css,*.cpp :normal! mpHmogg=G'ozt`p
   au BufWritePre,VimLeave * :normal! mp
   au BufWritePre * %s/\s\+$//e
   au BufWritePost,VimEnter * :normal! `p
-augroup END
+  au BufEnter * iabbrev teh the
+augroup END " )))
 
-augroup VIM
+augroup VIM " (((
   au!
-  au filetype vim silent setlocal ts=2 sw=2 sts=2 fdm=marker fdc=1 fdl=0 fdls=-1
-  au VimEnter $MYVIMRC silent loadview
-  au VimLeave $MYVIMRC mkview
-augroup END
+  au filetype vim silent setlocal ts=2 sw=2 sts=2 fdm=marker fdc=1 fdl=2 fdls=-1
+augroup END " )))
 
-augroup PYTHON
+augroup PYTHON " (((
   au!
-  au FileType python silent setlocal fdm=indent fdc=3 fdl=99 fdls=99 cc=80
-  au BufEnter *.py nnoremap <buffer> <F5> :write<CR>:python3 %<CR>
-augroup END
+  au FileType python silent setlocal fdm=indent fdc=5 fdl=99 fdls=99 cc=80
+  au BufEnter *.py nnoremap <buffer> <F7> :write<CR>:python3 %<CR>
+  au BufEnter *.py iabbrev <buffer> slef self
+  au BufEnter *.py iabbrev <buffer> sefl self
+  au BufEnter *.py iabbrev <buffer> pirnt print
+  au BufEnter *.py iabbrev <buffer> prnit print
+  au BufEnter *.py iabbrev <buffer> pritn print
+augroup END " )))
 
-augroup C
-  au FileType c,cpp silent setlocal fdm=syntax fdc=3 fdl=2 fdls=1 cc=80
-augroup END
+augroup C " (((
+  au FileType c,cpp silent setlocal fdm=syntax fdc=4 fdl=2 fdls=1 cc=80
+augroup END " )))
+
+augroup TEXT " (((
+  au FileType text silent setlocal ts=9 sw=8 sts=4 tw=78 ai si ci cc=80 noet wrap ml lbr
+augroup END " )))
+
+" augroup NERDTREE " (((
+"   autocmd!
+"   autocmd StdinReadPre * let s:std_in = 1
+"   autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+"   autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"   autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"   autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+" augroup END " )))
+" )))
