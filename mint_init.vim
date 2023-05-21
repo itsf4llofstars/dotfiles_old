@@ -40,6 +40,7 @@ set laststatus=0
 set lazyredraw
 set mouse=a
 set path+=**
+set relativenumber
 set ruler
 set scrolloff=5
 set shortmess=aoOstT
@@ -181,7 +182,7 @@ Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
-" Plug 'itchyny/lightline.vim'
+" " Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'dense-analysis/ale'
 Plug 'valloric/youcompleteme'
@@ -318,9 +319,6 @@ nnoremap <leader>gr :Git remote<cr>
 nnoremap <leader>gdd :Git diff<cr>
 nnoremap <leader>gds :Git diff --staged<cr>
 
-"" YCM
-" nnoremap <leader>m <C-w>kZQ
-
 "" ALE
 nnoremap <leader>alt :ALEToggle<CR>
 nnoremap <leader>all :ALELint<CR>
@@ -338,7 +336,6 @@ nnoremap <leader>t :write<cr>:terminal<cr>
 tnoremap <ESC> <C-\><C-n>
 tnoremap <C-v><ESC> <ESC>
 
-nnoremap <C-f> <C-d>
 nnoremap <leader>p "+p
 nnoremap ' `
 nnoremap '' ``
@@ -405,7 +402,6 @@ augroup ALL " {{{
   autocmd InsertLeave * set rnu
   autocmd BufWritePre * %s/\s\+$//e
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  autocmd BufWinEnter * source ~/.config/nvim/main.vim
   autocmd BufWritePre *.c,*.h,*.cpp,*.html,*.css,*.sh call Indent()
 augroup END " }}}
 

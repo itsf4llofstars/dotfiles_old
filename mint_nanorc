@@ -56,7 +56,7 @@ set emptyline
 ## Set the target width for automatic hard-wrapping and for justifying
 ## paragraphs.  If the specified value is 0 or less, the wrapping point
 ## will be the terminal's width minus this number.
-# set fill -8
+set fill -8
 
 ## Draw a vertical stripe at the given column, to help judge text width.
 ## (This option does not have a default value.)
@@ -95,7 +95,7 @@ set matchbrackets "(<[{)>]}"
 ## mouse clicks can be used to place the cursor, set the mark (with a
 ## double click), and execute shortcuts.  The mouse will work in the
 ## X Window System, and on the console when gpm is running.
-# set mouse
+set mouse
 
 ## Switch on multiple file buffers (inserting a file will put it into
 ## a separate buffer).
@@ -187,9 +187,9 @@ set trimblanks
 ## of tabs and spaces.  187 in ISO 8859-1 (0000BB in Unicode) and 183 in
 ## ISO-8859-1 (0000B7 in Unicode) seem to be good values for these.
 ## The default when in a UTF-8 locale:
-# set whitespace "»·"
+set whitespace "»·"
 ## The default otherwise:
-# set whitespace ">."
+set whitespace ">."
 
 ## Detect word boundaries differently by treating punctuation
 ## characters as parts of words.
@@ -210,17 +210,17 @@ set zap
 
 ## Paint the interface elements of nano.  These are examples; there are
 ## no colors by default, except for errorcolor and spotlightcolor.
-set titlecolor white
+set titlecolor grey
 set promptcolor white
 set statuscolor white
-set errorcolor white
+set errorcolor bold,white,red
 set spotlightcolor white
-set selectedcolor bold,white,red
-set stripecolor ,white
+set selectedcolor bold,white,grey
+set stripecolor ,grey
 # set scrollercolor cyan
-set numbercolor white
-set keycolor white
-set functioncolor white
+set numbercolor grey
+set keycolor grey
+set functioncolor grey
 
 ## In root's .nanorc you might want to use:
 # set titlecolor bold,white,magenta
