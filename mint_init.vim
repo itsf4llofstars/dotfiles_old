@@ -92,21 +92,21 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_popup_menu_enabled = 0
 let g:ale_detail_to_floating_preview = 1
-let g:ale_cursor_detail = 0
+let g:ale_cursor_detail = 1 " 0
 " let g:ale_hover_cursor = 0
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-" let g:ale_echo_cursor = 1
+let g:ale_echo_cursor = 1
 let g:ale_disable_lsp = 0
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 1
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
-let g:ale_enabled = 1
+let g:ale_fix_on_save = 0
+let g:ale_enabled = 0
 " let g:ale_exclude_highlights = ['First line', 'Parsing failed', 'invalid syntax']
 "" }}}
 
@@ -272,7 +272,7 @@ highlight link Flake8_Error      Error
 " 'rust': ['analyzer', 'rustc', 'cargo'],
 " 'python': ['pylint', 'isort', 'mypy', 'pyright', 'ruff'],
 let g:ale_linters = {
-      \ 'python': ['pylint'],
+      \ 'python': ['flake8', 'pylint'],
       \ 'rust': ['analyzer', 'cargo', 'rsl'],
       \ 'vim': ['vimls', 'vint'],
       \ 'cpp': ['clangd', 'cpplint'],
