@@ -151,3 +151,4 @@ PATH=$PATH:"$HOME"/.local/bin
 export EDITOR=/usr/bin/vim
 
 bash_prompt
+. "$HOME/.cargo/env"

@@ -6,20 +6,25 @@
 "" mappings [mx]
 "" groups [gx]
 
+"" functions (((
+function SetColors()
+  if &term == 'linux'
+    set t_Co=16
+    set background=dark
+    colorscheme ron
+  else
+    set t_Co=256
+    set background=dark
+    colorscheme retrobox
+  endif
+endfunction
+"" )))
+
 "" settings sx (((
 filetype plugin indent on
 syntax on
 set guicursor=""
-set background=dark
-
-if &term == 'linux'
-  set t_Co=16
-  colorscheme wildcharm
-  echom "term =" &term
-else
-  set t_Co=256
-  colorscheme retrobox
-endif
+call SetColors()
 
 set tabstop=4
 set shiftwidth=4
@@ -176,7 +181,6 @@ nnoremap <leader>ga :Git add .<CR>
 nnoremap <leader>gc :Git commit<CR> " )))
 
 " macros (((
-
 let @s=":vsplitl:edit ~/notes/pysnips.snippets:vertical resize-45h"
 " )))
 
@@ -246,6 +250,8 @@ augroup ALL " (((
   au BufWritePre * %s/\s\+$//e
   au BufWritePost,VimEnter * :normal! `p
   au BufEnter * iabbrev teh the
+  au InsertEnter * silent set nornu
+  au InsertLeave * silent set rnu
 augroup END " )))
 
 augroup VIM " (((
@@ -255,7 +261,7 @@ augroup END " )))
 
 augroup PYTHON " (((
   au!
-  au FileType python silent setlocal fdm=indent fdc=5 fdl=99 fdls=99 cc=80
+  au FileType python silent setlocal fdm=indent fdc=0 fdl=99 fdls=99 cc=80
   au BufEnter *.py nnoremap <buffer> <F7> :write<CR>:python3 %<CR>
   au BufEnter *.py iabbrev <buffer> slef self
   au BufEnter *.py iabbrev <buffer> sefl self
@@ -268,8 +274,22 @@ augroup C " (((
   au FileType c,cpp silent setlocal fdm=syntax fdc=4 fdl=2 fdls=1 cc=80
 augroup END " )))
 
+augroup RUST
+  au!
+  au VimEnter *.rs silent loadview
+  au FileType rust silent setlocal ts=4 sw=4 sts=4 tw=0 et nowrap fdm=indent
+        \ fdc=4 fdl=2 fdls=1 cc=80 noai nosi noci cin cino=ln,c2
+  au BufEnter *.rs nnoremap <buffer> <leader>rr :!cargo run<CR>
+  au BufEnter *.rs nnoremap <buffer> <leader>rc :!cargo check<CR>
+  au BufEnter *.rs nnoremap <buffer> <leader>rb :!cargo build<CR>
+  au BufEnter *.rs nnoremap <buffer> <leader>b A<SPACE>{<CR>}<ESC>ko
+  au VimLeave *.rs mkview
+augroup END
+
 augroup TEXT " (((
   au FileType text silent setlocal ts=9 sw=8 sts=4 tw=78 ai si ci cc=80 noet wrap ml lbr
+  au BufEnter *.txt colorscheme quiet
+  au BufLeave *.txt call SetColors()
 augroup END " )))
 
 " augroup NERDTREE " (((
