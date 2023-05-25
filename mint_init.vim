@@ -36,15 +36,16 @@ set foldlevelstart=99
 set nohlsearch
 set ignorecase
 set number
-set laststatus=2
+set laststatus=0
 set lazyredraw
 set mouse=a
 set path+=**
-set noruler
+set relativenumber
+set ruler
 set scrolloff=5
 set shortmess=aoOstT
 set showmatch
-" set signcolumn=auto
+set signcolumn=yes
 set noshowmode
 set smartcase
 set smartindent
@@ -70,21 +71,20 @@ let maplocalleader="\\"
 
 "" PLUGINS {{{
 "" ALE {{{
-let g:ale_enabled = 1
 let g:ale_set_signs = 1
 let g:ale_max_signs = -1
-let g:ale_close_preview_on_insert = 1
+" let g:ale_close_preview_on_insert = 1
 let g:ale_completion_enabled = 1
 let g:ale_disable_lsp = 0
 let g:ale_lsp_suggestions = 1
 let g:ale_linters_explicit = 1
 let g:ale_warn_about_trailing_blank_lines = 1
 let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_virtualtext_cursor = 'all' " 'current', 'disabled', 'all'
+let g:ale_virtualtext_cursor = 'disabled' " 'current', 'disabled', 'all'
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 let g:ale_sign_column_always = 1
-let g:ale_set_highlights = 1
+let g:ale_set_highlights = 0
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_info_str = 'I'
@@ -92,8 +92,8 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_popup_menu_enabled = 0
 let g:ale_detail_to_floating_preview = 1
-let g:ale_cursor_detail = 1
-let g:ale_hover_cursor = 0
+let g:ale_cursor_detail = 1 " 0
+" let g:ale_hover_cursor = 0
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
 let g:ale_echo_cursor = 1
 let g:ale_disable_lsp = 0
@@ -101,11 +101,12 @@ let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 1
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
+let g:ale_fix_on_save = 0
+let g:ale_enabled = 0
 " let g:ale_exclude_highlights = ['First line', 'Parsing failed', 'invalid syntax']
 "" }}}
 
@@ -181,7 +182,7 @@ Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
-Plug 'itchyny/lightline.vim'
+" " Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'dense-analysis/ale'
 Plug 'valloric/youcompleteme'
@@ -240,7 +241,7 @@ let g:user_emmet_leader_key=','
 "" powerline, wombat, solarized, PaperColor, one
 "" LIGHTLINE ADVANCED
 "" See Vim-Awesome
-let g:lightline = {'colorscheme': 'one',}
+" let g:lightline = {'colorscheme': 'one',}
 "" }}}
 
 "" FLAKE8 {{{
@@ -271,7 +272,7 @@ highlight link Flake8_Error      Error
 " 'rust': ['analyzer', 'rustc', 'cargo'],
 " 'python': ['pylint', 'isort', 'mypy', 'pyright', 'ruff'],
 let g:ale_linters = {
-      \ 'python': ['flake8'],
+      \ 'python': ['flake8', 'pylint'],
       \ 'rust': ['analyzer', 'cargo', 'rsl'],
       \ 'vim': ['vimls', 'vint'],
       \ 'cpp': ['clangd', 'cpplint'],
@@ -284,6 +285,7 @@ let g:ale_fixers = {
       \ 'rust': ['rustfmt'],
       \ 'cpp': ['clang-format'],
       \ 'sh': ['shfmt'],
+      \ 'json': ['prettier'],
       \}
 ""}}}
 "" END PLUGINS }}}
@@ -317,9 +319,6 @@ nnoremap <leader>gr :Git remote<cr>
 nnoremap <leader>gdd :Git diff<cr>
 nnoremap <leader>gds :Git diff --staged<cr>
 
-"" YCM
-" nnoremap <leader>m <C-w>kZQ
-
 "" ALE
 nnoremap <leader>alt :ALEToggle<CR>
 nnoremap <leader>all :ALELint<CR>
@@ -337,7 +336,6 @@ nnoremap <leader>t :write<cr>:terminal<cr>
 tnoremap <ESC> <C-\><C-n>
 tnoremap <C-v><ESC> <ESC>
 
-nnoremap <C-f> <C-d>
 nnoremap <leader>p "+p
 nnoremap ' `
 nnoremap '' ``
@@ -404,7 +402,6 @@ augroup ALL " {{{
   autocmd InsertLeave * set rnu
   autocmd BufWritePre * %s/\s\+$//e
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  autocmd BufWinEnter * source ~/.config/nvim/main.vim
   autocmd BufWritePre *.c,*.h,*.cpp,*.html,*.css,*.sh call Indent()
 augroup END " }}}
 
@@ -415,7 +412,7 @@ augroup END " }}}
 
 augroup PYTHON " {{{
   autocmd!
-  autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=4
+  autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=3
   autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<cr>
   autocmd BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
   autocmd BufEnter *.py nnoremap <buffer> <F7> :call flake8#Flake8()<CR>

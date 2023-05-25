@@ -14,18 +14,18 @@ alias vi='nvim'
 alias nconf='cd ~/.config/nvim'
 alias vimrc='nvim ~/.config/nvim/init.vim'
 alias ed='ed -E -v -p "ed: "'
-alias nano='nano -r 78'
+alias nano='nano -r 79'
 
 alias ard='arduino-cli'
 
-alias mm='./main.py'
-# alias py='python3'
+alias mm='python3 main.py'
+alias py='python3'
 alias act='source ./venv/bin/activate'
 alias dact='deactivate'
 
-alias ..='cd ../;pwd'
-alias ...='cd ../../;pwd'
-alias ....='cd ../../../;pwd'
+alias ..='cd ../'
+alias ...='cd ../../'
+alias ....='cd ../../../'
 
 alias path='echo $PATH | tr -s ":" "\n"'
 alias df='df -h /'
@@ -43,11 +43,12 @@ alias comp='g++ -o main main.cpp'
 alias comc='gcc -o main main.c'
 
 # GIT
-# alias gll='git log --oneline --decorate --graph --all'
-# alias gl='git log --decorate --all'
-# alias glo='git log --oneline --decorate --all'
-# alias gst='git status'
-# alias gss='git status -s'
+alias gll='git log --oneline --decorate --graph --all'
+alias gl='git log --decorate --all'
+alias glo='git log --oneline --decorate --all'
+alias gst='git status'
+alias gss='git status -s'
+alias gbr='git branch'
 
 # du -sh <path> -> Size of Directory
 
@@ -64,4 +65,5 @@ alias oct='cal -m 010'
 alias nov='cal -m 011'
 alias dec='cal -m 012'
 
-alias xx='xrdb -merge ~/.Xresources && exit'
+# Used for Xterm terminal
+# alias xx='xrdb -merge ~/.Xresources && exit'
