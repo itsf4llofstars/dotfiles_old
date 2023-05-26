@@ -65,7 +65,7 @@ function hg() {
 
 function bash_prompt() {
         # PS1='\e[0;33m$(git_branch) \e[0m\e[1;34m\w \e[0m\e[1;34m\$ \e[0m'
-        PS1='\e[0;33m$(git_branch) \e[0m\e[1;34m\w \e[0m\e[1;37m\$ \e[0m'
+        PS1='\e[0;33m$(git_branch) \e[0m\e[1;32m\w \e[0m\e[1;34m\$ \e[0m'
         # PS1=${bwn}'$(git_branch)'${grn_b}' \W '${blu_b}'\$ '${clr}
 }
 # }}}
