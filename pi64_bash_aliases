@@ -26,7 +26,7 @@ alias vim='nvim'
 alias nv='nvim'
 alias vi='nvim'
 alias nconf='cd ~/.config/nvim/'
-alias vimrc='nvim ~/.config/nvim/init.lua'
+alias vimrc='nvim ~/.config/nvim/init.vim'
 alias ed='ed -E -v -p "ed: "'
 alias nano='nano --guidestripe=80'
 
