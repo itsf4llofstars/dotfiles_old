@@ -3,10 +3,10 @@
     "[python]": {
         "editor.formatOnType": true
     },
-    "editor.fontFamily": "Monospace",
-    "editor.fontWeight": "normal",
+    "editor.fontFamily": "Liberation Mono Bold",
+    "editor.fontWeight": "bold",
     "editor.minimap.enabled": false,
-    "editor.fontSize": 14,
+    "editor.fontSize": 15,
     "workbench.iconTheme": "material-icon-theme",
     "vim.cursorStylePerMode.insert": "block",
     "vim.cursorStylePerMode.normal": "block",
@@ -44,4 +44,5 @@
              "after": ["<ESC>"]
          },
     ],
+    "editor.fontLigatures": true,
 }
