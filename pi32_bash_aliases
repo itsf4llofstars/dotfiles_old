@@ -27,6 +27,7 @@ alias ed='ed -E -v -p "ed: "'
 alias nano='nano -r 80'
 
 alias mm='python3 main.py'
+alias nn='./main.py'
 alias py='python3'
 alias act='source ./venv/bin/activate'
 alias dact='deactivate'
