@@ -10,6 +10,7 @@ alias ssn='sudo shutdowon now'
 
 alias nv='nvim'
 alias vim='nvim'
+alias vvim='/usr/bin/vim'
 alias vi='nvim'
 alias nconf='cd ~/.config/nvim'
 alias vimrc='nvim ~/.config/nvim/init.vim'

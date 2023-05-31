@@ -1,4 +1,4 @@
-" Last Change: 2023 May 25 12:29:53
+" Last Change: 2023 May 30 10:48:46
 "" <F2> to set last change
 "" init.vim
 
@@ -67,14 +67,14 @@ set swapfile
 let g:python3_host_prog = '/usr/bin/python3'
 
 let mapleader=" "
-let maplocalleader=","
+let maplocalleader="\\"
 "" END SETTINGS }}}
 
 "" PLUGINS {{{
 "" ALE {{{
 let g:ale_set_signs = 1
 let g:ale_max_signs = -1
-" let g:ale_close_preview_on_insert = 1
+let g:ale_close_preview_on_insert = 1
 let g:ale_completion_enabled = 1
 let g:ale_disable_lsp = 0
 let g:ale_lsp_suggestions = 1
@@ -85,7 +85,7 @@ let g:ale_virtualtext_cursor = 'disabled' " 'current', 'disabled', 'all'
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 let g:ale_sign_column_always = 1
-let g:ale_set_highlights = 0
+let g:ale_set_highlights = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_info_str = 'I'
@@ -94,25 +94,24 @@ let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_popup_menu_enabled = 0
 let g:ale_detail_to_floating_preview = 1
 let g:ale_cursor_detail = 0
-" let g:ale_hover_cursor = 0
+let g:ale_hover_cursor = 1
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-" let g:ale_echo_cursor = 1
+let g:ale_echo_cursor = 1
 let g:ale_disable_lsp = 0
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 0
-let g:ale_set_loclist = 1
+let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 0
+let g:ale_fix_on_save = 1
 let g:ale_enabled = 1
-" let g:ale_exclude_highlights = ['First line', 'Parsing failed', 'invalid syntax']
 "" }}}
 
 "" YCM {{{
-let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_min_num_of_chars_for_completion = 3
 let g:ycm_min_num_identifier_candidate_chars = 0
 let g:ycm_max_num_candidates = 50
 " let g:ycm_max_num_candidates_to_detail = 0
@@ -150,7 +149,7 @@ let g:ycm_open_loclist_on_ycm_diags = 1
 let g:ycm_seed_identifiers_with_syntax = 0
 
 "" set 0 for no previews or popups. preview or popup needed in comleteopt
-let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_add_preview_to_completeopt = 0
 
 "" Defaults for completion/insertion = 0
 let g:ycm_autoclose_preview_window_after_completion = 1
@@ -194,7 +193,7 @@ colorscheme retrobox
 " 'rust': ['analyzer', 'rustc', 'cargo'],
 " 'python': ['pylint', 'isort', 'mypy', 'pyright', 'ruff'],
 let g:ale_linters = {
-      \ 'python': ['flake8'],
+      \ 'python': ['pylint'],
       \ 'rust': ['analyzer', 'cargo', 'rsl'],
       \ 'vim': ['vimls', 'vint'],
       \ 'cpp': ['clangd', 'cpplint'],
@@ -294,9 +293,9 @@ tnoremap <C-v><ESC> <ESC>
 nnoremap <leader>p "+p
 nnoremap ' `
 nnoremap '' ``
-nnoremap <localleader>a zt
-nnoremap <localleader>b zb
-nnoremap <localleader>z zz
+nnoremap ,a zt
+nnoremap ,b zb
+nnoremap ,z zz
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap w W
