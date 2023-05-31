@@ -44,6 +44,8 @@ alias glo='clear && git log --oneline --decorate --all'
 alias gst='clear && git status'
 alias gss='clear && git status -s'
 alias gbr='clear && git branch'
+alias gffs='git flow feature start'
+alias gfff='git flow feature finish'
 
 # du -sh <path> -> Size of Directory
 
