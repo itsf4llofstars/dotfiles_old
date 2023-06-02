@@ -248,7 +248,7 @@ nnoremap <leader>* :%s/\<<C-r><C-w>\>//gI<left><left><left>
 nnoremap <leader>& :%s/\<<C-r><C-w>\>//gIc<left><left><left><left>
 nnoremap <leader>L :s/\<<C-r><C-w>\>//gI<left><left><left>
 nnoremap <localleader>sh gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>
-nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>dd/>>>>>>><CR>dd<ESC>
+nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>d/>>>>>>><CR>dd<ESC>
 nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
 nnoremap <localleader>fc /<<<<<<<<CR>
 
