@@ -16,6 +16,8 @@ function SetColors()
   if &term == 'linux'
     set t_Co=16
     set background=dark
+    set cc=
+    " colorscheme koehler
     colorscheme ron
   else
     set t_Co=256
@@ -277,6 +279,7 @@ augroup ALL " (((
   au BufWritePre * %s/\s\+$//e
   au BufWritePost,VimEnter * :normal! `p
   au BufEnter * iabbrev teh the
+  au BufEnter * iabbrev tow two
   au InsertEnter * silent set nornu
   au InsertLeave * silent set rnu
 augroup END " )))
@@ -289,6 +292,7 @@ augroup END " )))
 augroup PYTHON " (((
   au!
   au FileType python silent setlocal fdm=indent fdc=0 fdl=99 fdls=99 cc=80
+  au Filetype python call SetColors()
   au BufEnter *.py nnoremap <buffer> <F7> :write<CR>:python3 %<CR>
   au BufEnter *.py nnoremap <buffer> <F5> :write<CR>:!python3 %<CR>
   au BufEnter *.py iabbrev <buffer> slef self
@@ -324,7 +328,7 @@ augroup END
 "" )))
 
 augroup TEXT " (((
-  au FileType text silent setlocal ts=9 sw=8 sts=4 tw=78 ai si ci cc=80 noet wrap ml lbr
+  au FileType text silent setlocal ts=8 sw=8 sts=4 tw=78 ai si ci cc=80 noet wrap ml lbr
   au BufEnter *.txt colorscheme quiet
   au BufLeave *.txt call SetColors()
 augroup END " )))
