@@ -27,6 +27,7 @@ alias ed='ed -E -v -p "ed: "'
 alias nano='nano -r 80'
 
 alias mm='python3 main.py'
+alias nn='./main.py'
 alias py='python3'
 alias act='source ./venv/bin/activate'
 alias dact='deactivate'
@@ -43,6 +44,8 @@ alias glo='clear && git log --oneline --decorate --all'
 alias gst='clear && git status'
 alias gss='clear && git status -s'
 alias gbr='clear && git branch'
+alias gffs='git flow feature start'
+alias gfff='git flow feature finish'
 
 # du -sh <path> -> Size of Directory
 

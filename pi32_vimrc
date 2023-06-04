@@ -1,4 +1,9 @@
-"" Vim .vimrc file
+"          _
+"  __   __(_) _ __ ___   _ __  ___
+"  \ \ / /| || '_ ` _ \ | '__|/ __|
+"  _\ V / | || | | | | || |  | (__
+" (_)\_/  |_||_| |_| |_||_|   \___|
+"
 
 "" Table (Search for [nn])
 "" settings [sx]
@@ -17,6 +22,10 @@ function SetColors()
     set background=dark
     colorscheme retrobox
   endif
+endfunction
+
+function Indent()
+  :normal! mpHmogg=G'ozt`p
 endfunction
 "" )))
 
@@ -57,12 +66,12 @@ set signcolumn=yes
 set laststatus=2
 set noruler
 set statusline=
-set statusline=(%n)\ %F\ %h%m%r%w\ [%Y]\ %q%=%-14.(col:\ %c\ [%l:%L]%)\ (%b\ 0x%B)\ (%o\ -\ 0x%O)\ %a\ %p%%\ %P\ %t\ |
+" set statusline=(%n)\ %F\ %h%m%r%w\ [%Y]\ %q%=%-14.(col:\ %c\ [%l:%L]%)\ (%b\ 0x%B)\ (%o\ -\ 0x%O)\ %a\ %p%%\ %P\ %t\ |
 set modeline
 
 set showmatch
 set showcmd
-set showmode
+set noshowmode
 set scrolloff=5
 set sidescrolloff=8
 set path+=**
@@ -134,7 +143,7 @@ Plug 'nvie/vim-flake8'
 Plug 'tpope/vim-fugitive'
 " Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
-" Plug 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'
 Plug 'msanders/snipmate.vim'
 Plug 'honza/vim-snippets'
 Plug 'liuchengxu/vim-which-key'
@@ -183,6 +192,19 @@ nnoremap <leader>gc :Git commit<CR> "
 
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :WhichKey '\'<CR>
+
+" The colorscheme for lightline.vim.
+" Currently, wombat, solarized, powerline, powerlineish,
+" jellybeans, molokai, seoul256, darcula,
+" selenized_dark, selenized_black, selenized_light, selenized_white,
+" Tomorrow, Tomorrow_Night, Tomorrow_Night_Blue,
+" Tomorrow_Night_Bright, Tomorrow_Night_Eighties, PaperColor,
+" landscape, one, materia, material, OldHope, nord, deus,
+" simpleblack, srcery_drk, ayu_mirage, ayu_light, ayu_dark,
+" apprentice, rosepine, and 16color are available.
+let g:lightline = {
+      \ 'colorscheme': 'seoul256',
+      \ }
 " )))
 
 " macros (((
@@ -226,7 +248,7 @@ nnoremap <leader>* :%s/\<<C-r><C-w>\>//gI<left><left><left>
 nnoremap <leader>& :%s/\<<C-r><C-w>\>//gIc<left><left><left><left>
 nnoremap <leader>L :s/\<<C-r><C-w>\>//gI<left><left><left>
 nnoremap <localleader>sh gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>
-nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>dd/>>>>>>><CR>dd<ESC>
+nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>d/>>>>>>><CR>dd<ESC>
 nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
 nnoremap <localleader>fc /<<<<<<<<CR>
 
@@ -249,7 +271,8 @@ nnoremap <leader>rs <C-w>= " )))
 "" groups gx (((
 augroup ALL " (((
   au!
-  au BufReadPost,BufWritepre $MYVIMRC,*.vim,*.c,*.h,*.html,*.css,*.cpp :normal! mpHmogg=G'ozt`p
+  " au BufReadPost,BufWritepre $MYVIMRC,*.vim,*.c,*.h,*.html,*.css,*.cpp :normal! mpHmogg=G'ozt`p
+  au BufReadPost,BufWritepre $MYVIMRC,*.vim,*.c,*.h,*.html,*.css,*.cpp :call Indent()
   au BufWritePre,VimLeave * :normal! mp
   au BufWritePre * %s/\s\+$//e
   au BufWritePost,VimEnter * :normal! `p
@@ -267,6 +290,7 @@ augroup PYTHON " (((
   au!
   au FileType python silent setlocal fdm=indent fdc=0 fdl=99 fdls=99 cc=80
   au BufEnter *.py nnoremap <buffer> <F7> :write<CR>:python3 %<CR>
+  au BufEnter *.py nnoremap <buffer> <F5> :write<CR>:!python3 %<CR>
   au BufEnter *.py iabbrev <buffer> slef self
   au BufEnter *.py iabbrev <buffer> sefl self
   au BufEnter *.py iabbrev <buffer> pirnt print
