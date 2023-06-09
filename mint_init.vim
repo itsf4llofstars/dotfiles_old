@@ -1,10 +1,10 @@
-" Last Change: 2023 May 30 10:48:46
+" Last Change: 2023 Jun 08 09:18:22
 "" <F2> to set last change
 "" init.vim
 
 "" FUNCTIONS & SCRIPTS {{{
 function Indent()
-  :normal! mpgg=G`p
+  :normal! mpHmogg=G'ozt`p
 endfunction
 
 function GitBuf()
