@@ -2,7 +2,7 @@
 
 "" FUNCTIONS & SCRIPTS {{{
 function Indent()
-  :normal! mpgg=G`p
+  :normal! mpHmogg=G'ozt`p
 endfunction
 
 function GitBuf()
