@@ -1,10 +1,8 @@
-" Last Change: 2023 May 05 13:08:47
-"" <F2> to set last change
 "" init.vim
 
 "" FUNCTIONS & SCRIPTS {{{
 function Indent()
-  :normal! mpgg=G`p
+  :normal! mpHmogg=G'ozt`p
 endfunction
 
 function GitBuf()
@@ -352,9 +350,6 @@ vnoremap K :m '<-2<cr>gv=gv
 
 nnoremap <leader>* :%s/\<C-r><C-w>//gI<left><left><left>
 nnoremap <leader>& :%s/\<C-r><C-w>//gcI<left><left><left><left>
-
-map <F2> msHmtgg/Last [cC]hange:\s*/e+1<CR>"_D"=strftime("%Y %b %d %H:%M:%S")<CR>p'tzt`s
-map <F4> mpHmtGoHello There<ESC>'tzt`p
 
 nnoremap <leader>bn :bnext<cr>
 nnoremap <leader>bp :bprevious<cr>
