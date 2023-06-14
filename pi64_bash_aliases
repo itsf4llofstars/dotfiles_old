@@ -40,3 +40,13 @@ alias dact='deactivate'
 alias cr='clear && cargo run'
 alias cb='clear && cargo build'
 alias cc='clear && cargo check'
+
+# GIT
+alias gll='clear && git log --oneline --decorate --graph --all'
+alias gl='clear && git log --decorate --all'
+alias glo='clear && git log --oneline --decorate --all'
+alias gst='clear && git status'
+alias gss='clear && git status -s'
+alias gbr='clear && git branch'
+alias gffs='git flow feature start'
+alias gfff='git flow feature finish'
