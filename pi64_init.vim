@@ -1,5 +1,4 @@
-" Last Change: 2023 May 26 17:29:30
-" init.vim
+" init.vim for Raspberry Pi 4 64-Bit
 
 " Functions {{{
 function Indent()
@@ -15,8 +14,14 @@ endfunction
 filetype indent plugin on
 syntax on
 set termguicolors
-colorscheme retrobox
+set background=dark
 set guicursor=""
+
+if &term == 'linux'
+  colorscheme desert
+else
+  colorscheme retrobox
+endif
 
 set tabstop=4
 set shiftwidth=4
@@ -45,14 +50,14 @@ set relativenumber
 set scrolloff=3
 set shortmess=aoOstT
 set showmatch
-set signcolumn=auto
+set signcolumn=yes
 set noshowmode
 set smartcase
 set smartindent
 set sidescroll=8
 set statusline=
-set statusline=(%n)\ %F\ [%Y]\ \ \ \ %c:%L\ \ \ \ (%p%%\ %P)\ %f\ |
-set updatetime=100
+" set statusline=(%n)\ %f\ [%Y]\ \ \ \ %c:%L\ \ \ \ (%p%%\ %P)\ %f\ |
+set updatetime=50
 set nowrap
 set wildmode=list:longest,full
 
@@ -70,14 +75,17 @@ let maplocalleader="\\"
 " Ale {{{
 let g:ale_set_signs = 1
 let g:ale_max_signs = -1
-let g:ale_close_preview_on_insert = 1
-let g:ale_completion_enabled = 1
+" let g:ale_close_preview_on_insert = 1
 let g:ale_disable_lsp = 0
+let g:ale_completion_enabled = 1
 let g:ale_lsp_suggestions = 1
+let g:ale_completion_enabled = 1
 let g:ale_linters_explicit = 1
 let g:ale_warn_about_trailing_blank_lines = 1
 let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_virtualtext_cursor = 'disabled' " 'current', 'disabled', 'all'
+
+" '1=current', '0=disabled', '2=all'
+let g:ale_virtualtext_cursor = 1
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 let g:ale_sign_column_always = 1
@@ -85,25 +93,28 @@ let g:ale_set_highlights = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_info_str = 'I'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_echo_msg_format = '%code: %%S [%type%] [%linter%]'
+let g:ale_loclist_msg_format = 'code: %%s [%severity%] [%linter%]'
+
 let g:ale_popup_menu_enabled = 0
 let g:ale_detail_to_floating_preview = 1
-let g:ale_cursor_detail = 1
+let g:ale_cursor_detail = 0
+
+" 00 top 01 top-bott 10 top 11 top-bott
 let g:ale_hover_cursor = 0
+let g:ale_echo_cursor = 0
+
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-let g:ale_echo_cursor = 1
-let g:ale_disable_lsp = 0
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
-let g:ale_open_list = 1
+let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 0
-let g:ale_fix_on_save = 0
-let g:ale_enabled = 0
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+let g:ale_enabled = 1
 " }}}
 
 " Vim Plug {{{
@@ -116,7 +127,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
 Plug 'nvie/vim-flake8'
-" Plug 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'dense-analysis/ale'
 " Plug 'msanders/snipmate.vim'
@@ -171,23 +182,23 @@ let g:user_emmet_leader_key=','
 "" See Vim-Awesome
 let g:lightline = {'colorscheme': 'one',}
 
-let g:no_flake8_maps = 0
-" let g:flake8_quickfix_location="bottom"
-" let g:flake8_quickfix_height=5
-let g:flake8_show_quickfix=0
-let g:flake8_show_in_gutter=1
-let g:flake8_show_in_file=0
-let g:flake8_max_markers=500
-let g:flke8_max_complexity=10
-let g:flake8_error_marker='>>'
-let g:flake8_warning_marker='--'
-let g:flake8_pyflake_marker='M'
-let g:flake8_complexity_marker='C'
-let g:flake8_naming_marker='N'
-" let g:flake8_ignore="D400"
+" let g:no_flake8_maps = 0
+"" let g:flake8_quickfix_location="bottom"
+"" let g:flake8_quickfix_height=5
+" let g:flake8_show_quickfix=0
+" let g:flake8_show_in_gutter=1
+" let g:flake8_show_in_file=0
+" let g:flake8_max_markers=500
+" let g:flke8_max_complexity=10
+" let g:flake8_error_marker='>>'
+" let g:flake8_warning_marker='--'
+" let g:flake8_pyflake_marker='M'
+" let g:flake8_complexity_marker='C'
+" let g:flake8_naming_marker='N'
+"" let g:flake8_ignore="D400"
 
 "" Error WarningMsg
-highlight link Flake8_Error      Error
+" highlight link Flake8_Error      Error
 " highlight link Flake8_Warning    WarningMsg
 " highlight link Flake8_Complexity WarningMsg
 " highlight link Flake8_Naming     WarningMsg
@@ -196,7 +207,7 @@ highlight link Flake8_Error      Error
 " 'rust': ['analyzer', 'rustc', 'cargo'],
 " 'python': ['pylint', 'isort', 'mypy', 'pyright', 'ruff'],
 let g:ale_linters = {
-      \ 'python': ['flake8'],
+      \ 'python': ['pylint'],
       \ 'rust': ['analyzer'],
       \ 'vim': [''],
       \ 'cpp': ['clangd', 'cpplint'],
@@ -243,7 +254,7 @@ nnoremap <leader>gds :Git diff --staged<cr>
 " ALE
 nnoremap <leader>alt :ALEToggle<CR>
 nnoremap <leader>all :ALELint<CR>
-nnoremap <leader>alf :ALEFix<CR>:write<CR>
+nnoremap <leader>alf :ALEFix<CR>
 nnoremap <leader>alo :copen<CR>
 nnoremap <leader>alc <C-w>k<C-w>jZQ
 
@@ -275,11 +286,8 @@ vnoremap K :m '<-2<cr>gv=gv
 nnoremap <leader>* :%s/\<C-r><C-w>//gI<left><left><left>
 nnoremap <leader>& :%s/\<C-r><C-w>//gcI<left><left><left><left>
 
-map <F2> msHmtgg/Last [cC]hange:\s*/e+1<CR>"_D"=strftime("%Y %b %d %H:%M:%S")<CR>p'tzt`s
-map <F4> mpHmtGoHello There<ESC>'tzt`p
-
-nnoremap <leader>bn :bnext<cr>
-nnoremap <leader>bp :bprevious<cr>
+nnoremap <silent> <leader>bn :bnext<cr>
+nnoremap <silent> <leader>bp :bprevious<cr>
 nnoremap Y y$
 nnoremap B _
 nnoremap E $
@@ -295,6 +303,11 @@ nnoremap <leader>[ viw<esc>a[<esc>bi[<esc>lel
 nnoremap <leader>{ viw<esc>a{<esc>bi{<esc>lel
 nnoremap <leader>< viw<esc>a<<esc>bi<<esc>lel
 
+nnoremap <leader>nt :tabnew<CR>
+nnoremap <leader>tn :tabnext<CR>
+nnoremap <leader>tp :tabprevious<CR>
+nnoremap <leader>tc :tabclose<CR>
+
 nnoremap <leader>v :vsplit<cr><C-w>l
 nnoremap <leader>s :split<cr><C-w>j
 nnoremap <C-h> <C-w>h
@@ -307,80 +320,84 @@ nnoremap <leader>kk :resize+2<CR>
 nnoremap <leader>jj :resize-2<CR>
 nnoremap <leader>rs <C-w>=
 
-" HEAD
 nnoremap <localleader>sh gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>
-" branch
 nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>d/>>>>>>><CR>dd<ESC>
-" Both
 nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
-" Next
 nnoremap <localleader>sn gg/<<<<<<<<CR>
 " }}}
 
 augroup ALL " {{{
-  autocmd!
-  autocmd InsertEnter * set nornu
-  autocmd InsertLeave * set rnu
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  autocmd BufWritePre *.c,*.cpp,*.css,*.h,*.html,*.sh,*.vim call Indent()
+  au!
+  au InsertEnter * set nornu
+  au InsertLeave * set rnu
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  au BufWritePre *.c,*.cpp,*.css,*.h,*.html,*.sh,*.vim call Indent()
 augroup END " }}}
 
 augroup VIM " {{{
-  autocmd!
-  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 cc=80 fdm=marker fdc=1
+  au!
+  au FileType vim setlocal ts=2 sw=2 sts=2 tw=0 cc=80 fdm=marker fdc=1
 augroup END " }}}
 
 augroup PYTHON " {{{
-  autocmd!
-  autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=0
-  autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<cr>
-  autocmd BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
-  autocmd BufEnter *.py nnoremap <buffer> <F7> :call flake8#Flake8()<CR>
-  autocmd BufEnter *.py nnoremap <buffer> <localleader>fl :call flake8#Flake8ShowError()<CR>
-  autocmd BufEnter *.py nnoremap <buffer> <leader>in call Indent()
+  au!
+  au FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=1
+  au BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<cr>
+  au BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
+  au BufEnter *.py nnoremap <buffer> <F7> :call flake8#Flake8()<CR>
+  au BufEnter *.py nnoremap <buffer> <localleader>fl :call flake8#Flake8ShowError()<CR>
+  au BufEnter *.py nnoremap <buffer> <leader>in call Indent()
 augroup END " }}}
 
 augroup SH " {{{
-  autocmd!
-  autocmd FileType sh setlocal ts=4 sw=4 sts=4 tw=0 nofen fdc=0 cc=80
-  autocmd BufEnter *.sh nnoremap <buffer> <F5> :write<cr>:!./%<cr>
+  au!
+  au FileType sh setlocal ts=4 sw=4 sts=4 tw=0 nofen fdc=0 cc=80
+  au BufEnter *.sh nnoremap <buffer> <F5> :write<cr>:!./%<cr>
 augroup END " }}}
 
 augroup HTML_CSS " {{{
-  autocmd!
-  autocmd FileType html setlocal ts=2 sw=2 sts=2 tw=0 cc=80,100,120 fdc=6 fdm=manual aw updatetime=500
-  autocmd FileType html,css nnoremap <buffer> <localleader>f Vatzf
-  autocmd BufRead,BufEnter *.html nnoremap <buffer> <localleader>c i<!----><esc>2hi<space><esc>i<space>
-  autocmd BufRead,BufEnter *.css nnoremap <buffer> <localleader>c i/**/<esc>hi<space><esc>i<space>
-  autocmd BufRead,BufEnter *.html :onoremap <buffer> it :<c-u>normal! f<vi<<cr>
-  autocmd CursorHold *.html,*.css write
-  autocmd BufEnter *.html,*.css colorscheme jellybeans
-  autocmd BufLeave *.html,*.css colorscheme gruvbox
+  au!
+  au FileType html setlocal ts=2 sw=2 sts=2 tw=0 cc=80,100,120 fdc=6 fdm=manual aw updatetime=500
+  au FileType html,css nnoremap <buffer> <localleader>f Vatzf
+  au BufRead,BufEnter *.html nnoremap <buffer> <localleader>c i<!----><esc>2hi<space><esc>i<space>
+  au BufRead,BufEnter *.css nnoremap <buffer> <localleader>c i/**/<esc>hi<space><esc>i<space>
+  au BufRead,BufEnter *.html :onoremap <buffer> it :<c-u>normal! f<vi<<cr>
+  au CursorHold *.html,*.css write
+  au BufEnter *.html,*.css colorscheme jellybeans
+  au BufLeave *.html,*.css colorscheme gruvbox
 augroup END " }}}
 
 augroup C_CPP " {{{
-  autocmd!
-  autocmd FileType c,cpp,rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
-  autocmd FileType c,cpp,rust nnoremap <buffer> <leader>nb A<space>{<
-  autocmd Filetype c nnoremap <buffer> <leader>mm :!make main<CR>
+  au!
+  au FileType c,cpp setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
+  au FileType c,cpp nnoremap <buffer> <leader>nb A<space>{<
+  au Filetype c nnoremap <buffer> <leader>mm :!make main<CR>
+augroup END " }}}
+
+augroup RUST " {{{
+  au!
+  au FileType rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
+  au FileType rust nnoremap <buffer> <leader>nb A<space>{<
 augroup END " }}}
 
 augroup TEXT " {{{
-  autocmd!
-  autocmd FileType text setlocal ts=4 sw=4 sts=4 tw=79 wrap fdc=1 cc=80
+  au!
+  au FileType text setlocal ts=4 sw=4 sts=4 tw=79 wrap fdc=1 cc=80
+  au BufEnter *.txt,*.tex colorscheme quiet
+  au BufLeave *.txt,*.tex colorscheme retrobox
 augroup END " }}}
 
 augroup NERDTREE " {{{
-  autocmd!
-  autocmd StdinReadPre * let s:std_in = 1
-  " autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-  autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-  autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-  autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+  au!
+  au StdinReadPre * let s:std_in = 1
+  " au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+  au BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+  au BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+  au BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 | let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 augroup END " }}}
 
 augroup GITCOMMIT " {{{
-  autocmd!
-  autocmd FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=70 wrap cc=50
-  autocmd FileType gitcommit call GitBuf()
+  au!
+  au FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=70 wrap cc=50
+  au FileType gitcommit call GitBuf()
 augroup END " }}}
