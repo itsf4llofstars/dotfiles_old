@@ -8,6 +8,14 @@ endfunction
 function GitBuf()
   :normal! gg0
 endfunction
+
+function! s:fzf_statusline()
+  " Override statusline as you like
+  highlight fzf1 ctermfg=161 ctermbg=251
+  highlight fzf2 ctermfg=23 ctermbg=251
+  highlight fzf3 ctermfg=237 ctermbg=251
+  setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
+endfunction
 " }}}
 
 " Settings {{{
@@ -129,6 +137,7 @@ Plug 'mbbill/undotree'
 Plug 'nvie/vim-flake8'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
 " Plug 'msanders/snipmate.vim'
 " Plug 'honza/vim-snippets'
@@ -160,11 +169,16 @@ let g:fzf_layout = { 'window': 'enew' }
 let g:fzf_layout = { 'window': '-tabnew' }
 let g:fzf_layout = { 'window': '10new' }
 set rtp+=~/.fzf
-nnoremap <leader>fz :FZF<space>
+
+nmap <leader><tab> <plug>(fzf-maps-n)
+imap <C-x><C-f> <plug>(fzf-complete-word)
+imap <C-x><C-d> <plug>(fzf-complete-path)
+imap <C-x><C-a> <plug>(fzf-complete-line)
+nnoremap <leader>fz :FZF!<cr>
 "" Look for files under current directory
 "" :FZF
 "" Look for files under your home directory
-"" :FZF ~
+nnoremap <leader>ft :FZF! ~<CR>
 "" With fzf command-line options
 "" :FZF --reverse --info=inline /tmp
 "" Bang version starts fzf in fullscreen mode
@@ -337,6 +351,7 @@ augroup END " }}}
 augroup VIM " {{{
   au!
   au FileType vim setlocal ts=2 sw=2 sts=2 tw=0 cc=80 fdm=marker fdc=1
+  au BufEnter $MYVIMRC,*.vim call Indent()
 augroup END " }}}
 
 augroup PYTHON " {{{
@@ -400,4 +415,11 @@ augroup GITCOMMIT " {{{
   au!
   au FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=70 wrap cc=50
   au FileType gitcommit call GitBuf()
+augroup END
+
+augroup FZF
+  au!
+  autocmd! FileType fzf set laststatus=0 noshowmode noruler
+        \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+  autocmd! User FzfStatusLine call <SID>fzf_statusline()
 augroup END " }}}

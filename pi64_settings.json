@@ -45,4 +45,7 @@
          },
     ],
     "editor.fontLigatures": true,
+    "[shellscript]": {
+        "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
 }
