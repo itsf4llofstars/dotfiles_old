@@ -81,48 +81,51 @@ let maplocalleader="\\"
 " }}}
 
 " Ale {{{
-let g:ale_set_signs = 1
-let g:ale_max_signs = -1
-" let g:ale_close_preview_on_insert = 1
-let g:ale_disable_lsp = 0
+let g:ale_enabled = 1
+let g:ale_max_signs = 10
 let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+let g:ale_detail_to_floating_preview = 1
+let g:ale_echo_msg_format = "% code % [%linters%] %type%"
 let g:ale_lsp_suggestions = 1
-let g:ale_completion_enabled = 1
-let g:ale_linters_explicit = 1
+
+let g:ale_cursor_detail = 0 " 1 give popup
+let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
+
+" let g:ale_use_neovim_diagnostic_api = 1
+let g:ale_virtual_cursor = 0 " 0, 1, 2
+
+" if has('nvim')
+"   let g:ale_use_neovim_diagnostic_api = 1
+" else
+"   let g:ale_virtual_cursor = 0 " 0, 1, 2
+" endif
+
 let g:ale_warn_about_trailing_blank_lines = 1
 let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_sign_coloumn_always = 1
 
-" '1=current', '0=disabled', '2=all'
-let g:ale_virtualtext_cursor = 1
+let g:ale_set_highlights = 1
+let g:ale_exclude_highlights = [
+      \ 'docstring',
+      \ 'Unused argument',
+      \ 'import-error',
+      \ 'inconsistent-return-statements'
+      \ ]
+
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 let g:ale_sign_column_always = 1
-let g:ale_set_highlights = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_info_str = 'I'
-let g:ale_echo_msg_format = '%code: %%S [%type%] [%linter%]'
-let g:ale_loclist_msg_format = 'code: %%s [%severity%] [%linter%]'
 
-let g:ale_popup_menu_enabled = 0
-let g:ale_detail_to_floating_preview = 1
-let g:ale_cursor_detail = 0
-
-" 00 top 01 top-bott 10 top 11 top-bott
-let g:ale_hover_cursor = 0
-let g:ale_echo_cursor = 0
-
-let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 0
-let g:ale_keep_list_window_open = 0
+let g:ale_linters_explicit = 0
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
-let g:ale_enabled = 1
 " }}}
 
 " Vim Plug {{{
@@ -340,6 +343,7 @@ nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
 nnoremap <localleader>sn gg/<<<<<<<<CR>
 " }}}
 
+"" GROUPS {{{
 augroup ALL " {{{
   au!
   au InsertEnter * set nornu
@@ -423,3 +427,4 @@ augroup FZF
         \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
   autocmd! User FzfStatusLine call <SID>fzf_statusline()
 augroup END " }}}
+"" }}}
