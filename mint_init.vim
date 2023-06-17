@@ -1,3 +1,5 @@
+" Last Change: 2023 Jun 08 09:18:22
+"" <F2> to set last change
 "" init.vim
 
 "" FUNCTIONS & SCRIPTS {{{
@@ -69,175 +71,83 @@ let maplocalleader="\\"
 "" END SETTINGS }}}
 
 "" PLUGINS {{{
+"
 "" ALE {{{
-let g:ale_set_signs = 1
-let g:ale_max_signs = -1
-let g:ale_close_preview_on_insert = 1
+let g:ale_enabled = 1
+let g:ale_max_signs = 10
 let g:ale_completion_enabled = 1
-let g:ale_disable_lsp = 0
+let g:ale_completion_autoimport = 1
+let g:ale_detail_to_floating_preview = 1
+let g:ale_echo_msg_format = "% code % [%linter%] %type% "
 let g:ale_lsp_suggestions = 1
-let g:ale_linters_explicit = 1
+
+let g:ale_cursor_detail = 0 " 1 gives popup
+let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
+
+" let g:ale_use_neovim_diagnostics_api = 1 " DONT USE WITH g:ale_virturaltext_cursor
+"" 0 No inline comments, 1 inline comments on with corsor on line, 2 inline on always
+let g:ale_virtualtext_cursor = 0
+
+" if has('nvim')
+"   let g:ale_use_neovim_diagnostics_api = 1 " DONT USE WITH g:ale_virturaltext_cursor
+"   let g:ale_virtualtext_cursor = 1
+" else
+"   let g:ale_virtualtext_cursor = 1
+" endif
+
 let g:ale_warn_about_trailing_blank_lines = 1
 let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_virtualtext_cursor = 'disabled' " 'current', 'disabled', 'all'
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
+
+
 let g:ale_sign_column_always = 1
-let g:ale_set_highlights = 1
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_info_str = 'I'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_popup_menu_enabled = 0
-let g:ale_detail_to_floating_preview = 1
-let g:ale_cursor_detail = 0
-let g:ale_hover_cursor = 1
-let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-let g:ale_echo_cursor = 1
-let g:ale_disable_lsp = 0
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 0
-let g:ale_keep_list_window_open = 0
+
+" Prevents highlights in the code proper. This is a list of strings
+let g:ale_exclude_highlights = [
+      \ 'docstring',
+      \ 'Unused argument',
+      \ 'import-errro',
+      \ 'inconsistent-return-statements'
+      \ ]
+
+let g:ale_linters_explicit = 0
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1
-let g:ale_enabled = 1
+let g:ale_fix_on_save = 1 " 0 is default
 "" }}}
-
-"" YCM {{{
-let g:ycm_min_num_of_chars_for_completion = 3
-let g:ycm_min_num_identifier_candidate_chars = 0
-let g:ycm_max_num_candidates = 50
-" let g:ycm_max_num_candidates_to_detail = 0
-let g:ycm_max_num_identifier_candidates = 10
-let g:ycm_auto_trigger = 1
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar': 1,
-      \ 'notes': 1,
-      \ 'markdown': 1,
-      \ 'netrw': 1,
-      \ 'unite': 1,
-      \ 'text': 1,
-      \ 'vimwiki': 1,
-      \ 'pandoc': 1,
-      \ 'infolog': 1,
-      \ 'leaderf': 1,
-      \ 'mail': 1
-      \}
-let g:ycm_filetype_specific_completion_to_disable = {
-      \ 'gitcommit': 1
-      \}
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_error_symbol = '>>'
-let g:ycm_warning_symbol = '>>'
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1
-let g:ycm_echo_current_diagnostic = 1
-nmap <leader>D <plug>(YCMHover)
-
-"" See, :help location-list
-let g:ycm_always_populate_location_list = 0
-
-"" Try set to 0 for no-extra window
-let g:ycm_open_loclist_on_ycm_diags = 1
-let g:ycm_seed_identifiers_with_syntax = 0
-
-"" set 0 for no previews or popups. preview or popup needed in comleteopt
-let g:ycm_add_preview_to_completeopt = 0
-
-"" Defaults for completion/insertion = 0
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
-"" Some like adding 'enter' the list
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
-
-"" Closes popup if it's blocking view
-let g:ycm_key_list_stop_completion = ['<C-y>']
-
-"" try enter
-let g:ycm_key_invoke_completion = '<C-Space>'
-let g:ycm_key_detailed_diagnostics = '<leader>d'
-
-let g:ycm_use_clangd = 1
-" let g:ycm_clangd_binary_path = ''
-
-"" Set to 0 if seeing the new diags is not wanted
-let g:ycm_update_diagnostics_in_insert_mode = 1
-"" END YCM }}}
 
 "" VIM-PLUG {{{
 call plug#begin()
 Plug 'tpope/vim-fugitive'
-Plug 'dense-analysis/ale'
-Plug 'valloric/youcompleteme'
 Plug 'easymotion/vim-easymotion'
 Plug 'airblade/vim-gitgutter'
 Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'mbbill/undotree'
 Plug 'liuchengxu/vim-which-key'
+Plug 'dense-analysis/ale'
 call plug#end()
 
-colorscheme retrobox
+colorscheme jellybeans
 "" }}}
 
 "" ALE {{{
-" 'rust': ['analyzer', 'rustc', 'cargo'],
-" 'python': ['pylint', 'isort', 'mypy', 'pyright', 'ruff'],
 let g:ale_linters = {
       \ 'python': ['pylint'],
-      \ 'rust': ['analyzer', 'cargo', 'rsl'],
-      \ 'vim': ['vimls', 'vint'],
-      \ 'cpp': ['clangd', 'cpplint'],
-      \ 'sh': ['shellcheck', 'bashate', 'shell'],
-      \ 'json': ['jsonlint', 'spectral', 'vscodejson'],
       \ }
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \ 'python': ['autopep8', 'isort'],
-      \ 'rust': ['rustfmt'],
-      \ 'cpp': ['clang-format'],
-      \ 'sh': ['shfmt'],
-      \ 'json': ['prettier'],
-      \}
-""}}}
+      \ 'python': ['black', 'isort'],
+      \ }
+"" }}}
 
 "" EMMET {{{
-" let g:user_emmet_mode='inv'
-" let g:user_emmet_leader_key=','
+let g:user_emmet_mode='inv'
+let g:user_emmet_leader_key=','
 "" }}}
 
-"" FLAKE8 {{{
-let g:no_flake8_maps = 0
-" let g:flake8_quickfix_location="bottom"
-" let g:flake8_quickfix_height=5
-let g:flake8_show_quickfix=0
-let g:flake8_show_in_gutter=1
-let g:flake8_show_in_file=0
-let g:flake8_max_markers=500
-let g:flke8_max_complexity=10
-let g:flake8_error_marker='>>'
-let g:flake8_warning_marker='--'
-let g:flake8_pyflake_marker='M'
-let g:flake8_complexity_marker='C'
-let g:flake8_naming_marker='N'
-" let g:flake8_ignore="D400"
-
-"" Error WarningMsg
-highlight link Flake8_Error      Error
-" highlight link Flake8_Warning    WarningMsg
-" highlight link Flake8_Complexity WarningMsg
-" highlight link Flake8_Naming     WarningMsg
-" highlight link Flake8_PyFlake    WarningMsg
-"" }}}
-
-"" EASY MOTION
+"" EASY MOTION {{{
 nnoremap ,f <Plug>(easymotion-bd-f)
 nnoremap ,f <Plug>(easymotion-overwin-f)
 nnoremap ,s <Plug>(easymotion-overwin-f2)
@@ -245,11 +155,13 @@ nnoremap ,L <Plug>(easymotion-bd-jk)
 nnoremap ,L <Plug>(easymotion-overwin-line)
 nnoremap ,w <Plug>(easymotion-bd-w)
 nnoremap ,w <Plug>(easymotion-overwin-w)
+"" }}}
 
-"" UNDOTREE
+"" UNDOTREE {{{
 nnoremap <leader>ut :UndotreeToggle<CR>
-"
-"" FUGITIVE
+"" }}}
+
+"" FUGITIVE {{{
 nnoremap <leader>ga :write<cr>:Git add .<cr>
 nnoremap <leader>gc :Git commit<cr>
 nnoremap <leader>gs :Git status<cr>
@@ -257,20 +169,12 @@ nnoremap <leader>gb :Git branch<cr>
 nnoremap <leader>gr :Git remote<cr>
 nnoremap <leader>gdd :Git diff<cr>
 nnoremap <leader>gds :Git diff --staged<cr>
+"" }}}
 
-"" YCM
-" nnoremap <leader>m <C-w>kZQ
-
-"" ALE
-nnoremap <leader>alt :ALEToggle<CR>
-nnoremap <leader>all :ALELint<CR>
-nnoremap <leader>alf :ALEFix<CR>:write<CR>
-nnoremap <leader>alo :copen<CR>
-nnoremap <leader>alc <C-w>k<C-w>jZQ
-
-"" WHICHKEY
+"" WHICHKEY {{{
 nnoremap <silent> <leader> :<C-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<C-u>WhichKey ','<CR>
+"" }}}
 "" END PLUGINS }}}
 
 "" MAPPINGS {{{
@@ -304,6 +208,9 @@ vnoremap K :m '<-2<cr>gv=gv
 
 nnoremap <leader>* :%s/\<C-r><C-w>//gI<left><left><left>
 nnoremap <leader>& :%s/\<C-r><C-w>//gcI<left><left><left><left>
+
+map <F2> msHmtgg/Last [cC]hange:\s*/e+1<CR>"_D"=strftime("%Y %b %d %H:%M:%S")<CR>p'tzt`s
+map <F4> mpHmtGoHello There<ESC>'tzt`p
 
 nnoremap <leader>bn :bnext<cr>
 nnoremap <leader>bp :bprevious<cr>
@@ -362,15 +269,13 @@ augroup END " }}}
 augroup VIM " {{{
   autocmd!
   autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 et nowrap cc=80 fdm=marker fdc=2
-  autocmd BufEnter init.vim echom "update date with F2"
 augroup END " }}}
 
 augroup PYTHON " {{{
   autocmd!
   autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=0
   autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<cr>
-  " autocmd BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
-  autocmd BufEnter *.py nnoremap <buffer> <F7> :write<cr>:!pylint %<CR>
+  autocmd BufEnter *.py nnoremap <buffer> <F6> :write<cr>:!pylint --rcfile pylint.toml %<cr>
   autocmd BufEnter *.py nnoremap <buffer> <leader>in call Indent()
 augroup END " }}}
 
@@ -394,7 +299,7 @@ augroup END " }}}
 
 augroup C_CPP " {{{
   autocmd!
-  autocmd FileType c,cpp setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
+  autocmd FileType c,cpp setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent fdl=3 fdls=1
   autocmd FileType c,cpp nnoremap <buffer> <leader>bb A<space>{<cr>}<esc>ko
   autocmd Filetype c nnoremap <buffer> <leader>mm :!make main<CR>
 augroup END " }}}
@@ -408,12 +313,13 @@ augroup END " }}}
 augroup TEXT " {{{
   autocmd!
   autocmd FileType text setlocal ts=8 sw=4 sts=0 tw=78 wrap fdc=1 cc=80
+  autocmd BufEnter *.txt unmap ,f
 augroup END " }}}
 
 augroup GITCOMMIT " {{{
   autocmd!
   autocmd FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=70 wrap cc=50
-  autocmd FileType gitcommit call GitBuf()
+  autocmd BufEnter COMMIT_EDITMSG call GitBuf()
 augroup END " }}}
 
 augroup TEST " {{{
