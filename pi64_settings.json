@@ -48,4 +48,5 @@
     "[shellscript]": {
         "editor.defaultFormatter": "foxundermoon.shell-format"
     },
+    "workbench.startupEditor": "none",
 }

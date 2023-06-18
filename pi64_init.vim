@@ -24,12 +24,7 @@ syntax on
 set termguicolors
 set background=dark
 set guicursor=""
-
-if &term == 'linux'
-  colorscheme desert
-else
-  colorscheme retrobox
-endif
+colorscheme retrobox
 
 set tabstop=4
 set shiftwidth=4
@@ -44,8 +39,6 @@ set cursorline
 set cursorlineopt=number
 set completeopt=menuone,preview
 set expandtab
-set foldlevel=99
-set foldlevelstart=99
 set nohlsearch
 set ignorecase
 set number
@@ -55,16 +48,13 @@ set mouse=a
 set path+=**
 set noruler
 set relativenumber
-set scrolloff=3
+set scrolloff=5
 set shortmess=aoOstT
 set showmatch
-set signcolumn=yes
 set noshowmode
 set smartcase
 set smartindent
-set sidescroll=8
-set statusline=
-" set statusline=(%n)\ %f\ [%Y]\ \ \ \ %c:%L\ \ \ \ (%p%%\ %P)\ %f\ |
+set statusline=(%n)\ %f\ [%Y]\ \ \ \ %c:%L\ \ \ \ (%p%%\ %P)\ %f\ |
 set updatetime=50
 set nowrap
 set wildmode=list:longest,full
@@ -86,46 +76,48 @@ let g:ale_max_signs = 10
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
 let g:ale_detail_to_floating_preview = 1
-let g:ale_echo_msg_format = "% code % [%linters%] %type%"
+let g:ale_echo_msg_format = "% code % [%linter%] %type% "
 let g:ale_lsp_suggestions = 1
 
-let g:ale_cursor_detail = 0 " 1 give popup
+let g:ale_cursor_detail = 0 " 1 gives popup
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
 
-" let g:ale_use_neovim_diagnostic_api = 1
-let g:ale_virtual_cursor = 0 " 0, 1, 2
+" let g:ale_use_neovim_diagnostics_api = 1 " DONT USE WITH g:ale_virturaltext_cursor
+"" 0 No inline comments, 1 inline comments on with corsor on line, 2 inline on always
+" let g:ale_virtualtext_cursor = 0
 
-" if has('nvim')
-"   let g:ale_use_neovim_diagnostic_api = 1
-" else
-"   let g:ale_virtual_cursor = 0 " 0, 1, 2
-" endif
+if has('nvim')
+  let g:ale_use_neovim_diagnostics_api = 1 " DONT USE WITH g:ale_virturaltext_cursor
+  let g:ale_virtualtext_cursor = 1
+else
+  let g:ale_virtualtext_cursor = 1
+endif
 
 let g:ale_warn_about_trailing_blank_lines = 1
 let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_sign_coloumn_always = 1
+let g:ale_sign_column_always = 1
 
-let g:ale_set_highlights = 1
+" Prevents highlights in the code proper. This is a list of strings
+let g:ale_set_highlights = 0
 let g:ale_exclude_highlights = [
       \ 'docstring',
       \ 'Unused argument',
-      \ 'import-error',
+      \ 'import-errro',
       \ 'inconsistent-return-statements'
       \ ]
 
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
-let g:ale_sign_column_always = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_info_str = 'I'
 
-let g:ale_linters_explicit = 0
+let g:ale_linters_explicit = 1
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1
+let g:ale_lint_on_save = 0
+let g:ale_fix_on_save = 0
 " }}}
 
 " Vim Plug {{{
@@ -137,8 +129,8 @@ Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
-Plug 'nvie/vim-flake8'
-Plug 'itchyny/lightline.vim'
+" Plug 'nvie/vim-flake8'
+" Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
@@ -343,19 +335,19 @@ nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
 nnoremap <localleader>sn gg/<<<<<<<<CR>
 " }}}
 
-"" GROUPS {{{
+"" Groups {{{
 augroup ALL " {{{
   au!
   au InsertEnter * set nornu
   au InsertLeave * set rnu
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  au BufWritePre *.c,*.cpp,*.css,*.h,*.html,*.sh,*.vim call Indent()
+  " au BufWritePre *.c,*.cpp,*.css,*.h,*.html,*.sh,*.vim call Indent()
 augroup END " }}}
 
 augroup VIM " {{{
   au!
   au FileType vim setlocal ts=2 sw=2 sts=2 tw=0 cc=80 fdm=marker fdc=1
-  au BufEnter $MYVIMRC,*.vim call Indent()
+  " au BufEnter $MYVIMRC,*.vim call Indent()
 augroup END " }}}
 
 augroup PYTHON " {{{
@@ -365,7 +357,7 @@ augroup PYTHON " {{{
   au BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
   au BufEnter *.py nnoremap <buffer> <F7> :call flake8#Flake8()<CR>
   au BufEnter *.py nnoremap <buffer> <localleader>fl :call flake8#Flake8ShowError()<CR>
-  au BufEnter *.py nnoremap <buffer> <leader>in call Indent()
+  au BufEnter *.py nnoremap <buffer> <leader>in :call Indent()<CR>
 augroup END " }}}
 
 augroup SH " {{{
@@ -383,7 +375,7 @@ augroup HTML_CSS " {{{
   au BufRead,BufEnter *.html :onoremap <buffer> it :<c-u>normal! f<vi<<cr>
   au CursorHold *.html,*.css write
   au BufEnter *.html,*.css colorscheme jellybeans
-  au BufLeave *.html,*.css colorscheme gruvbox
+  au BufLeave *.html,*.css colorscheme retrobox
 augroup END " }}}
 
 augroup C_CPP " {{{
@@ -396,7 +388,9 @@ augroup END " }}}
 augroup RUST " {{{
   au!
   au FileType rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
-  au FileType rust nnoremap <buffer> <leader>nb A<space>{<
+  au FileType rust nnoremap <buffer> <leader>nb o{<CR>}<ESC>O
+  au BufEnter *.rs nnoremap <buffer> <F5> :write<CR>:!cargo run<CR>
+  au BufEnter *.rs nnoremap <buffer> <leader>cc :write<CR>:!cargo check<CR>
 augroup END " }}}
 
 augroup TEXT " {{{
