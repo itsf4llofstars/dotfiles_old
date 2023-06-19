@@ -39,6 +39,7 @@ set cursorline
 set cursorlineopt=number
 set completeopt=menuone,preview
 set expandtab
+set foldlevel=1
 set nohlsearch
 set ignorecase
 set number
@@ -51,7 +52,7 @@ set relativenumber
 set scrolloff=5
 set shortmess=aoOstT
 set showmatch
-set noshowmode
+set showmode
 set smartcase
 set smartindent
 set statusline=(%n)\ %f\ [%Y]\ \ \ \ %c:%L\ \ \ \ (%p%%\ %P)\ %f\ |
@@ -71,7 +72,7 @@ let maplocalleader="\\"
 " }}}
 
 " Ale {{{
-let g:ale_enabled = 1
+let g:ale_enabled = 0
 let g:ale_max_signs = 10
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
@@ -86,7 +87,7 @@ let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '�
 "" 0 No inline comments, 1 inline comments on with corsor on line, 2 inline on always
 " let g:ale_virtualtext_cursor = 0
 
-if has('nvim')
+if !has('nvim')
   let g:ale_use_neovim_diagnostics_api = 1 " DONT USE WITH g:ale_virturaltext_cursor
   let g:ale_virtualtext_cursor = 1
 else
@@ -341,13 +342,12 @@ augroup ALL " {{{
   au InsertEnter * set nornu
   au InsertLeave * set rnu
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  " au BufWritePre *.c,*.cpp,*.css,*.h,*.html,*.sh,*.vim call Indent()
+  au BufWritePre *.c,*.cpp,*.css,*.h,*.html,*.sh,*.vim call Indent()
 augroup END " }}}
 
 augroup VIM " {{{
   au!
   au FileType vim setlocal ts=2 sw=2 sts=2 tw=0 cc=80 fdm=marker fdc=1
-  " au BufEnter $MYVIMRC,*.vim call Indent()
 augroup END " }}}
 
 augroup PYTHON " {{{

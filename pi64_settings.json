@@ -49,4 +49,5 @@
         "editor.defaultFormatter": "foxundermoon.shell-format"
     },
     "workbench.startupEditor": "none",
+    "zenMode.hideLineNumbers": false,
 }
