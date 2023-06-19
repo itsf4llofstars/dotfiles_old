@@ -1,16 +1,12 @@
-" Last Change: 2023 Jun 08 09:18:22
+"" Last Change: 2023 Jun 18 18:54:20
 "" <F2> to set last change
 "" init.vim
 
-"" FUNCTIONS & SCRIPTS {{{
+"" FUNCTIONS {{{
 function Indent()
   :normal! mpHmogg=G'ozt`p
 endfunction
-
-function GitBuf()
-  :normal! gg0
-endfunction
-"" END FUNCTIONS & SCRIPTS }}}
+"" }}}
 
 "" SETTINGS {{{
 filetype indent plugin on
@@ -71,9 +67,8 @@ let maplocalleader="\\"
 "" END SETTINGS }}}
 
 "" PLUGINS {{{
-"
 "" ALE {{{
-let g:ale_enabled = 1
+let g:ale_enabled = 0
 let g:ale_max_signs = 10
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
@@ -98,23 +93,24 @@ let g:ale_virtualtext_cursor = 0
 let g:ale_warn_about_trailing_blank_lines = 1
 let g:ale_warn_about_trailing_whitespace = 1
 
-
 let g:ale_sign_column_always = 1
 
 " Prevents highlights in the code proper. This is a list of strings
+let g:ale_set_highlights = 0
 let g:ale_exclude_highlights = [
       \ 'docstring',
       \ 'Unused argument',
       \ 'import-errro',
-      \ 'inconsistent-return-statements'
+      \ 'SC2164',
+      \ 'inconsistent-return-statements',
       \ ]
 
 let g:ale_linters_explicit = 0
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1 " 0 is default
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 0
+let g:ale_fix_on_save = 0 " 0 is default
 "" }}}
 
 "" VIM-PLUG {{{
@@ -123,7 +119,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'easymotion/vim-easymotion'
 Plug 'airblade/vim-gitgutter'
 Plug 'mattn/emmet-vim'
-Plug 'easymotion/vim-easymotion'
 Plug 'mbbill/undotree'
 Plug 'liuchengxu/vim-which-key'
 Plug 'dense-analysis/ale'
@@ -135,12 +130,18 @@ colorscheme jellybeans
 "" ALE {{{
 let g:ale_linters = {
       \ 'python': ['pylint'],
+      \ 'sh': ['shellcheck'],
       \ }
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'python': ['black', 'isort'],
+      \ 'sh': ['shfmt'],
       \ }
+nnoremap <leader>alt :ALEToggle<CR>
+nnoremap <leader>all :ALELint<CR>
+nnoremap <leader>alf :ALEFix<CR>
 "" }}}
+
 
 "" EMMET {{{
 let g:user_emmet_mode='inv'
@@ -182,16 +183,17 @@ inoremap kj <esc>
 vnoremap kj <esc>
 
 nnoremap <leader>w :write<cr>
-nnoremap <leader>q ::quit!<cr>
-nnoremap <leader>z :write<cr>:quit<cr>
-nnoremap <leader>o :edit .<cr>
-nnoremap <localleader>e :edit ~/.config/nvim/init.vim<cr>
+nnoremap <leader>q ZQ
+nnoremap <leader>z ZZ
+nnoremap <localleader>e :edit $MYVIMRC<cr>
+nnoremap <leader>o :edit .<CR>
 nnoremap <localleader>ve :vsplit<cr><C-w>l:edit ~/.config/nvim/init.vim<cr>
-nnoremap \s :write<CR>:source ~/.config/nvim/init.vim<cr>
+nnoremap <localleader>so :write<CR>:source ~/.config/nvim/init.vim<cr>
 nnoremap <leader>t :write<cr>:terminal<cr>
 tnoremap <ESC> <C-\><C-n>
 tnoremap <C-v><ESC> <ESC>
 
+nnoremap <leader>ii :call Indent()<CR>
 nnoremap <leader>p "+p
 nnoremap ' `
 nnoremap '' ``
@@ -201,26 +203,21 @@ nnoremap ,z zz
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap w W
+nnoremap Y y$
+nnoremap B _
+nnoremap E $
 nnoremap <F8> @
 nnoremap <F9> @@
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
-
+vnoremap > >gv
+vnoremap < <gv
+nnoremap <leader>bn :bnext<cr>
+nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader>* :%s/\<C-r><C-w>//gI<left><left><left>
 nnoremap <leader>& :%s/\<C-r><C-w>//gcI<left><left><left><left>
 
 map <F2> msHmtgg/Last [cC]hange:\s*/e+1<CR>"_D"=strftime("%Y %b %d %H:%M:%S")<CR>p'tzt`s
-map <F4> mpHmtGoHello There<ESC>'tzt`p
-
-nnoremap <leader>bn :bnext<cr>
-nnoremap <leader>bp :bprevious<cr>
-nnoremap Y y$
-nnoremap B _
-nnoremap E $
-nnoremap w W
-
-vnoremap > >gv
-vnoremap < <gv
 
 nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
@@ -245,16 +242,7 @@ nnoremap <leader>ll :vertical resize-2<CR>
 nnoremap <leader>kk :resize+2<CR>
 nnoremap <leader>jj :resize-2<CR>
 nnoremap <leader>rs <C-w>=
-
-" HEAD
-nnoremap <localleader>sh gg/<<<<<<<<CR>dd/=======<CR>V/>>>>>>><CR>d<ESC>
-" branch
-nnoremap <localleader>sr gg/<<<<<<<<CR>V/=======<CR>d/>>>>>>><CR>dd<ESC>
-" Both
-nnoremap <localleader>sb gg/<<<<<<<<CR>dd/=======<CR>dd/>>>>>>><CR>dd<ESC>
-" Next
-nnoremap <localleader>sn gg/<<<<<<<<CR>
-"" END MAPPINGS }}}
+"" }}}
 
 "" AUGROUP AUTOCMD {{{
 augroup ALL " {{{
@@ -263,7 +251,6 @@ augroup ALL " {{{
   autocmd InsertLeave * set rnu
   autocmd BufWritePre * %s/\s\+$//e
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  autocmd BufWritePre *.c,*.h,*.cpp,*.html,*.css,*.sh call Indent()
 augroup END " }}}
 
 augroup VIM " {{{
@@ -276,13 +263,13 @@ augroup PYTHON " {{{
   autocmd FileType python setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=0
   autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<cr>
   autocmd BufEnter *.py nnoremap <buffer> <F6> :write<cr>:!pylint --rcfile pylint.toml %<cr>
-  autocmd BufEnter *.py nnoremap <buffer> <leader>in call Indent()
 augroup END " }}}
 
 augroup SH " {{{
   autocmd!
   autocmd FileType sh setlocal ts=4 sw=4 sts=4 tw=0 nofen fdc=0 cc=80
   autocmd BufEnter *.sh nnoremap <buffer> <F5> :write<cr>:!./%<cr>
+  autocmd BufEnter *.sh :source ~/.config/nvim/init.vim
 augroup END " }}}
 
 augroup HTML_CSS " {{{
@@ -312,18 +299,13 @@ augroup END " }}}
 
 augroup TEXT " {{{
   autocmd!
-  autocmd FileType text setlocal ts=8 sw=4 sts=0 tw=78 wrap fdc=1 cc=80
+  autocmd FileType text setlocal ts=4 sw=4 sts=0 tw=78 wrap fdc=0 cc=80
   autocmd BufEnter *.txt unmap ,f
+  autocmd BufEnter *.txt nnoremap <leader>x :<c-u>execute "normal! GoHELLO\<lt>esc>"<cr>
 augroup END " }}}
 
 augroup GITCOMMIT " {{{
   autocmd!
   autocmd FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=70 wrap cc=50
-  autocmd BufEnter COMMIT_EDITMSG call GitBuf()
-augroup END " }}}
-
-augroup TEST " {{{
-  au!
-  autocmd BufEnter *.txt nnoremap <leader>x :<c-u>execute "normal! GoHELLO\<lt>esc>"<cr>
 augroup END " }}}
 "" END AUGROUP AUTOCMD }}}
