@@ -15,7 +15,7 @@ function git_branch() {
 }
 
 function bash_prompt() {
-    PS1=${bwn}'$(git_branch)'${grn_b}' \w '${blu_b}'\$ '${clr}
+    PS1=${bwn}'\u$(git_branch)'${grn_b}' \w '${blu_b}'\$ '${clr}
 }
 
 # If not running interactively, don't do anything

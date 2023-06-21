@@ -374,7 +374,7 @@ augroup HTML_CSS " {{{
   au BufRead,BufEnter *.css nnoremap <buffer> <localleader>c i/**/<esc>hi<space><esc>i<space>
   au BufRead,BufEnter *.html :onoremap <buffer> it :<c-u>normal! f<vi<<cr>
   au CursorHold *.html,*.css write
-  au BufEnter *.html,*.css colorscheme jellybeans
+  au BufEnter *.html,*.css colorscheme wildcharm
   au BufLeave *.html,*.css colorscheme retrobox
 augroup END " }}}
 
