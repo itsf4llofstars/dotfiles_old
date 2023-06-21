@@ -124,7 +124,8 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'dense-analysis/ale'
 call plug#end()
 
-colorscheme jellybeans
+" colorscheme jellybeans
+colorscheme gruvbox
 "" }}}
 
 "" ALE {{{
@@ -274,7 +275,7 @@ augroup END " }}}
 
 augroup HTML_CSS " {{{
   autocmd!
-  autocmd FileType html setlocal ts=2 sw=2 sts=2 tw=0 cc=80,100,120 fdc=6 fdm=manual aw updatetime=500
+  autocmd FileType html,css setlocal ts=2 sw=2 sts=2 tw=0 cc=80,100,120 fdc=6 fdm=manual aw updatetime=500
   autocmd FileType html,css nnoremap <buffer> <localleader>f Vatzf
   autocmd BufRead,BufEnter *.html nnoremap <buffer> <localleader>c i<!----><esc>2hi<space><esc>i<space>
   autocmd BufRead,BufEnter *.css nnoremap <buffer> <localleader>c i/**/<esc>hi<space><esc>i<space>
