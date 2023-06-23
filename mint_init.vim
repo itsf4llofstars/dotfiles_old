@@ -1,5 +1,3 @@
-"" Last Change: 2023 Jun 18 18:54:20
-"" <F2> to set last change
 "" init.vim
 
 "" FUNCTIONS {{{
@@ -218,8 +216,6 @@ nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader>* :%s/\<C-r><C-w>//gI<left><left><left>
 nnoremap <leader>& :%s/\<C-r><C-w>//gcI<left><left><left><left>
 
-map <F2> msHmtgg/Last [cC]hange:\s*/e+1<CR>"_D"=strftime("%Y %b %d %H:%M:%S")<CR>p'tzt`s
-
 nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 nnoremap <leader>( viw<esc>a(<esc>bi(<esc>lel
@@ -256,7 +252,7 @@ augroup END " }}}
 
 augroup VIM " {{{
   autocmd!
-  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 et nowrap cc=80 fdm=marker fdc=2
+  autocmd FileType vim setlocal ts=2 sw=2 sts=2 tw=0 cc=80 fdm=marker fdc=2
 augroup END " }}}
 
 augroup PYTHON " {{{
@@ -270,24 +266,26 @@ augroup SH " {{{
   autocmd!
   autocmd FileType sh setlocal ts=4 sw=4 sts=4 tw=0 nofen fdc=0 cc=80
   autocmd BufEnter *.sh nnoremap <buffer> <F5> :write<cr>:!./%<cr>
-  autocmd BufEnter *.sh :source ~/.config/nvim/init.vim
+  " autocmd BufEnter *.sh :source ~/.config/nvim/init.vim
 augroup END " }}}
 
 augroup HTML_CSS " {{{
   autocmd!
-  autocmd FileType html,css setlocal ts=2 sw=2 sts=2 tw=0 cc=80,100,120 fdc=6 fdm=manual aw updatetime=500
-  autocmd FileType html,css nnoremap <buffer> <localleader>f Vatzf
+  autocmd FileType html,css setlocal ts=2 sw=2 sts=2 tw=0 cc=80,100,120 fdc=6 fdm=manual fdl=2 fdls=-1 aw updatetime=1000
+  autocmd BufWinEnter *.html,*.css silent! loadview
+  autocmd BufEnter *.html nnoremap <buffer> <localleader>f Vatzf
   autocmd BufRead,BufEnter *.html nnoremap <buffer> <localleader>c i<!----><esc>2hi<space><esc>i<space>
   autocmd BufRead,BufEnter *.css nnoremap <buffer> <localleader>c i/**/<esc>hi<space><esc>i<space>
   autocmd BufRead,BufEnter *.html :onoremap <buffer> it :<c-u>normal! f<vi<<cr>
   autocmd CursorHold *.html,*.css write
   autocmd BufEnter *.html,*.css colorscheme jellybeans
   autocmd BufLeave *.html,*.css colorscheme gruvbox
+  autocmd BufWinLeave *.html,*.css mkview
 augroup END " }}}
 
 augroup C_CPP " {{{
   autocmd!
-  autocmd FileType c,cpp setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent fdl=3 fdls=1
+  autocmd FileType c,cpp setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=3 fdm=indent fdl=3 fdls=1
   autocmd FileType c,cpp nnoremap <buffer> <leader>bb A<space>{<cr>}<esc>ko
   autocmd Filetype c nnoremap <buffer> <leader>mm :!make main<CR>
 augroup END " }}}
@@ -301,8 +299,10 @@ augroup END " }}}
 augroup TEXT " {{{
   autocmd!
   autocmd FileType text setlocal ts=4 sw=4 sts=0 tw=78 wrap fdc=0 cc=80
-  autocmd BufEnter *.txt unmap ,f
+  " autocmd BufEnter *.txt unmap ,f
   autocmd BufEnter *.txt nnoremap <leader>x :<c-u>execute "normal! GoHELLO\<lt>esc>"<cr>
+  autocmd BufEnter *.txt colorscheme quiet
+  autocmd BufLeave *.txt colorscheme gruvbox
 augroup END " }}}
 
 augroup GITCOMMIT " {{{
