@@ -46,12 +46,12 @@ alias comp='g++ -o main main.cpp'
 alias comc='gcc -o main main.c'
 
 # GIT
-alias gll='git log --oneline --decorate --graph --all'
-alias gl='git log --decorate --all'
-alias glo='git log --oneline --decorate --all'
-alias gst='git status'
-alias gss='git status -s'
-alias gbr='git branch'
+alias gll='clear && git log --oneline --decorate --graph --all'
+alias gl='clear && git log --decorate --all'
+alias glo='clear && git log --oneline --decorate --all'
+alias gst='clear && git status'
+alias gss='clear && git status -s'
+alias gbr='clear && git branch'
 
 # du -sh <path> -> Size of Directory
 
