@@ -10,6 +10,20 @@
 function Indent()
   :normal! mpHmogg=G'ozt`p
 endfunction
+
+function NoWhiteSpace()
+  :normal! mpHmo
+  %s/\s\+$//e
+  :normal! 'ozt`p
+endfunction
+
+function! HLNext (blinktime)
+  set invcursorline
+  redraw
+  exec 'sleep' . float2nr(a:blinktime * 1000) . 'm'
+  set invcursorline
+  redraw
+endfunction
 "" }}}
 
 "" SETTINGS sx {{{
@@ -26,7 +40,11 @@ set textwidth=0
 set autochdir
 set breakindent
 set clipboard=unnamedplus
-set colorcolumn=88
+
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+
+" set colorcolumn=88
 set copyindent
 set cursorline
 set cursorlineopt=both
@@ -38,6 +56,10 @@ set ignorecase
 set number
 set laststatus=0
 set lazyredraw
+
+set listchars=tab:>~,nbsp:_,trail:.
+set list
+
 set mouse=a
 set path+=**
 set relativenumber
@@ -65,6 +87,10 @@ set backup
 set swapfile
 
 let g:python3_host_prog = '/usr/bin/python3'
+let g:netrw_banner=0
+let g:netrw_liststyle=3
+let g:netrw_altv=1
+let g:netrw_winsize=20
 
 let mapleader=" "
 let maplocalleader="\\"
@@ -102,7 +128,7 @@ let g:ale_sign_column_always = 1
 let g:ale_set_highlights = 0
 let g:ale_exclude_highlights = [
       \ 'docstring',
-      \ 'Unused argument',
+      \ 'UNUSed argument',
       \ 'import-errro',
       \ 'SC2164',
       \ 'inconsistent-return-statements',
@@ -125,25 +151,44 @@ Plug 'mattn/emmet-vim'
 Plug 'mbbill/undotree'
 Plug 'liuchengxu/vim-which-key'
 Plug 'dense-analysis/ale'
+Plug 'valloric/youcompleteme'
 call plug#end()
 
-" colorscheme jellybeans
-colorscheme retrobox
+" colorscheme retrobox
+colorscheme jellybeans
 "" }}}
 
 "" ALE {{{
 let g:ale_linters = {
       \ 'python': ['pylint'],
       \ 'sh': ['shellcheck'],
+      \ 'html': ['tidy'],
       \ }
 let g:ale_fixers = {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'python': ['black', 'isort'],
       \ 'sh': ['shfmt'],
+      \ 'html': ['html-beautify'],
       \ }
-nnoremap <leader>alt :ALEToggle<CR>
-nnoremap <leader>all :ALELint<CR>
-nnoremap <leader>alf :ALEFix<CR>
+nnoremap <leader>at :ALEToggle<CR>
+nnoremap <leader>al :ALELint<CR>
+nnoremap <leader>af :ALEFix<CR>
+"" }}}
+
+"" YCM {{{
+let g:ycm_auto_trigger=1
+let g:ycm_enable_semantic_highlighting=1 " Experimental
+let g:ycm_enable_inlay_hints=1 " Experimental
+let g:ycm_clear_inlay_hints_in_insert_mode=0 " Experimental
+" let g:ycm_python_interpreter_path = ''
+" let g:ycm_python_sys_path = []
+" let g:ycm_extra_conf_vim_data = [
+"   \  'g:ycm_python_interpreter_path',
+"   \  'g:ycm_python_sys_path'
+"   \]
+" let g:ycm_global_ycm_extra_conf = '~/global_extra_conf.py'
+" nmap <leader>yfw <Plug>(YCMFindSymbolInWorkspace)
+" nmap <leader>yfd <Plug>(YCMFindSymbolInDocument)
 "" }}}
 
 "" EMMET {{{
@@ -185,9 +230,16 @@ nnoremap <silent> <localleader> :<C-u>WhichKey ','<CR>
 inoremap kj <esc>
 vnoremap kj <esc>
 
+"" Experimental
+nnoremap ,sni :r ~/.vim/snippets/snips.sh<CR>ggddG
+nnoremap <silent>n n:call HLNext(0.4)<CR>
+nnoremap <silent>N N:call HLNext(0.4)<CR>
+nnoremap ; :
+nnoremap : ;
+
 nnoremap <leader>w :write<cr>
 nnoremap <leader>q ZQ
-nnoremap <leader>z ZZ
+nnoremap <leader>z :write<CR>:sleep 250m<CR>:quit!<CR>
 nnoremap <localleader>e :edit $MYVIMRC<cr>
 nnoremap <leader>o :edit .<CR>
 nnoremap <localleader>ve :vsplit<cr><C-w>l:edit ~/.config/nvim/init.vim<cr>
@@ -203,8 +255,8 @@ nnoremap '' ``
 nnoremap ,a zt
 nnoremap ,b zb
 nnoremap ,z zz
-nnoremap n nzz
-nnoremap N Nzz
+" nnoremap n nzz
+" nnoremap N Nzz
 nnoremap w W
 nnoremap Y y$
 nnoremap B _
@@ -250,13 +302,14 @@ augroup ALL " {{{
   au!
   au InsertEnter * set nornu
   au InsertLeave * set rnu
-  au BufWritePre * %s/\s\+$//e
+  " au BufWritePre * %s/\s\+$//e
+  au BufWritePre * call NoWhiteSpace()
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END " }}}
 
 augroup VIM " {{{
   au!
-  au FileType vim setlocal ts=2 sw=2 sts=2 tw=0 cc=80 fdm=marker fdc=2
+  au FileType vim setlocal ts=2 sw=2 sts=2 tw=0 fdm=marker fdc=2
 augroup END " }}}
 
 augroup PYTHON " {{{
@@ -269,7 +322,7 @@ augroup END " }}}
 
 augroup SH " {{{
   au!
-  au FileType sh setlocal ts=4 sw=4 sts=4 tw=0 nofen fdc=0 cc=80
+  au FileType sh setlocal ts=4 sw=4 sts=4 tw=0 nofen fdc=0
   au BufEnter *.sh nnoremap <buffer> <F5> :write<cr>:!./%<cr>
   " au BufEnter *.sh :source ~/.config/nvim/init.vim
 augroup END " }}}
@@ -284,30 +337,29 @@ augroup HTML_CSS " {{{
   au BufRead,BufEnter *.html :onoremap <buffer> it :<c-u>normal! f<vi<<cr>
   au CursorHold *.html,*.css write
   au BufEnter *.html,*.css colorscheme jellybeans
-  au BufLeave *.html,*.css colorscheme gruvbox
+  au BufLeave *.html,*.css colorscheme retrobox
   au BufWinLeave *.html,*.css mkview
 augroup END " }}}
 
 augroup C_CPP " {{{
   au!
-  au FileType c,cpp setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=3 fdm=indent fdl=3 fdls=1
+  au FileType c,cpp setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cin cino=ln,c2 fdc=3 fdm=indent fdl=3 fdls=1
   au FileType c,cpp nnoremap <buffer> <leader>bb A<space>{<cr>}<esc>ko
   au Filetype c nnoremap <buffer> <leader>mm :!make main<CR>
 augroup END " }}}
 
 augroup RUST " {{{
   au!
-  au FileType rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cc=80 cin cino=ln,c2 fdc=4 fdm=indent
+  au FileType rust setlocal ts=4 sw=4 sts=4 tw=0 noai nosi noci cin cino=ln,c2 fdc=4 fdm=indent
   au FileType rust nnoremap <buffer> <leader>bb A<space>{<cr>}<esc>ko
 augroup END " }}}
 
 augroup TEXT " {{{
   au!
-  au FileType text setlocal ts=4 sw=4 sts=0 tw=78 wrap fdc=0 cc=80
-  " au BufEnter *.txt unmap ,f
+  au FileType text setlocal ts=4 sw=4 sts=0 tw=79 noet wrap fdc=0
   au BufEnter *.txt nnoremap <leader>x :<c-u>execute "normal! GoHELLO\<lt>esc>"<cr>
-  au BufEnter *.txt colorscheme quiet
-  au BufLeave *.txt colorscheme gruvbox
+  " au BufEnter *.txt colorscheme slate
+  " au BufLeave *.txt colorscheme retrobox
 augroup END " }}}
 
 augroup GITCOMMIT " {{{
