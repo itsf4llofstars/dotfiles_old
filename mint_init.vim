@@ -128,7 +128,7 @@ Plug 'dense-analysis/ale'
 call plug#end()
 
 " colorscheme jellybeans
-colorscheme gruvbox
+colorscheme retrobox
 "" }}}
 
 "" ALE {{{
@@ -313,5 +313,6 @@ augroup END " }}}
 augroup GITCOMMIT " {{{
   au!
   au FileType gitcommit setlocal ts=2 sw=2 sts=2 tw=70 wrap cc=50
+  au FileType gitcommit :normal! gg0
 augroup END " }}}
 "" END AUGROUP AUTOCMD }}}
