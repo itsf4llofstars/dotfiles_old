@@ -1,4 +1,4 @@
-"" Ubuntu Raspberry Pi 4 VIMRC
+" Ubuntu Raspberry Pi 4 VIMRC
 
 "" FUNCTIONS {{{
 function GetLine()
@@ -22,6 +22,13 @@ function ShowWhitespace()
   match ErrorMsg '\s\+$'
 endfunction
 
+function HLNext (blinktime)
+  set invcursorline
+  redraw
+  exec 'sleep' . float2nr(a:blinktime * 1000) . 'm'
+  set invcursorline
+  redraw
+endfunction
 "" }}}
 
 "" SETTINGS {{{
@@ -42,8 +49,13 @@ set autochdir
 set autoindent
 set autoread
 set copyindent
+
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%80v', 100)
+
+set colorcolumn=80
 set cursorline
-set cursorlineopt=number
+set cursorlineopt=both
 set foldcolumn=0
 set foldlevel=99
 set foldlevelstart=99
@@ -53,11 +65,16 @@ set ignorecase
 set incsearch
 set laststatus=2
 set lazyredraw
+
+set listchars=tab:>~,nbsp:_,trail:.
+set list
+
 set modeline
 set noruler
 set number
 set path+=**
 set relativenumber
+set ruler
 set scrolloff=5
 set shortmess+=acsoOTSF
 set showcmd
@@ -65,8 +82,8 @@ set showmatch
 set showmode
 set smartcase
 set smartindent
-set statusline=
-set statusline=(%n)\ %F\ %m%r%w%h%q%a\ %y\ \ \ col:\ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ %f\ |
+" set statusline=
+" set statusline=(%n)\ %F\ %m%r%w%h%q%a\ %y\ \ \ col:\ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ %f\ |
 set updatetime=250
 
 set wildmode=list:longest,full
@@ -87,6 +104,12 @@ else
   set noundofile
   set nobackup
 endif
+
+let g:python3_host_prog = '/usr/bin/python3'
+let g:netrw_banner=0
+let g:netrw_liststyle=3
+let g:netrw_altv=1
+let g:netrw_winsize=15
 
 call ShowWhitespace()
 
@@ -133,12 +156,12 @@ let g:ale_fix_on_save = 1 " 0 is default
 call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'mbbill/undotree'
+" Plug 'mbbill/undotree'
 Plug 'dense-analysis/ale'
 Plug 'valloric/youcompleteme'
 call plug#end()
@@ -180,13 +203,13 @@ nmap <leader>yfd <Plug>(YCMFindSymbolInDocument)
 " }}}
 
 "" NERDTREE {{{
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeQuitOnOpen = 1
-let g:NERDTreeShowHidden = 1
-" nnoremap <leader>o :NERDTreeFocus<CR>
-nnoremap <leader>o :NERDTree<CR>
-nnoremap <leader>nf :NERDTreeFind<CR>
+" let g:NERDTreeDirArrowExpandable = '▸'
+" let g:NERDTreeDirArrowCollapsible = '▾'
+" let g:NERDTreeQuitOnOpen = 1
+" let g:NERDTreeShowHidden = 1
+" " nnoremap <leader>o :NERDTreeFocus<CR>
+" nnoremap <leader>o :NERDTree<CR>
+" nnoremap <leader>nf :NERDTreeFind<CR>
 ""}}}
 
 "" FUGITIVE {{{
@@ -240,10 +263,15 @@ nnoremap <silent> <leader>q ZQ
 nnoremap <silent> <leader>z ZZ
 nnoremap <silent> <localleader>e :edit $MYVIMRC<cr>
 nnoremap <silent> <localleader>ve :vsplit<cr><C-w>l:edit $MYVIMRC<cr>
+nnoremap <silent> <leader>o :edit .<CR>
 nnoremap <localleader>s :write<cr>:source $MYVIMRC<cr>
 nnoremap <leader>t :write<CR>:shell<CR>
 
+nnoremap <C-f> <C-d>
+
 nnoremap <leader>p "+p
+nnoremap ; :
+nnoremap : ;
 nnoremap w W
 nnoremap ,a zt
 nnoremap ,b zb
@@ -276,7 +304,7 @@ nnoremap ,w[ :normal! ebi[<esc>ea]<esc>
 nnoremap ,w{ :normal! ebi{<esc>ea}<esc>
 nnoremap ,w< :normal! ebi<<esc>ea><esc>
 
-nnoremap <silent> <localleader>t :tabnew<CR>
+nnoremap <silent> <localleader>to :tabnew<CR>
 nnoremap <silent> <localleader>tn :tabnext<CR>
 nnoremap <silent> <localleader>tp :tabprevious<CR>
 nnoremap <silent> <localleader>tc :tabclose<CR>
@@ -311,7 +339,7 @@ augroup END " }}}
 
 augroup PYTHON " {{{
   au!
-  au FileType python setlocal cc=80,100 fdm=indent fdc=3
+  au FileType python setlocal fdm=indent fdc=3
   au BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<CR>
   au BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
   au BufEnter *.py nnoremap <buffer> <F7> :!pylint --rcfile=~/python/pylint.conf %<CR>
@@ -321,7 +349,7 @@ augroup END " }}}
 augroup C " {{{
   au!
   au FileType c,cpp silent setlocal ts=4 sw=4 sts=4 et nowrap noai nosi
-        \ noci cin cino=ln,c2 fdc=4 fdm=indent cc=80
+        \ noci cin cino=ln,c2 fdc=4 fdm=indent
   au BufEnter *.c nnoremap <buffer> <leader>b o{<cr>}<esc>ko
   au BufEnter *.c nnoremap <buffer> <F5> :!./main<cr>
   au BufEnter *.c nnoremap <buffer> <leader>mm :write<cr>:!make main<cr>
@@ -330,7 +358,7 @@ augroup END " }}}
 augroup RUST " {{{
   au!
   au FileType rust silent setlocal ts=4 sw=4 sts=4 et nowrap noai nosi
-        \ noci cin cino=ln,c2 fdc=3 fdm=indent cc=80
+        \ noci cin cino=ln,c2 fdc=3 fdm=indent
   au BufEnter *.rs nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
   au BufEnter *.rs nnoremap <buffer> <F5> :!cargo run<cr>
   au BufEnter *.rs nnoremap <buffer> <leader>mm :write<cr>:!cargo build<cr>
@@ -338,38 +366,33 @@ augroup END " }}}
 
 augroup BASH " {{{
   au!
-  au FileType sh silent setlocal ts=4 sts=4 sw=4 cc=80 fdc=0
+  au FileType sh silent setlocal ts=4 sts=4 sw=4 fdc=0
   au BufEnter *.sh nnoremap <buffer> <F5> :!./%<CR>
 augroup END " }}}
 
 augroup TEXT " {{{
   au!
-  au FileType text silent setlocal noai nosi ci noet wrap cc=80 nornu
+  au FileType text silent setlocal noai nosi ci noet wrap nornu
 augroup END " }}}
 
-augroup PLAINTEX " {{{
-  au!
-  au FileType plaintex silent setlocal noai nosi ci cc=80
-augroup END " }}}
-
-augroup NERDTREE " {{{
-  au!
-  au StdinReadPre * let s:std_in=1
-  " au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-  au BufEnter * if tabpagenr('$') == 1
-        \ && winnr('$') == 1
-        \ && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-  au BufEnter * if winnr('$') == 1 && exists('b:NERDTree')
-        \ && b:NERDTree.isTabTree() | quit | endif
-  au BufEnter * if bufname('#') =~ 'NERD_tree_\d\+'
-        \ && bufname('%') !~ 'NERD_tree_\d\+'
-        \ && winnr('$') > 1 | let buf=bufnr() | buffer#
-        \ | execute =======>\"normal! \<C-W>w" | execute 'buffer'.buf | endif
-augroup END " }}}
+" augroup NERDTREE " {{{
+"   au!
+"   au StdinReadPre * let s:std_in=1
+"   " au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+"   au BufEnter * if tabpagenr('$') == 1
+"         \ && winnr('$') == 1
+"         \ && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"   au BufEnter * if winnr('$') == 1 && exists('b:NERDTree')
+"         \ && b:NERDTree.isTabTree() | quit | endif
+"   au BufEnter * if bufname('#') =~ 'NERD_tree_\d\+'
+"         \ && bufname('%') !~ 'NERD_tree_\d\+'
+"         \ && winnr('$') > 1 | let buf=bufnr() | buffer#
+"         \ | execute =======>\"normal! \<C-W>w" | execute 'buffer'.buf | endif
+" augroup END " }}}
 
 augroup GITCOMMIT " {{{
   au!
-  au FileType gitcommit setlocal tw=50 cc=50
+  au FileType gitcommit setlocal tw=50
 augroup END " }}}
 
 augroup MyYCMCustom " {{{
