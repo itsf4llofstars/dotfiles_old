@@ -10,12 +10,12 @@ clr="\[\033[00m\]"
 function git_branch() {
     if [ -d .git ]
     then
-	printf "%s" "($(git branch 2>/dev/null | awk '/\*/{print $2}'))";
+    printf "%s" "($(git branch 2>/dev/null | awk '/\*/{print $2}'))";
     fi
 }
 
 function bash_prompt() {
-    PS1=${bwn}'\u$(git_branch)'${grn_b}' \w '${blu_b}'\$ '${clr}
+    PS1=${bwn}'$(git_branch)'${grn_b}' \w '${blu_b}'\$ '${clr}
 }
 
 # If not running interactively, don't do anything

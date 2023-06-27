@@ -8,16 +8,15 @@ endfunction
 function GitBuf()
   :normal! gg0
 endfunction
-" }}}
 
-" source /home/bumper/.config/nvim/settings.vim
-" source /home/bumper/.config/nvim/ale_pre-setup.vim
-" source /home/bumper/.config/nvim/plugins.vim
-" source /home/bumper/.config/nvim/ale_post-setup.vim
-" source /home/bumper/.config/nvim/fzf.vim
-" source /home/bumper/.config/nvim/less_plugins.vim
-" source /home/bumper/.config/nvim/mappings.vim
-" source /home/bumper/.config/nvim/groups.vim
+function! HLNext (blinktime)
+  set invcursorline
+  redraw
+  exec 'sleep' . float2nr(a:blinktime * 1000) . 'm'
+  set invcursorline
+  redraw
+endfunction
+" }}}
 
 source ~/.config/nvim/settings.vim
 source ~/.config/nvim/ale_pre-setup.vim
