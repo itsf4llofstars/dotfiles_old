@@ -1,0 +1,9 @@
+{
+    // :h coc-config
+    "codeLens.enable": false,
+    "colors.enable": true,
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic.highlightLimit": 100,
+    "diagnostic.virtualText": true,
+    "outline.previewBorderRounded": true
+}
