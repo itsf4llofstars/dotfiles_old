@@ -149,3 +149,6 @@ else
 fi
 
 . "$HOME/.cargo/env"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# printf "%s\n" "yarn installed, but not working. Installed from curl."
