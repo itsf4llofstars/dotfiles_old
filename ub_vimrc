@@ -1,8 +1,8 @@
-"" Ubuntu Raspberry Pi 4 VIMRC
+" Ubuntu Raspberry Pi 4 VIMRC
 
 "" FUNCTIONS {{{
 function GetLine()
-  " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe (WRAP IN QUOTES)normal g'\" | endif
+  " au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe (WRAP IN QUOTES)normal g'\" | endif
   if line("'\"") > 1 && line("'\"") <= line("$")
     exec "normal g'\""
   endif
@@ -22,6 +22,13 @@ function ShowWhitespace()
   match ErrorMsg '\s\+$'
 endfunction
 
+function HLNext (blinktime)
+  set invcursorline
+  redraw
+  exec 'sleep' . float2nr(a:blinktime * 1000) . 'm'
+  set invcursorline
+  redraw
+endfunction
 "" }}}
 
 "" SETTINGS {{{
@@ -42,8 +49,13 @@ set autochdir
 set autoindent
 set autoread
 set copyindent
+
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%80v', 100)
+
+set colorcolumn=80
 set cursorline
-set cursorlineopt=number
+set cursorlineopt=both
 set foldcolumn=0
 set foldlevel=99
 set foldlevelstart=99
@@ -53,11 +65,16 @@ set ignorecase
 set incsearch
 set laststatus=2
 set lazyredraw
+
+set listchars=tab:>~,nbsp:_,trail:.
+set list
+
 set modeline
 set noruler
 set number
 set path+=**
 set relativenumber
+set ruler
 set scrolloff=5
 set shortmess+=acsoOTSF
 set showcmd
@@ -65,12 +82,14 @@ set showmatch
 set showmode
 set smartcase
 set smartindent
-set statusline=
-set statusline=(%n)\ %F\ %m%r%w%h%q%a\ %y\ \ \ col:\ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ \ \ |
+" set statusline=
+" set statusline=(%n)\ %F\ %m%r%w%h%q%a\ %y\ \ \ col:\ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ %f\ |
 set updatetime=250
 
 set wildmode=list:longest,full
 set completeopt=menuone,popup
+
+set noswapfile
 
 if has("persistent_undo")
   let target_path = expand("~/.vim/undodir")
@@ -81,12 +100,16 @@ if has("persistent_undo")
 
   let &undodir=target_path
   set undofile
-  set swapfile
 else
   set noundofile
   set nobackup
-  set noswapfile
 endif
+
+let g:python3_host_prog = '/usr/bin/python3'
+let g:netrw_banner=0
+let g:netrw_liststyle=3
+let g:netrw_altv=1
+let g:netrw_winsize=15
 
 call ShowWhitespace()
 
@@ -97,55 +120,49 @@ let maplocalleader="\\"
 "" PLUGINS {{{
 "" ALE {{{
 let g:ale_enabled = 1
-let g:ale_set_signs = 1
-let g:ale_max_signs = -1
-let g:ale_close_preview_on_insert = 1
+let g:ale_max_signs = 10
 let g:ale_completion_enabled = 1
-let g:ale_disable_lsp = 0
+let g:ale_completion_autoimport = 1
 let g:ale_lsp_suggestions = 1
-let g:ale_linters_explicit = 1
+let g:ale_cursor_detail = 0 " 1 gives popup
+let g:ale_virtualtext_cursor = 0
+let g:ale_detail_to_floating_preview = 1
+let g:ale_echo_msg_format = "% code % [%linter%] %type% "
+let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
 let g:ale_warn_about_trailing_blank_lines = 1
 let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_virtualtext_cursor = 'disabled' " 'current', 'disabled', 'all'
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
 let g:ale_sign_column_always = 1
-let g:ale_set_highlights = 1
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_info_str = 'I'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_popup_menu_enabled = 0
-let g:ale_detail_to_floating_preview = 1
-let g:ale_cursor_detail = 1
-let g:ale_hover_cursor = 0
-let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-let g:ale_echo_cursor = 1
-let g:ale_disable_lsp = 0
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
+
+" Prevents highlights in the code proper. This is a list of strings
+let g:ale_python_pylint_options = '--rcfile ~/python/pylint.conf'
+let g:ale_set_highlights = 0
+let g:ale_exclude_highlights = [
+      \ 'docstring',
+      \ 'Unused argument',
+      \ 'import-errro',
+      \ 'SC2164',
+      \ 'inconsistent-return-statements',
+      \ ]
+
+let g:ale_linters_explicit = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 0
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 1
-let g:ale_open_list = 0
-let g:ale_keep_list_window_open = 0
+let g:ale_fix_on_save = 1 " 0 is default
 "" }}}
 
 "" VIM-PLUG {{{
 call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'mbbill/undotree'
+" Plug 'mbbill/undotree'
 Plug 'dense-analysis/ale'
-Plug 'nvie/vim-flake8'
 Plug 'valloric/youcompleteme'
 call plug#end()
 
@@ -154,7 +171,7 @@ colorscheme retrobox
 
 "" ALE {{{
 let g:ale_linters = {
-      \ 'python': ['flake8'],
+      \ 'python': ['pylint'],
       \ 'rust': ['analyzer'],
       \ 'vim': [''],
       \ 'cpp': ['clangd', 'cpplint'],
@@ -169,17 +186,33 @@ let g:ale_fixers = {
       \}
 ""}}}
 
+"" YCM {{{
+let g:ycm_auto_trigger=1
+let g:ycm_enable_semantic_highlighting=1 " Experimental
+let g:ycm_enable_inlay_hints=1 " Experimental
+let g:ycm_clear_inlay_hints_in_insert_mode=0 " Experimental
+" let g:ycm_python_interpreter_path = ''
+" let g:ycm_python_sys_path = []
+" let g:ycm_extra_conf_vim_data = [
+"   \  'g:ycm_python_interpreter_path',
+"   \  'g:ycm_python_sys_path'
+"   \]
+" let g:ycm_global_ycm_extra_conf = '~/global_extra_conf.py'
+nmap <leader>yfw <Plug>(YCMFindSymbolInWorkspace)
+nmap <leader>yfd <Plug>(YCMFindSymbolInDocument)
+" }}}
+
 "" NERDTREE {{{
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeQuitOnOpen = 1
-let g:NERDTreeShowHidden = 1
-" nnoremap <leader>o :NERDTreeFocus<CR>
-nnoremap <leader>o :NERDTree<CR>
-nnoremap <leader>nf :NERDTreeFind<CR>
+" let g:NERDTreeDirArrowExpandable = '▸'
+" let g:NERDTreeDirArrowCollapsible = '▾'
+" let g:NERDTreeQuitOnOpen = 1
+" let g:NERDTreeShowHidden = 1
+" " nnoremap <leader>o :NERDTreeFocus<CR>
+" nnoremap <leader>o :NERDTree<CR>
+" nnoremap <leader>nf :NERDTreeFind<CR>
 ""}}}
 
-" FUGITIVE {{{
+"" FUGITIVE {{{
 nnoremap <leader>ga :Git add .<cr>
 nnoremap <leader>gc :Git commit<cr>
 " }}}
@@ -203,6 +236,12 @@ nmap ,w <Plug>(easymotion-overwin-w)
 "" UNDOTREE {{{
 nnoremap <leader>ut :UndotreeToggle<cr>
 "" }}}
+
+"" SNIPMATE {{{
+let g:snipMate = {'snippet_version' : 1}
+ino <tab> <c-j>=TriggerSnippet()<cr>
+" snor <tab> <tab>=TriggerSnippet()<cr>
+"" }}}
 "" END PLUGINS }}}
 
 "" MAPPINGS {{{
@@ -220,14 +259,19 @@ nmap <silent> <C-p> <Plug>(ale_previous_wrap)
 nmap <silent> <C-n> <Plug>(ale_next_wrap)
 
 nnoremap <silent> <leader>w :write<cr>
-nnoremap <silent> zq ZQ
-nnoremap <silent> zz ZZ
+nnoremap <silent> <leader>q ZQ
+nnoremap <silent> <leader>z ZZ
 nnoremap <silent> <localleader>e :edit $MYVIMRC<cr>
 nnoremap <silent> <localleader>ve :vsplit<cr><C-w>l:edit $MYVIMRC<cr>
+nnoremap <silent> <leader>o :edit .<CR>
 nnoremap <localleader>s :write<cr>:source $MYVIMRC<cr>
 nnoremap <leader>t :write<CR>:shell<CR>
 
+nnoremap <C-f> <C-d>
+
 nnoremap <leader>p "+p
+nnoremap ; :
+nnoremap : ;
 nnoremap w W
 nnoremap ,a zt
 nnoremap ,b zb
@@ -260,7 +304,7 @@ nnoremap ,w[ :normal! ebi[<esc>ea]<esc>
 nnoremap ,w{ :normal! ebi{<esc>ea}<esc>
 nnoremap ,w< :normal! ebi<<esc>ea><esc>
 
-nnoremap <silent> <localleader>t :tabnew<CR>
+nnoremap <silent> <localleader>to :tabnew<CR>
 nnoremap <silent> <localleader>tn :tabnext<CR>
 nnoremap <silent> <localleader>tp :tabprevious<CR>
 nnoremap <silent> <localleader>tc :tabclose<CR>
@@ -281,121 +325,118 @@ nnoremap <leader>rs <C-w>=
 
 "" AUTOGROUP AUGROUP {{{
 augroup ALL " {{{
-  autocmd!
-  " autocmd InsertEnter * set nornu
-  " autocmd InsertLeave * set rnu
-  autocmd BufReadPost * call GetLine()
-  autocmd BufWritePre * call StripWhiteSpace()
+  au!
+  au InsertEnter * set nornu
+  au InsertLeave * set rnu
+  au BufReadPost * call GetLine()
+  au BufWritePre * call StripWhiteSpace()
 augroup END " }}}
 
 augroup VIM " {{{
-  autocmd!
-  autocmd FileType vim setlocal ts=2 sw=2 sts=2 fdc=3 fdm=marker
+  au!
+  au FileType vim setlocal ts=2 sw=2 sts=2 fdc=3 fdm=marker
 augroup END " }}}
 
 augroup PYTHON " {{{
-  autocmd!
-  autocmd FileType python setlocal cc=80,100 fdm=indent fdc=4
-  autocmd BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<CR>
-  autocmd BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
-  autocmd BufEnter *.py nnoremap <buffer> <F7> call flake8#Flake8()<CR>
+  au!
+  au FileType python setlocal fdm=indent fdc=3
+  au BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<CR>
+  au BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
+  au BufEnter *.py nnoremap <buffer> <F7> :!pylint --rcfile=~/python/pylint.conf %<CR>
+  au BufEnter *.py inoremap <buffer> <silent> <C-l> <Plug>(YCMToggleSignatureHelp)
 augroup END " }}}
 
 augroup C " {{{
-  autocmd!
-  autocmd FileType c,cpp silent setlocal ts=8 sw=8 sts=8 et nowrap noai nosi
-        \ noci cin cino=ln,c2 fdc=4 fdm=indent cc=80
-  autocmd BufEnter *.c nnoremap <buffer> <leader>b o{<cr>}<esc>ko
-  autocmd BufEnter *.c nnoremap <buffer> <F5> :!./main<cr>
-  autocmd BufEnter *.c nnoremap <buffer> <leader>mm :write<cr>:!make main<cr>
+  au!
+  au FileType c,cpp silent setlocal ts=4 sw=4 sts=4 et nowrap noai nosi
+        \ noci cin cino=ln,c2 fdc=4 fdm=indent
+  au BufEnter *.c nnoremap <buffer> <leader>b o{<cr>}<esc>ko
+  au BufEnter *.c nnoremap <buffer> <F5> :!./main<cr>
+  au BufEnter *.c nnoremap <buffer> <leader>mm :write<cr>:!make main<cr>
 augroup END " }}}
 
 augroup RUST " {{{
-  autocmd!
-  autocmd FileType rust silent setlocal ts=4 sw=4 sts=4 et nowrap noai nosi
-        \ noci cin cino=ln,c2 fdc=3 fdm=indent cc=80
-  autocmd BufEnter *.rs nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
-  autocmd BufEnter *.rs nnoremap <buffer> <F5> :!cargo run<cr>
-  autocmd BufEnter *.rs nnoremap <buffer> <leader>mm :write<cr>:!cargo build<cr>
+  au!
+  au FileType rust silent setlocal ts=4 sw=4 sts=4 et nowrap noai nosi
+        \ noci cin cino=ln,c2 fdc=3 fdm=indent
+  au BufEnter *.rs nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
+  au BufEnter *.rs nnoremap <buffer> <F5> :!cargo run<cr>
+  au BufEnter *.rs nnoremap <buffer> <leader>mm :write<cr>:!cargo build<cr>
 augroup END " }}}
 
 augroup BASH " {{{
-  autocmd!
-  autocmd FileType sh silent setlocal ts=4 sts=4 sw=4 cc=80 fdc=0
-  autocmd BufEnter *.sh nnoremap <buffer> <F5> :!./%<CR>
+  au!
+  au FileType sh silent setlocal ts=4 sts=4 sw=4 fdc=0
+  au BufEnter *.sh nnoremap <buffer> <F5> :!./%<CR>
 augroup END " }}}
 
 augroup TEXT " {{{
-  autocmd!
-  autocmd FileType text silent setlocal noai nosi ci noet wrap cc=80 nornu
-augroup END " }}}
-
-augroup PLAINTEX " {{{
   au!
-  au FileType plaintex silent setlocal noai nosi ci cc=80
+  au FileType text silent setlocal noai nosi ci noet wrap nornu
 augroup END " }}}
 
-augroup NERDTREE " {{{
-  autocmd!
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-  autocmd BufEnter * if tabpagenr('$') == 1
-        \ && winnr('$') == 1
-        \ && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-  autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree')
-        \ && b:NERDTree.isTabTree() | quit | endif
-  autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+'
-        \ && bufname('%') !~ 'NERD_tree_\d\+'
-        \ && winnr('$') > 1 | let buf=bufnr() | buffer#
-        \ | execute =======>\"normal! \<C-W>w" | execute 'buffer'.buf | endif
-augroup END " }}}
+" augroup NERDTREE " {{{
+"   au!
+"   au StdinReadPre * let s:std_in=1
+"   " au VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+"   au BufEnter * if tabpagenr('$') == 1
+"         \ && winnr('$') == 1
+"         \ && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"   au BufEnter * if winnr('$') == 1 && exists('b:NERDTree')
+"         \ && b:NERDTree.isTabTree() | quit | endif
+"   au BufEnter * if bufname('#') =~ 'NERD_tree_\d\+'
+"         \ && bufname('%') !~ 'NERD_tree_\d\+'
+"         \ && winnr('$') > 1 | let buf=bufnr() | buffer#
+"         \ | execute =======>\"normal! \<C-W>w" | execute 'buffer'.buf | endif
+" augroup END " }}}
 
 augroup GITCOMMIT " {{{
-  autocmd!
-  autocmd FileType gitcommit setlocal tw=50 cc=50
+  au!
+  au FileType gitcommit setlocal tw=50
 augroup END " }}}
 
 augroup MyYCMCustom " {{{
-  autocmd!
-  autocmd FileType c,cpp let b:ycm_hover = {
+  au!
+  au FileType c,cpp let b:ycm_hover = {
         \ 'command': 'GetDoc',
         \ 'syntax': &filetype
         \ }
 augroup END " }}}
 
 augroup SKELETON " {{{
-  autocmd!
-  autocmd BufNewFile *.py 0r ~/.vim/skeleton/skeleton.py
-  autocmd BufNewFile *.c 0r ~/.vim/skeleton/skeleton.c
-  autocmd BufNewFile *.sh 0r ~/.vim/skeleton/skeleton.sh
+  au!
+  au BufNewFile *.py 0r ~/.vim/skeleton/skeleton.py
+  au BufNewFile *.c 0r ~/.vim/skeleton/skeleton.c
+  au BufNewFile *.sh 0r ~/.vim/skeleton/skeleton.sh
 augroup END " }}}
 
-augroup TEST
+augroup TEST " {{{
     au!
     au BufEnter *.tex gg0GoBufEnter<esc>gg
     au BufWinEnter *.tex echo "BufWinEnter 1"
 augroup END
+" }}}
 
-" augroup ALEGROUP
-"     autocmd!
-"     autocmd User ALELintPre    call YourFunction()
-"     autocmd User ALELintPost   call YourFunction()
+" augroup ALEGROUP {{{
+"     au!
+"     au User ALELintPre    call YourFunction()
+"     au User ALELintPost   call YourFunction()
 "
-"     autocmd User ALEJobStarted call YourFunction()
+"     au User ALEJobStarted call YourFunction()
 "
-"     autocmd User ALEFixPre     call YourFunction()
-"     autocmd User ALEFixPost    call YourFunction()
-" augroup END
+"     au User ALEFixPre     call YourFunction()
+"     au User ALEFixPost    call YourFunction()
+" augroup END }}}
 
 augroup BOTTOM " {{{
-  autocmd!
-  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+  au!
+  au FileType arduino,python,c,cpp,sh,vim,rust
         \ :onoremap ib :<C-u>normal! 0f[vi[<CR>
-  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+  au FileType arduino,python,c,cpp,sh,vim,rust
         \ :onoremap it :<C-u>normal! 0f<vi<<CR>
-  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+  au FileType arduino,python,c,cpp,sh,vim,rust
         \ :onoremap ir :<C-u>normal! 0f{vi{<CR>
-  autocmd FileType arduino,python,c,cpp,sh,vim,rust
+  au FileType arduino,python,c,cpp,sh,vim,rust
         \ :onoremap ip :<C-u>normal! 0f(vi(<CR>
 augroup END " }}}
 "" }}}

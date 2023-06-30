@@ -150,4 +150,5 @@ export EDITOR=/usr/bin/vim
 bash_prompt
 
 . "$HOME/.cargo/env"
+
 # vim:ft=sh:
