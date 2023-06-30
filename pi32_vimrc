@@ -11,13 +11,41 @@
 "" mappings [mx]
 "" groups [gx]
 
+"" FUNCTIONS (((
+function GetLine()
+  " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe (WRAP IN QUOTES)normal g'\" | endif
+  if line("'\"") > 1 && line("'\"") <= line("$")
+    exec "normal g'\""
+  endif
+endfunction
+
+function Indent()
+  :normal! mpHmogg=G'ozt`p
+endfunction
+
+function StripWhiteSpace()
+  :normal! mpHmo
+  %s/\s\+$//e
+  :normal! 'ozt`p
+endfunction
+
+function ShowWhitespace()
+  match ErrorMsg '\s\+$'
+endfunction
+"" )))
+
 "" settings sx (((
-filetype plugin indent on
+filetype indent plugin on
 syntax on
+set backspace=indent,eol,start
 set guicursor=""
 set background=dark
 colorscheme retrobox
 
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set textwidth=0
 set expandtab
 set nowrap
 
@@ -30,7 +58,7 @@ set autoread
 set hidden
 
 set cursorline
-set cursorlineopt=number
+set cursorlineopt=both
 
 set ignorecase
 set smartcase
@@ -41,18 +69,18 @@ set number
 set relativenumber
 
 set foldmarker=(((,)))
+set foldlevel=4
+set foldlevelstart=3
+set foldcolumn=3
 set signcolumn=yes
 set laststatus=2
 set noruler
 set modeline
+" set statusline=(%n)\ %F\ %m%r%w%h%q%a\ %y\ \ \ col:\ %c\ \ %p%%%=[%c:%L]\ \ \ %p%%\ -\ %P\ \ \ |
 
 set showmatch
 set showcmd
 
-set statusline=
-" set statusline=(%n)\ %F\ %h%m%r%w\ [%Y]\ %q%=%-14.(col:\ %c\ [%l:%L]%)\ (%b\ 0x%B)\ (%o\ -\ 0x%O)\ %a\ %p%%\ %P\ %t\ |
-
-" noshowmode for lightline
 set noshowmode
 
 set scrolloff=5
@@ -60,6 +88,7 @@ set sidescrolloff=8
 set path+=**
 
 set updatetime=250
+set timeoutlen=1000
 set completeopt=menuone,popup
 set wildmode=list:longest,full
 
@@ -69,50 +98,66 @@ set backupdir=~/.vim/backup
 set writebackup
 set backup
 
+" if has("persistent_undo")
+"   let target_path = expand("~/.vim/undodir")
+"
+"   if !isdirectory(target_path)
+"     call mkdir(target_path, "p", 0700)
+"   endif
+"
+"   let &undodir=target_path
+"   set undofile
+"   set swapfile
+" else
+"   set noundofile
+"   set nobackup
+"   set noswapfile
+" endif
+
+call ShowWhitespace()
+
 let mapleader=" "
 let maplocalleader="\\"
 " )))
 
 "" ALE (((
-let g:ale_set_signs = 2
-let g:ale_max_signs = 0
-" let g:ale_close_preview_on_insert = 2
-let g:ale_completion_enabled = 2
-let g:ale_lsp_suggestions = 2
-let g:ale_linters_explicit = 2
-let g:ale_warn_about_trailing_blank_lines = 2
-let g:ale_warn_about_trailing_whitespace = 2
-
-" 3=all, 1=current, 0=disabled
-" let g:ale_virtualtext_cursor = 'all'
-let g:ale_virtualtext_cursor = 2
+let g:ale_set_signs = 1
+let g:ale_max_signs = -1
+let g:ale_close_preview_on_insert = 1
+let g:ale_completion_enabled = 1
+let g:ale_disable_lsp = 0
+let g:ale_lsp_suggestions = 1
+let g:ale_linters_explicit = 1
+let g:ale_warn_about_trailing_blank_lines = 1
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_virtualtext_cursor = 'disabled' " 'current', 'disabled', 'all'
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
+let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_info_str = 'I'
-let g:ale_echo_msg_format = '%code: %%s [%type%] [%linter%]'
-let g:ale_loclist_msg_format = '%code: %%s [%severity%] [%linter%]'
-let g:ale_sign_column_always = 2
-let g:ale_set_highlights = 2
-let g:ale_popup_menu_enabled = 1
-
-"" Set preview 2, detail 0.
-"" bubble will show with err/warn info
-let g:ale_detail_to_floating_preview = 2
-let g:ale_cursor_detail = 1
-
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_loclist_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_popup_menu_enabled = 0
+let g:ale_detail_to_floating_preview = 0
+let g:ale_cursor_detail = 0
+let g:ale_hover_cursor = 0
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
-let g:ale_disable_lsp = 1
+let g:ale_echo_cursor = 0
+let g:ale_disable_lsp = 0
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 0
+let g:ale_keep_list_window_open = 0
 let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 2
-let g:ale_lint_on_enter = 2
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 2
-let g:ale_open_list = 1
-let g:ale_lint_on_save = 2
-let g:ale_fix_on_save = 2
-let g:ale_enabled = 2 " )))
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+let g:ale_enabled = 1
+"" )))
 
 "" vim plug (((
 call plug#begin()
@@ -120,21 +165,20 @@ Plug 'morhetz/gruvbox'
 Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-tmux-navigator'
-" Plug 'dense-anlysis/ale'
+Plug 'dense-analysis/ale'
 Plug 'mbbill/undotree'
-Plug 'nvie/vim-flake8'
 Plug 'tpope/vim-fugitive'
-" Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 Plug 'msanders/snipmate.vim'
 Plug 'honza/vim-snippets'
 Plug 'liuchengxu/vim-which-key'
 call plug#end()
+"" )))
 
-"" ALE
+"" ALE (((
 let g:ale_linters = {
-      \ 'python': ['flake8'],
+      \ 'python': ['pylint'],
       \ 'rust': ['analyzer'],
       \ 'vim': [''],
       \ 'cpp': ['clangd', 'cpplint'],
@@ -158,7 +202,9 @@ nnoremap <leader>alt :ALEToggle<CR>
 nnoremap <leader>ali :ALEInfo<CR>
 nmap <silent> <C-p> <Plug>(ale_previous_wrap)
 nmap <silent> <C-n> <Plug>(ale_next_wrap)
+"" )))
 
+"" LESSER PLUGINS (((
 let g:user_emmet_mode='inv'
 let g:user_emmet_leader_key=','
 
@@ -194,38 +240,36 @@ let g:lightline = {
 "" mappings mx (((
 inoremap kj <ESC>
 vnoremap kj <ESC>
-
-" Personal map and script to clear the mouse pointer
-nnoremap <leader>t :!tt<cr><cr>
+nnoremap ; :
+nnoremap : ;
 
 nnoremap <leader>ut :UndotreeToggle<cr><C-w>h<C-w>l
 
-nnoremap <silent> <leader>w :write<cr>
-nnoremap <silent> <leader>q ZQ
-nnoremap <silent> <leader>z ZZ
-nnoremap <silent> <leader>o :edit .<CR>
+cnoremap w write<CR>
+cnoremap q :normal! ZQ<CR>
+cnoremap z :normal! ZZ<CR>
+
+nnoremap <leader>o :edit .<CR>
 nnoremap <silent> <localleader>e :edit $MYVIMRC<cr>
 nnoremap <silent> <localleader>ve :vsplit<cr><C-w>l:edit $MYVIMRC<cr>
 nnoremap <localleader>s :write<cr>:source $MYVIMRC<cr>
-" nnoremap <leader>t :write<CR>:shell<CR>
+nnoremap <leader>ts :shell<CR>
 nnoremap <localleader>t :write<CR>:terminal<CR>
 
 nnoremap <C-f> <C-d>
 nnoremap <silent> <leader>bn :bnext<cr>
 nnoremap <silent> <leader>bp :bprevious<cr>
-nnoremap w W
-nnoremap ,a zt
-nnoremap ,b zb
-nnoremap ,z zz
 nnoremap <S-b> _
 nnoremap <S-e> $
 nnoremap <S-y> y$
+nnoremap <F8> @
+nnoremap <F9> @@
+nnoremap w W
+nnoremap ,a zt
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap ' `
 nnoremap '' ``
-nnoremap <F8> @
-nnoremap <F9> @@
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap < <gv
@@ -234,9 +278,10 @@ nnoremap <leader>* :%s/\<<C-r><C-w>\>//gI<left><left><left>
 nnoremap <leader>& :%s/\<<C-r><C-w>\>//gIc<left><left><left><left>
 nnoremap <leader>L :s/\<<C-r><C-w>\>//gI<left><left><left>
 
-nnoremap <leader>tn :tabnew<CR>
-nnoremap <leader>nt :tabnext<CR>
-nnoremap <leader>pt :tabprevious<CR>
+nnoremap <leader>to :tabnew<CR>
+nnoremap <leader>tn :tabnext<CR>
+nnoremap <leader>tp :tabprevious<CR>
+nnoremap <leader>tc :tabclose<CR>
 
 nnoremap <silent> <leader>v :vsplit<cr><C-w>l
 nnoremap <silent> <leader>s :split<cr><C-w>j
@@ -248,35 +293,35 @@ nnoremap <leader>hh :vertical resize+1<CR>
 nnoremap <leader>ll :vertical resize-1<CR>
 nnoremap <leader>jj :resize+1<CR>
 nnoremap <leader>kk :resize-1<CR>
-nnoremap <leader>rs <C-w>= " )))
+nnoremap <leader>rs <C-w>=
+" )))
 
 "" groups gx (((
 augroup ALL " (((
   au!
-  au BufWritepre $MYVIMRC,*.vim,*.c,*.h,*.html,*.css,*.cpp,*.py :normal! mpHmogg=G'ozt`p
-  au BufWritePre,VimLeave * :normal! mp
-  au BufWritePre * %s/\s\+$//e
-  au BufWritePost,VimEnter * :normal! `p
-  au BufEnter * iabbrev teh the
-  au BufEnter * iabbrev tow two
+  au BufEnter * call GetLine()
+  au BufWritepre * call Indent()
+  au BufWritepre * call StripWhiteSpace()
   au InsertEnter * silent set nornu
   au InsertLeave * silent set rnu
+  au BufEnter * iabbrev teh the
+  au BufEnter * iabbrev tow two
 augroup END " )))
 
-augroup COMMON
+augroup COMMON " (((
   au!
-  au FileType c,rust,arduino setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdc=3 fdl=2 fdls=1 cc=80 noai nosi cin cino=ln,c2
-  au BufEnter *.c,*.h,*.rs nnoremap <buffer> <leader>b 1A {<cr>}<esc>ko
-augroup END
+  au FileType c,rust,arduino setlocal ts=4 sw=4 sts=4 tw=0 fdm=indent fdl=2 fdls=1 cc=80 noai nosi cin cino=ln,c2
+  au BufEnter *.c,*.h,*.rs nnoremap <buffer> <leader>b 0A {<cr>}<esc>ko
+augroup END " )))
 
 augroup VIM " (((
   au!
-  au FileType vim setlocal ts=3 sw=2 sts=2 tw=0 fdm=marker fdc=0
+  au FileType vim setlocal ts=2 sw=2 sts=2 tw=0 fdm=marker
 augroup END " )))
 
 augroup PYTHON " (((
   au!
-  au FileType python setlocal ts=5 sw=4 sts=4 tw=0
+  au FileType python setlocal ts=4 sw=4 sts=4 tw=0
   au BufEnter *.py let @s=":vsplitl:edit ~/notes/pysnips.snippets:vertical resize-44h"
 augroup END " )))
 
@@ -300,6 +345,6 @@ augroup END " )))
 
 augroup BASH " (((
   au!
-  au FileType sh setlocal ts=5 sw=4 sts=4 tw=0
+  au FileType sh setlocal noet cc=80
 augroup END " )))
 " )))
