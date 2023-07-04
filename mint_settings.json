@@ -1,0 +1,133 @@
+{
+  "workbench.preferredDarkColorTheme": "Monokai Dimmed",
+  "prettier.printWidth": 120,
+  "editor.fontFamily": "Liberation Mono Bold",
+  "editor.fontWeight": "bold",
+  "editor.minimap.enabled": true,
+  "terminal.integrated.fontFamily": "Liberation Mono Bold",
+  "terminal.integrated.fontSize": 16,
+  "editor.formatOnSave": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "workbench.startupEditor": "none",
+  "remote-explorer.foldersSortOrder": "alphabetical",
+  "search.showLineNumbers": true,
+  "python.linting.enabled": true,
+  "python.linting.lintOnSave": true,
+  "python.linting.maxNumberOfProblems": 100,
+  "python.linting.ignorePatterns": ["**/site-packages/**/*.py", ".vscode/*.py"],
+  // "pylint.args": ["--rcfile=/home/bumper/python/pylint.conf"],
+  // "pylint.showNotifications": "onError",
+  "python.formatting.provider": "black",
+  "workbench.iconTheme": "material-icon-theme",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "vim.leader": "<space>",
+  "vim.cursorStylePerMode.insert": "block",
+  "vim.cursorStylePerMode.normal": "block",
+  "vim.cursorStylePerMode.replace": "block",
+  "vim.cursorStylePerMode.visual": "block",
+  "vim.cursorStylePerMode.visualblock": "block",
+  "vim.cursorStylePerMode.visualline": "block",
+  "vim.easymotion": false,
+  "vim.enableNeovim": true,
+  "vim.useCtrlKeys": true,
+  "vim.handleKeys": {
+    "<C-s>": false
+  },
+  "vim.highlightedyank.enable": true,
+  "vim.highlightedyank.color": "rgba(0, 255, 0, 0.5)",
+  "vim.hlsearch": false,
+  "vim.incsearch": true,
+  "vim.joinspaces": false,
+  "vim.textwidth": 100,
+  "vim.timeout": 1000,
+  "vim.useSystemClipboard": true,
+  "vim.ignorecase": true,
+  "vim.inccommand": "replace",
+  "vim.matchpairs": "(:),{:},[:],<:>",
+  "vim.neovimPath": "/urs/bin/nvim",
+  "vim.showmodename": true,
+  "vim.showcmd": true,
+  "vim.showMarksInGutter": true,
+  "vim.smartcase": true,
+  "vim.smartRelativeLine": true,
+  "vim.statusBarColorControl": false,
+  "vim.sneakUseIgnorecaseAndSmartcase": true,
+  "vim.normalModeKeyBindings": [],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "w"],
+      "commands": ["workbench.action.files.save"]
+    },
+    {
+      "before": ["Y"],
+      "after": ["y", "$"]
+    },
+    {
+      "before": ["B"],
+      "after": ["_"]
+    },
+    {
+      "before": ["E"],
+      "after": ["$"]
+    },
+    {
+      "before": [",", "a"],
+      "after": ["z", "t"]
+    },
+    {
+      "before": [",", "b"],
+      "after": ["z", "b"]
+    },
+    {
+      "before": [",", "z"],
+      "after": ["z", "z"]
+    },
+    {
+      "before": ["<leader>", "p"],
+      "after": ["\"", "*", "p"]
+    }
+  ],
+  "vim.insertModeKeyBindings": [],
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": ["k", "j"],
+      "after": ["<ESC>"]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [">"],
+      "commands": ["editor.action.indentLines"]
+    },
+    {
+      "before": ["<"],
+      "commands": ["editor.action.outdentLines"]
+    }
+  ],
+  "vim.visualModeKeyBindings": [],
+  "vim.operatorPendingModeKeyBindings": [],
+  "vim.operatorPendingModeKeyBindingsNonRecursive": [
+    {
+      "before": ["("],
+      "after": ["i"]
+    },
+    {
+      "before": ["{"],
+      "after": ["i"]
+    },
+    {
+      "before": ["["],
+      "after": ["i"]
+    },
+    {
+      "before": ["<"],
+      "after": ["i"]
+    }
+  ]
+}
