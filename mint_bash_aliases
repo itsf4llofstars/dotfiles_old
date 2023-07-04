@@ -12,6 +12,7 @@ alias update='sudo apt update && sudo apt upgrade'
 
 alias vimrc='vim ~/.vimrc'
 alias vi='vim'
+alias vimm='vim main.py'
 alias ed='ed -E -v -p "ed: "'
 alias nano='nano -r 79'
 
