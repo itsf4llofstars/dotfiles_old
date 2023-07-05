@@ -20,8 +20,8 @@ set t_Co=256
 colorscheme retrobox
 
 if $TERM == "linux"
-    set t_Co=16
-    colorscheme desert
+  set t_Co=16
+  colorscheme desert
 endif
 
 set autochdir
@@ -161,8 +161,6 @@ augroup HTML_CSS
   au BufRead,BufEnter *.css nnoremap <buffer> <localleader>c i/**/<esc>hi<space><esc>i<space>
   au BufRead,BufEnter *.html :onoremap <buffer> it :<c-u>normal! f<vi<<cr>
   au CursorHold *.html,*.css write
-  au BufEnter *.html,*.css colorscheme jellybeans
-  au BufLeave *.html,*.css colorscheme retrobox
 augroup END
 
 augroup C_CPP

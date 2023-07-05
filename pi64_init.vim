@@ -1,28 +1,9 @@
-" init.vim for Raspberry Pi 4 64-Bit
+": Neovim Configuration
 
-" Functions {{{
-function Indent()
-  :normal! mpHmogg=G`ozt`p
-endfunction
-
-function GitBuf()
-  :normal! gg0
-endfunction
-
-function! HLNext (blinktime)
-  set invcursorline
-  redraw
-  exec 'sleep' . float2nr(a:blinktime * 1000) . 'm'
-  set invcursorline
-  redraw
-endfunction
-" }}}
-
-source ~/.config/nvim/settings.vim
-source ~/.config/nvim/ale_pre-setup.vim
-source ~/.config/nvim/plugins.vim
-source ~/.config/nvim/ale_post-setup.vim
-source ~/.config/nvim/fzf.vim
-source ~/.config/nvim/less_plugins.vim
-source ~/.config/nvim/mappings.vim
-source ~/.config/nvim/groups.vim
+if has('nvim')
+  if $TERM == 'linux'
+    :source /home/bumper/.config/nvim/init_linux.vim
+  elseif $TERM == 'xterm-256color' || $TERM == 'tmux-256color'
+    :source /home/bumper/.config/nvim/init_xterm.vim
+  endif
+endif
