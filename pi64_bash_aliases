@@ -23,8 +23,9 @@ alias ex='exit'
 
 # Editors
 alias vim='nvim'
+alias vimm='nvim main.py'
 alias nv='nvim'
-alias vi='nvim'
+alias vi='/usr/bin/vim'
 alias nconf='cd ~/.config/nvim/'
 alias vimrc='nvim ~/.config/nvim/init.vim'
 alias ed='ed -E -v -p "ed: "'
