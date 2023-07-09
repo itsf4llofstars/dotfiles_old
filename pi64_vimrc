@@ -1,4 +1,4 @@
-"# VIMRC
+"# VIMRC: Sourced from ~/.vimrc
 
 function Indent()
   let l:view = winsaveview()
@@ -21,7 +21,7 @@ colorscheme retrobox
 
 if $TERM == "linux"
   set t_Co=16
-  colorscheme desert
+  colorscheme retrobox
 endif
 
 set autochdir
@@ -44,12 +44,13 @@ set guicursor=""
 set hidden
 set ignorecase
 set incsearch
-set laststatus=1
 set lazyredraw
 set number
 set path+=**
 set relativenumber
-set ruler
+set noruler
+set laststatus=2
+set statusline=(%n)\ %F\ [%Y]\ %c\ %p%%
 set scrolloff=5
 set shiftwidth=4
 set showmatch
@@ -167,6 +168,7 @@ augroup C_CPP
   au!
   au FileType c,cpp setlocal noai nosi noci cin cino=ln,c2 fdc=3 fdm=indent fdl=3 fdls=1
   au FileType c,cpp nnoremap <buffer> <leader>bb o{<cr>}<esc>ko
+  au FileType c nnoremap <buffer> <F5> :!./main<CR>
   au Filetype c nnoremap <buffer> <leader>mm :!make main<CR>
 augroup END
 
@@ -178,7 +180,7 @@ augroup END
 
 augroup TEXT
   au!
-  au FileType text setlocal tw=79 noet wrap fdc=0
+  au FileType text setlocal ts=8 sw=4 sts=8 tw=79 noet wrap fdc=1
   au BufEnter *.txt nnoremap <leader>x :<c-u>execute "normal! GoHELLO\<lt>esc>"<cr>
 augroup END
 

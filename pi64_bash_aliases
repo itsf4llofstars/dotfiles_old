@@ -27,7 +27,7 @@ alias vimm='nvim main.py'
 alias nv='nvim'
 alias vi='/usr/bin/vim'
 alias nconf='cd ~/.config/nvim/'
-alias vimrc='nvim ~/.config/nvim/init.vim'
+alias vimrc='nvim ~/.config/nvim/init.lua'
 alias ed='ed -E -v -p "ed: "'
 alias nano='nano --guidestripe=80'
 
