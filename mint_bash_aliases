@@ -1,17 +1,14 @@
 # BASH_ALIASES
-
 alias ls='ls -F --color=always --group-directories-first --quoting-style=shell'
 alias lx='ls -lhgGAF --color=always --group-directories-first --quoting-style=shell'
 alias la='ls -A --color=always --group-directories-first --quoting-style=shell'
 alias ll='ls -1 --color=always --group-directories-first --quoting-style=shell'
 alias ld='ls -d .* --color=always --group-directories-first --quoting-style=shell'
 
-alias srn='sudo reboot now'
-alias ssn='sudo shutdowon now'
-alias update='sudo apt update && sudo apt upgrade'
-
 alias vimrc='vim ~/.vimrc'
+alias vimu='vim -u ~/vimrc.vim'
 alias vi='vim'
+alias vimm='vim main.py'
 alias ed='ed -E -v -p "ed: "'
 alias nano='nano -r 79'
 

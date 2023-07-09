@@ -193,7 +193,7 @@ export PATH="$HOME"/bin:$PATH
 PATH=$PATH:"$HOME"/.local/bin
 
 # Use nvim as default editor
-export EDITOR=/usr/local/bin/nvim
+export EDITOR=/usr/bin/vim
 
 # Make bash like Vim
 # set -o vi
@@ -204,3 +204,7 @@ bash_prompt
 
 . "$HOME/.cargo/env"
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
