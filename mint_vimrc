@@ -114,7 +114,7 @@ function PostPluginSetup() " (((
   nnoremap <silent> <localleader> :WhichKey '\'<CR>
   nnoremap <silent> <localleader> :WhichKey ','<CR>
 
-  let g:lightline = {'colorscheme': 'darcula'}
+  let g:lightline = {'colorscheme': 'wombat'}
 
   let g:UltiSnipsExpandTrigger='<TAB>'
   let g:UltiSnipsJumpForwardTrigger='<TAB>'
@@ -210,7 +210,7 @@ set noswapfile
 set backup
 set writebackup
 
-call ShowWhitespace()
+" call ShowWhitespace()
 
 let mapleader=" "
 let maplocalleader="\\"
@@ -223,7 +223,7 @@ Plug 'nordtheme/vim'
 Plug 'liuchengxu/space-vim-theme'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'ervandew/supertab'
+" Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
 Plug 'easymotion/vim-easymotion'
@@ -236,6 +236,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 Plug 'liuchengxu/vim-which-key'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 call PostPluginSetup()
 "# VIM PLUG)))
@@ -355,6 +356,12 @@ augroup TEXT " (((
   au!
   au BufEnter *.txt call Word()
 augroup END " )))
+
+augroup TOML
+  au!
+  au FileType toml setlocal ts=2 sw=2 sts=2 tw=0 cc=80 nofen
+  au BufEnter *.toml nnoremap <buffer> <leader>x 0i##<space><esc>j
+augroup END
 
 augroup JSON " (((
   au!

@@ -17,7 +17,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "liveServer.settings.donotShowInfoMsg": true,
-  "files.autoSave": "afterDelay",
   "diffEditor.ignoreTrimWhitespace": false,
   "remote-explorer.foldersSortOrder": "alphabetical",
   "search.showLineNumbers": true,
@@ -137,5 +136,8 @@
       "before": ["<"],
       "after": ["i"]
     }
-  ]
+  ],
+  "evenBetterToml.formatter.allowedBlankLines": 5,
+  "evenBetterToml.formatter.columnWidth": 80,
+  "files.autoSave": "afterDelay"
 }
