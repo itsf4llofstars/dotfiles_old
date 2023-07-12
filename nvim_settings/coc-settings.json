@@ -1,5 +1,4 @@
 {
-    // :h coc-config
     "codeLens.enable": false,
     "colors.enable": true,
     "diagnostic.checkCurrentLine": true,

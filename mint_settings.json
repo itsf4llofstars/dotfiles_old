@@ -37,7 +37,6 @@
   "vim.easymotion": false,
   "vim.enableNeovim": false,
   "vim.vimrc.enable": true,
-  "vim.vimrc.path": "~./.vimrc",
   "vim.useCtrlKeys": true,
   "vim.handleKeys": {
     "<C-s>": false
@@ -47,20 +46,17 @@
   "vim.hlsearch": false,
   "vim.incsearch": true,
   "vim.joinspaces": false,
-  "vim.textwidth": 100,
   "vim.timeout": 1000,
   "vim.useSystemClipboard": true,
   "vim.ignorecase": true,
   "vim.inccommand": "replace",
   "vim.matchpairs": "(:),{:},[:],<:>",
-  "vim.neovimPath": "/urs/bin/nvim",
   "vim.showmodename": true,
   "vim.showcmd": true,
   "vim.showMarksInGutter": true,
   "vim.smartcase": true,
   "vim.smartRelativeLine": true,
   "vim.statusBarColorControl": false,
-  "vim.sneakUseIgnorecaseAndSmartcase": true,
   "vim.normalModeKeyBindings": [],
   "vim.normalModeKeyBindingsNonRecursive": [
     {
@@ -139,5 +135,10 @@
   ],
   "evenBetterToml.formatter.allowedBlankLines": 5,
   "evenBetterToml.formatter.columnWidth": 80,
-  "files.autoSave": "afterDelay"
+  "workbench.colorTheme": "Vim Dark Hard",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "vim.highlightedyank.textColor": "#00FF00",
+  "vim.textwidth": 79
 }
