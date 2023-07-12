@@ -23,10 +23,10 @@ set afterends
 set autoindent
 
 ## Back up files to the current filename plus a tilde.
-# set backup
+set backup
 
 ## The directory to put unique backup files in.
-# set backupdir ""
+set backupdir "/home/bumper/safehouse"
 
 ## Use bold text instead of reverse video text.
 set boldtext
@@ -47,7 +47,7 @@ set brackets ""')>]}"
 
 ## Constantly display the cursor position in the status bar.  Note that
 ## this overrides "quickblank".
-set constantshow
+# set constantshow
 
 ## Use cut-from-cursor-to-end-of-line by default.
 set cutfromcursor
@@ -208,14 +208,14 @@ set zap
 # mauve, lagoon, mint, lime, peach, orange, latte, normal
 
 set titlecolor white
-set statuscolor lightblack
+set statuscolor white
 set errorcolor bold,lightwhite,red
 set selectedcolor lightwhite,magenta
-set stripecolor ,lightblack
+set stripecolor ,white
 set scrollercolor cyan
-set numbercolor lightblack
-set keycolor lightblack
-set functioncolor lightblack
+set numbercolor white
+set keycolor white
+set functioncolor white
 
 ## In root's .nanorc you might want to use:
 # set titlecolor bold,lightwhite,magenta

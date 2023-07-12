@@ -179,7 +179,6 @@ set updatetime=50
 set wildmode=list:longest,full
 
 if $TERM == 'linux'
-  colorscheme default
   set mouse=
 else
   set breakindent
@@ -224,9 +223,11 @@ call PostAleSetup()
 call LesserPlugins()
 
 if $TERM == 'xterm-256color'
+  colorscheme sorbet
+elseif $TERM == 'linux'
   colorscheme retrobox
 elseif $TERM == 'tmux-256color'
-  colorscheme habamax
+  colorscheme evening
 endif
 ": PLUGINS }}}
 

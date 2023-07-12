@@ -23,3 +23,10 @@
 	br = branch
 [commit]
 	gpgSign = false
+[cola]
+	spellcheck = false
+	tabwidth = 4
+	textwidth = 50
+	expandtab = true
+	theme = flat-dark-grey
+	icontheme = dark
