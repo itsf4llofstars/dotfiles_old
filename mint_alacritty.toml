@@ -11,7 +11,7 @@ TERM = "xterm-256color"
 [window]
 dynamic_padding = false
 decorations = "None"
-dynamic_title = true
+dynamic_title = false
 opacity = 1.0
 startup_mode = "Fullscreen"
 title = "Alacritty"
@@ -42,19 +42,19 @@ size = 12.0
 builtin_box_drawing = true
 
 [font.normal]
-family = "DejaVu Sans Mono"
+family = "Liberation Mono"
 style = "Bold"
 
 [font.bold]
-family = "DejaVu Sans Mono"
+family = "Liberation Mono"
 style = "Bold"
 
 [font.italic]
-family = "DejaVu Sans Mono"
+family = "Liberation Mono"
 style = "Bold Italic"
 
 [font.bold_italic]
-family = "DejaVu Sans Mono"
+family = "Liberation Mono"
 style = "Bold Italic"
 
 [font.offset]
