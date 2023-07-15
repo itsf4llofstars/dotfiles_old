@@ -1,0 +1,181 @@
+# Alacritty Configuration File
+# Refer to Alacritty's man 5 page, or man5.txt
+
+# working_directory = "/home/bumper/.config/alacritty"
+live_config_reload = true
+
+[env]
+TERM = "xterm-256color"
+
+## WINDOW
+[window]
+dynamic_padding = false
+decorations = "None"
+dynamic_title = false
+opacity = 1.0
+startup_mode = "Windowed"
+title = "Alacritty"
+resize_increments = false
+# decoration_theme_variant = "Light"
+# option_as_alt = "Both"
+
+[window.dimensions]
+columns = 80
+lines = 42
+
+[window.padding]
+x = 0
+y = 0
+
+[window.class]
+instance = "Alacritty"
+general = "Alacritty"
+
+## SCROLLING
+[scrolling]
+history = 10000
+multiplier = 3
+
+## FONT
+[font]
+size = 12.0
+builtin_box_drawing = true
+
+[font.normal]
+family = "FiraCode Nerd Font Mono"
+style = ""
+
+[font.bold]
+family = "FiraCode Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "FiraCode Nerd Font Mono"
+style = "Italic"
+
+[font.bold_italic]
+family = "FiraCode Nerd Font Mono"
+style = "Bold Italic"
+
+[font.offset]
+x = 0
+y = 0
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+## COLORS
+[colors]
+# Use the index of colors, ie. gnome-terminal palette entry n
+# indexed_colors = [{ index = int, color = str },]
+
+# Whether or not window opacity applies to all cell brackgrounds (Default false)
+# This allows transparency through Vim, and tmux. Not tested on Neovim et. al.
+transparent_background_colors = true
+
+# Bold text uses the bright vriants (Default false)
+draw_bold_text_with_bright_colors = true
+
+[colors.primary]
+foreground = "#D8D8D8"
+background = "#181818"
+dim_foreground = "#828482"
+bright_foreground = "None"
+
+[colors.cursor]
+text = "CellBackground"
+cursor = "CellForeground"
+
+[colors.vi_mode_cursor]
+text = "CellBackground"
+cursor = "CellForeground"
+
+[colors.search.matches]
+foreground = "#181818"
+background = "#AC4242"
+
+[colors.search.focused_match]
+foreground = "#181818"
+background = "#F4BF75"
+
+[colors.hints.start]
+foreground = "#181818"
+background = "#F4BF74"
+
+[colors.hints.end]
+foreground = "#181818"
+background = "#AC4242"
+
+[colors.line_indicator]
+foreground = "None"
+background = "None"
+
+[colors.footer_bar]
+foreground = "#181818"
+background = "#D8D8D8"
+
+[colors.selection]
+text = "CellBackground"
+background = "CellBackground"
+
+[colors.normal]
+black = "#181818"
+red = "#AC4242"
+green = "#90A959"
+yellow = "#F4BF75"
+blue = "#6A9FB5"
+magenta = "#AA759F"
+cyan = "#75B5AA"
+white = "#D8D8D8"
+
+[colors.bright]
+black = "#6B6B6B"
+red = "#C55555"
+green = "#AAC474"
+yellow = "#FECA88"
+blue = "#82B8C8"
+magenta = "#C28CB8"
+cyan = "#93D3C3"
+white = "#F8F8F8"
+
+[colors.dim]
+black = "#0F0F0F"
+red = "#712B2B"
+green = "#5F6F3A"
+yellow = "#A17E4d"
+blue = "#456877"
+magenta = "#704D68"
+cyan = "#4D7770"
+white = "#8E8E8E"
+
+[bell]
+animation = "Linear"
+color = "#00FFFF"
+duration = 0 # Default 0
+
+# [bell.command]
+# program = "None"
+# args = ["None",]
+
+[selection]
+
+[cursor]
+blink_interval = 500
+blink_timeout = 30
+
+[cursor.style]
+shape = "Block"
+blinking = "Always"
+
+[mouse]
+hide_when_typing = true
+
+# [hints]
+# [keyboard]
+# [debug]
+# render_timer = true
+
+# fonts: 45,57 - opacity: 15
+#    A full list with available key codes can be found here:
+#    https://docs.rs/glutin/*/glutin/event/enum.VirtualKeyCode.html#variants
