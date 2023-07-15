@@ -82,9 +82,9 @@ function PrePluginSetup() " (((
   let g:ale_set_quickfix = 1
   let g:ale_open_list = 0
   let g:ale_keep_list_window_open = 0
-  let g:ale_lint_on_text_changed = 'normal'
-  let g:ale_lint_on_insert_leave = 0
-  let g:ale_lint_on_enter = 0
+  let g:ale_lint_on_text_changed = 'always'
+  let g:ale_lint_on_insert_leave = 1
+  let g:ale_lint_on_enter = 1
   let g:ale_lint_on_save = 1
   let g:ale_fix_on_save = 1
   let g:ale_enabled = 0
@@ -229,7 +229,7 @@ Plug 'dense-analysis/ale'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-" Plug 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'
 " Plug 'honza/vim-snippets'
 " Plug 'SirVer/ultisnips'
 Plug 'liuchengxu/vim-which-key'
@@ -257,6 +257,8 @@ nnoremap <S-y> y$
 nnoremap <F8> @
 nnoremap <F9> @@
 nnoremap <leader>a zt
+nnoremap <leader>bn :bnext<Cr>
+nnoremap <leader>bp :bprev<CR>
 nnoremap w W
 nnoremap n nzz
 nnoremap N Nzz
@@ -268,7 +270,7 @@ vnoremap < <gv
 vnoremap > >gv
 nnoremap <leader>* :%s/\<<C-r><C-w>\>//gI<left><left><left>
 nnoremap <leader>& :%s/\<<C-r><C-w>\>//gIc<left><left><left><left>
-" nnoremap <leader>rn :CocCommand document.renameCurrentWord<CR>
+nnoremap <leader>rn :CocCommand document.renameCurrentWord<CR>
 nnoremap <leader>rn <Plug>(coc-rename)
 
 nnoremap <leader>to :tabnew<CR>
@@ -321,10 +323,10 @@ endfunction
 " inoremap <silent><expr> <c-@> coc#refresh()
 " nmap <silent> [g <Plug>(coc-diagnostic-prev)
 " nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
@@ -338,8 +340,8 @@ endfunction
 
 au CursorHold * silent call CocActionAsync('highlight')
 
-" xmap <leader>cf  <Plug>(coc-format-selected)
-" nmap <leader>cf  <Plug>(coc-format-selected)
+xmap <leader>cf  <Plug>(coc-format-selected)
+nmap <leader>cf  <Plug>(coc-format-selected)
 
 "" This augroup causes highlighting from top of file to
 "" coc completion
@@ -383,7 +385,7 @@ augroup ALL " (((
   au!
   au BufEnter * call GetLine()
   au BufWritepre * call StripWhiteSpace()
-  au BufWritepre $MYVIMRC,*.vim,*.py,*.c,*.h,*.rs call Indent()
+  au BufWritepre $MYVIMRC,*.vim,*.c,*.h,*.rs call Indent()
   au InsertEnter * silent set nornu
   au InsertLeave * silent set rnu
 augroup END " )))
@@ -391,25 +393,34 @@ augroup END " )))
 augroup ABBREV " (((
   au!
   au BufEnter * iabbrev <buffer> ifos itsf4llofstars
-  au BufEnter *.py iabbrev <buffer> pirnt print
-  au BufEnter *.py iabbrev <buffer> prnit print
-  au BufEnter *.py iabbrev <buffer> pritn print
-  au BufEnter *.py iabbrev <buffer> slef self
-  au BufEnter *.py iabbrev <buffer> sefl self
-  au BufEnter *.py iabbrev <buffer> self self
-  au BufEnter *.py iabbrev <buffer> ptah path
-  au BufEnter *.py iabbrev <buffer> paht path
+  au BufEnter * iabbrev <buffer> pirnt print
+  au BufEnter * iabbrev <buffer> prnit print
+  au BufEnter * iabbrev <buffer> pritn print
+  au BufEnter * iabbrev <buffer> prtn print
+  au BufEnter * iabbrev <buffer> prnt print
+  au BufEnter * iabbrev <buffer> slef self
+  au BufEnter * iabbrev <buffer> sefl self
+  au BufEnter * iabbrev <buffer> sfel self
+  au BufEnter * iabbrev <buffer> sfle self
+  au BufEnter * iabbrev <buffer> path path
+  au BufEnter * iabbrev <buffer> ptah path
+  au BufEnter * iabbrev <buffer> paht path
+  au BufEnter * iabbrev <buffer> phat path
+  au BufEnter * iabbrev <buffer> phta path
 augroup END " )))
 
 augroup VIM " (((
   au!
-  au FileType vim setlocal ts=2 sw=2 fdm=marker fdc=2
+  au FileType vim setlocal ts=2 sw=2 fdm=marker fdc=1
 augroup END " )))
 
 augroup PYTHON " (((
   au!
   au FileType python setlocal fdm=indent fdc=3
   au BufEnter *.py nnoremap <buffer> <F5> :write<CR>:!python3 %<CR>
+  au BufEnter *.py nnoremap <buffer> <F6> :!black %<CR>
+  au BufEnter *.py nnoremap <buffer> <F7> :!pylint %<CR>
+  au BufEnter *.py nnoremap <buffer> <leader>in :call Indent()<CR>
 augroup END " )))
 
 augroup C " (((
@@ -432,6 +443,7 @@ augroup END " )))
 augroup BASH " (((
   au!
   au FileType sh setlocal cc=80
+  au BufEnter *.sh nnoremap <buffer> <F5> :!./%<CR>
 augroup END " )))
 
 augroup HTML_CSS " (((
