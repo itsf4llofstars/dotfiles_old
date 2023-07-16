@@ -65,7 +65,8 @@ function hg() {
 
 function bash_prompt() {
         # PS1='\e[0;33m$(git_branch) \e[0m\e[1;34m\w \e[0m\e[1;34m\$ \e[0m'
-        PS1='\e[0;33m$(git_branch) \e[0m\e[1;32m\w \e[0m\e[1;34m\$ \e[0m'
+        # Replaced 33 in git with 32 and $ color 34 with 32 for green prompts
+        PS1='\e[1;32m$(git_branch) \e[0m\e[0;32m\w \e[0m\e[0;32m\$ \e[0m'
         # PS1=${bwn}'$(git_branch)'${grn_b}' \W '${blu_b}'\$ '${clr}
 }
 # }}}
@@ -193,7 +194,7 @@ export PATH="$HOME"/bin:$PATH
 PATH=$PATH:"$HOME"/.local/bin
 
 # Use nvim as default editor
-export EDITOR=/usr/local/bin/nvim
+export EDITOR=/usr/bin/vim
 
 # Make bash like Vim
 # set -o vi
@@ -208,3 +209,5 @@ bash_prompt
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+source /home/bumper/alacritty/extra/completions/alacritty.bash
+source /home/bumper/alacritty/extra/completions/alacritty.bash

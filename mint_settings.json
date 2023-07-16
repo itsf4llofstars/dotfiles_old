@@ -1,30 +1,36 @@
 {
   "workbench.preferredDarkColorTheme": "Monokai Dimmed",
-  "prettier.printWidth": 120,
+  "workbench.startupEditor": "none",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Vim Dark Hard",
   "editor.fontFamily": "Liberation Mono Bold",
   "editor.fontWeight": "bold",
   "editor.minimap.enabled": true,
+  "editor.formatOnSave": true,
   "terminal.integrated.fontFamily": "Liberation Mono Bold",
   "terminal.integrated.fontSize": 16,
-  "editor.formatOnSave": true,
-  "diffEditor.ignoreTrimWhitespace": false,
-  "workbench.startupEditor": "none",
-  "remote-explorer.foldersSortOrder": "alphabetical",
-  "search.showLineNumbers": true,
-  "python.linting.enabled": true,
-  "python.linting.lintOnSave": true,
-  "python.linting.maxNumberOfProblems": 100,
-  "python.linting.ignorePatterns": ["**/site-packages/**/*.py", ".vscode/*.py"],
-  // "pylint.args": ["--rcfile=/home/bumper/python/pylint.conf"],
-  // "pylint.showNotifications": "onError",
-  "python.formatting.provider": "black",
-  "workbench.iconTheme": "material-icon-theme",
-  "liveServer.settings.donotShowInfoMsg": true,
+  "prettier.enable": true,
+  "prettier.singleQuote": true,
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "liveServer.settings.donotShowInfoMsg": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "remote-explorer.foldersSortOrder": "alphabetical",
+  "search.showLineNumbers": true,
+  "evenBetterToml.formatter.allowedBlankLines": 5,
+  "evenBetterToml.formatter.columnWidth": 80,
+  "python.linting.enabled": true,
+  "python.linting.lintOnSave": true,
+  "python.linting.maxNumberOfProblems": 100,
+  // "python.linting.ignorePatterns": ["**/site-packages/**/*.py", ".vscode/*.py"],
+  // "pylint.args": ["--rcfile=/home/bumper/python/pylint.conf"],
+  "pylint.showNotifications": "onError",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "vim.leader": "<space>",
   "vim.cursorStylePerMode.insert": "block",
@@ -33,8 +39,11 @@
   "vim.cursorStylePerMode.visual": "block",
   "vim.cursorStylePerMode.visualblock": "block",
   "vim.cursorStylePerMode.visualline": "block",
+  "vim.highlightedyank.textColor": "#00FF00",
+  "vim.textwidth": 80,
   "vim.easymotion": false,
-  "vim.enableNeovim": true,
+  "vim.enableNeovim": false,
+  "vim.vimrc.enable": true,
   "vim.useCtrlKeys": true,
   "vim.handleKeys": {
     "<C-s>": false
@@ -44,25 +53,26 @@
   "vim.hlsearch": false,
   "vim.incsearch": true,
   "vim.joinspaces": false,
-  "vim.textwidth": 100,
   "vim.timeout": 1000,
   "vim.useSystemClipboard": true,
   "vim.ignorecase": true,
   "vim.inccommand": "replace",
   "vim.matchpairs": "(:),{:},[:],<:>",
-  "vim.neovimPath": "/urs/bin/nvim",
   "vim.showmodename": true,
   "vim.showcmd": true,
   "vim.showMarksInGutter": true,
   "vim.smartcase": true,
   "vim.smartRelativeLine": true,
   "vim.statusBarColorControl": false,
-  "vim.sneakUseIgnorecaseAndSmartcase": true,
   "vim.normalModeKeyBindings": [],
   "vim.normalModeKeyBindingsNonRecursive": [
     {
       "before": ["<leader>", "w"],
       "commands": ["workbench.action.files.save"]
+    },
+    {
+      "before": ["<leader>", "a"],
+      "commands": ["z", "t"]
     },
     {
       "before": ["Y"],
@@ -129,5 +139,8 @@
       "before": ["<"],
       "after": ["i"]
     }
-  ]
+  ],
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
