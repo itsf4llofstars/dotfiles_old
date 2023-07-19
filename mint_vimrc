@@ -200,7 +200,7 @@ set autochdir
 set autoread
 set hidden
 set cursorline
-set cursorlineopt=both
+set cursorlineopt=number
 set ignorecase
 set smartcase
 set incsearch
