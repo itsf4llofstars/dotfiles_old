@@ -1,11 +1,17 @@
 {
+  "workbench.colorCustomizations": {
+    "editorError.foreground": "#00000000",
+    "editorWarning.foreground": "#00000000",
+    "editorInfo.foreground": "#00000000"
+  },
   "workbench.preferredDarkColorTheme": "Monokai Dimmed",
   "workbench.startupEditor": "none",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.colorTheme": "Vim Dark Hard",
   "editor.fontFamily": "Liberation Mono Bold",
+  "editor.fontSize": 14,
   "editor.fontWeight": "bold",
-  "editor.minimap.enabled": true,
+  "editor.minimap.enabled": false,
   "editor.formatOnSave": true,
   "terminal.integrated.fontFamily": "Liberation Mono Bold",
   "terminal.integrated.fontSize": 16,
@@ -142,6 +148,5 @@
   ],
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "python.venvFolders": ["~/python"]
+  }
 }
