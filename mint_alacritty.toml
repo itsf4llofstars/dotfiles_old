@@ -39,15 +39,15 @@ size = 12
 # use_thin_strokes = true
 
 [font.normal]
-family = "Monospace"
+family = "Hack"
 style = "Bold"
 
 [font.bold]
-family = "Monospace"
+family = "Hack"
 style = "Bold"
 
 [font.italic]
-family = "Monospace"
+family = "Hack"
 style = "Bold Italic"
 
 [font.offset]
@@ -65,7 +65,7 @@ transparent_background_colors = true
 
 [colors.primary]
 # background = '#1e2127'
-background = '#1C1C1C'
+background = '#000000'
 foreground = '#abb2bf'
 
 # [colors.cursor]

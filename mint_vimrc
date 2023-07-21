@@ -63,7 +63,6 @@ let maplocalleader="\\"
 source ~/.vim/pre_vim-plug.vim
 
 call plug#begin()
-Plug 'rafi/awesome-vim-colorschemes'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'ervandew/supertab'
@@ -78,10 +77,11 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 Plug 'dense-analysis/ale'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 source ~/.vim/post_vim-plug.vim
+" source ~/.vim/coc_vim_settings.vim
 " )))
 
 colorscheme retrobox
@@ -294,8 +294,7 @@ augroup HTML_CSS " (((
   au BufRead,BufEnter *.html nnoremap <buffer> <localleader>c i<!----><esc>2hi<space><esc>i<space>
   au BufRead,BufEnter *.css nnoremap <buffer> <localleader>c i/**/<esc>hi<space><esc>i<space>
   au BufRead,BufEnter *.html :onoremap <buffer> it :<c-u>normal! f<vi<<cr>
-  au FileType html,css colorscheme onedark
-  au CursorHold *.html,*.css write
+  " au CursorHold *.html,*.css write
 augroup END " )))
 
 augroup TEXT " (((
