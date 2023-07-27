@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "          _
 "  __   __(_) _ __ ___   _ __  ___
 "  \ \ / /| || '_ ` _ \ | '__|/ __|
@@ -31,12 +32,19 @@ function StripWhiteSpace()
   let l:view = winsaveview()
   %s/\s\+$//e
   call winrestview(l:view)
+=======
+": VIMRC
+
+function GetLine()
+  if line("'\"") > 1 && line("'\"") <= line("$") | exec "normal g'\"" | endif
+>>>>>>> mint
 endfunction
 
 function ShowWhitespace()
   match ErrorMsg '\s\+$'
 endfunction
 
+<<<<<<< HEAD
 function! WordProcessor()
   if &filetype == 'text'
     set textwidth=79
@@ -168,6 +176,28 @@ set backspace=indent,eol,start
 set background=dark
 set t_Co=256
 colorscheme retrobox
+=======
+function Indent()
+  let l:view = winsaveview()
+  :normal! gg=G
+  call winrestview(l:view)
+  " :normal! mpHmogg=G'ozt`p
+endfunction
+
+function DeleteWs() abort
+  normal mz
+  %s/\v\s+$//ge
+  normal `z
+endfunc
+
+": SETTINGS
+filetype indent plugin on
+syntax on
+set backspace=indent,eol,start
+set background=dark
+set encoding=utf-8
+set t_Co=256
+>>>>>>> mint
 
 set tabstop=4
 set shiftwidth=4
@@ -176,6 +206,7 @@ set expandtab
 set nowrap
 set number
 set relativenumber
+<<<<<<< HEAD
 set autoindent
 set copyindent
 set smartindent
@@ -194,18 +225,37 @@ set foldmarker=(((,)))
 set foldlevel=3
 set foldlevelstart=3
 set foldcolumn=3
+=======
+
+set autoindent
+set autochdir
+set autoread
+set hidden
+set colorcolumn=80
+set cursorline
+set cursorlineopt=number
+set ignorecase
+set smartcase
+set incsearch
+set foldlevel=4
+set foldlevelstart=4
+>>>>>>> mint
 set signcolumn=yes
 set laststatus=2
 set showcmd
 set showmatch
 set scrolloff=5
+<<<<<<< HEAD
 set sidescrolloff=8
+=======
+>>>>>>> mint
 set path+=**
 set timeoutlen=500
 
 set completeopt=menuone,popup
 set wildmode=list:longest,full
 
+<<<<<<< HEAD
 set noundofile
 set nobackup
 set nowritebackup
@@ -258,11 +308,89 @@ nnoremap <S-y> y$
 nnoremap <F8> @
 nnoremap <F9> @@
 nnoremap <leader>a zt
+=======
+set undodir=~/.vim/undodir
+set directory=~/.vim/backup
+set backupdir=~/.vim/backup
+set undofile
+set backup
+set writebackup
+set swapfile
+set updatetime=333
+
+let mapleader=" "
+let maplocalleader="\\"
+": SETTINGS
+
+": PLUGINS
+call plug#begin()
+Plug 'Yggdroot/indentLine'
+Plug 'mbbill/undotree'
+Plug 'itchyny/lightline.vim'
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+call plug#end()
+
+": ¦, ┆, │, ⎸, ▏
+" let g:indentLine_char = '▏'
+" let g:indentLine_char = '┊'
+let g:indentLine_char_list = ['▏', '▏', '▏', '¦']
+let g:indentLine_setColors = 0
+let g:indentLine_defaultGroup = 'SpecialKey'
+let g:indentLine_concealcursor = 'inc'
+let g:indentLine_conceallevel = 2
+" let g:indentLine_setConceal = 0
+let g:vim_json_conceal = 0
+let g:markdown_syntax_conceal = 0
+
+let g:UltiSnipsExpandTrigger='<TAB>'
+let g:UltiSnipsJumpForwardTrigger='<TAB>'
+let g:UltiSnipsJumpBackwardTrigger='<S-TAB>'
+
+let g:lightline = {
+      \ 'colorscheme': 'srcery_drk',
+      \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ],
+        \ [ 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+        \ },
+        \ }
+
+colorscheme retrobox
+
+": MAPPINGS
+inoremap kj <ESC>
+vnoremap kj <ESC>
+
+" nnoremap <leader>ut :UndotreeToggle<cr>:vertical resize -30<cr><C-w>l
+nnoremap <leader>ut :UndotreeToggle<cr>
+
+nnoremap <leader>w :write<cr>
+nnoremap <leader>q ZQ
+nnoremap <leader>z ZZ
+nnoremap <silent> <leader>o :edit .<cr>
+nnoremap <silent> <localleader>e :edit $MYVIMRC<cr>
+nnoremap <silent> <localleader>ve :vsplit<cr><C-w>l:edit $MYVIMRC<cr>
+nnoremap <silent> <localleader>s :write<cr>:source $MYVIMRC<cr>:do FileType<cr>:do BufEnter<cr>
+nnoremap <leader>t :shell<cr>
+
+nnoremap <localleader>x :colorscheme s
+nnoremap <silent> <leader>nb :bnext<cr>
+nnoremap <silent> <leader>pb :bprevious<cr>
+nnoremap <silent> <S-b> _
+nnoremap <silent> <S-e> $
+nnoremap <silent> <S-y> y$
+nnoremap <silent> <F8> @
+nnoremap <silent> <F9> @@
+nnoremap <silent> <leader>a zt
+nnoremap <silent> <leader>bn :bnext<Cr>
+nnoremap <silent> <leader>bp :bprev<cr>
+>>>>>>> mint
 nnoremap w W
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap ' `
 nnoremap '' ``
+<<<<<<< HEAD
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap < <gv
@@ -465,3 +593,101 @@ augroup JSON " (((
   au fileType json syntax match Comment +\/\/.\+$+
 augroup END " )))
 "" GROUPS )))
+=======
+vnoremap <silent> J :m '>+1<cr>gv=gv
+vnoremap <silent> K :m '<-2<cr>gv=gv
+vnoremap <silent> < <gv
+vnoremap <silent> > >gv
+nnoremap <leader>* :%s/\<<C-r><C-w>\>//gI<left><left><left>
+nnoremap <leader>& :%s/\<<C-r><C-w>\>//gIc<left><left><left><left>
+
+nnoremap <silent> <leader>to :tabnew<cr>
+nnoremap <silent> <leader>tn :tabnext<cr>
+nnoremap <silent> <leader>tp :tabprevious<cr>
+nnoremap <silent> <leader>tc :tabclose<cr>
+
+nnoremap <silent> <leader>v :vsplit<cr><C-w>l
+nnoremap <silent> <leader>s :split<cr><C-w>j
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <silent><leader>kk :vertical resize+5<cr>
+nnoremap <silent><leader>ll :resize+5<cr>
+
+augroup ALL
+  au BufEnter * call GetLine()
+  au BufEnter * call ShowWhitespace()
+  au BufWritePre * call DeleteWs()
+  au InsertEnter * silent set nornu
+  au InsertLeave * silent set rnu
+augroup END
+
+augroup VIM
+  au!
+  au FileType vim silent setlocal ts=2 sw=2 fdm=indent spl=en spl+=en_us nospell
+augroup END
+
+augroup PYTHON
+  au!
+  au FileType python silent setlocal fdm=indent
+  au BufEnter *.py nnoremap <buffer> <F5> :write<cr>:!python3 %<cr>
+  au BufEnter *.py nnoremap <buffer> <F6> :!black %<cr>
+  au BufEnter *.py nnoremap <buffer> <F7> :!pylint %<cr>
+  au BufEnter *.py let @u=':vsplitl:edit ~/.vim/plugged/vim-snippets/UltiSnips/python_snips.txt:vertical resize -50h'
+  au BufWritePre *.py call Indent()
+augroup END
+
+augroup C
+  au!
+  au FileType c silent setlocal ts=8 sw=8 fdm=indent cc=80 noai nosi cin cino=ln,c2
+  au BufEnter *.c,*.h nnoremap <buffer> <leader>mm :!make main<cr>
+  au BufEnter *.c,*.h nnoremap <buffer> <F5> :!./main<cr>
+  au BufEnter *.c,*.h nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
+  au BufWritePre *.c,*.h call Indent()
+augroup END
+
+augroup CPP
+  au!
+  au FileType c silent setlocal ts=8 sw=8 fdm=indent cc=80 noai nosi cin cino=ln,c2
+  au BufEnter *.cpp,*.h nnoremap <buffer> <leader>mm :!make main<cr>
+  au BufEnter *.cpp,*.h nnoremap <buffer> <F5> :!./main<cr>
+  au BufEnter *.cpp,*.h nnoremap <buffer> <leader>b o{<cr>}<esc>ko
+  au BufWritePre *.cpp,*.h call Indent()
+augroup END
+
+augroup RUST
+  au!
+  au FileType rust setlocal ts=8 sw=8 fdm=indent cc=80 noai nosi noci cin
+  au BufEnter *.rs nnoremap <buffer> <leader>mm :cargo check<cr>
+  au BufEnter *.rs nnoremap <buffer> <F5> :cargo run<cr>
+  au BufEnter *.rs nnoremap <buffer> <leader>b A<space>{<cr>}<esc>ko
+  au BufWritePre *.rs call Indent()
+augroup END
+
+augroup TEXT
+  au!
+  au FileType text silent setlocal tw=79 noet wrap fdm=manual fdc=0 scl=no spl=en spl+=en_us
+  au BufEnter *.txt let @u=':vsplitl:edit ~/.vim/plugged/vim-snippets/UltiSnips/python_snips.txt:vertical resize -50h'
+augroup END
+
+augroup ABBREV
+  au!
+  au BufEnter * iabbrev <buffer> ifos itsf4llofstars
+  au BufEnter * iabbrev <buffer> emal irooted4hal@mailfence.com
+  au BufEnter * iabbrev <buffer> pirnt print
+  au BufEnter * iabbrev <buffer> prnit print
+  au BufEnter * iabbrev <buffer> pritn print
+  au BufEnter * iabbrev <buffer> prtn print
+  au BufEnter * iabbrev <buffer> prnt print
+  au BufEnter * iabbrev <buffer> slef self
+  au BufEnter * iabbrev <buffer> sefl self
+  au BufEnter * iabbrev <buffer> sfel self
+  au BufEnter * iabbrev <buffer> sfle self
+  au BufEnter * iabbrev <buffer> ptah path
+  au BufEnter * iabbrev <buffer> paht path
+  au BufEnter * iabbrev <buffer> phat path
+  au BufEnter * iabbrev <buffer> phta path
+  au BufEnter * iabbrev <buffer> tow two
+augroup END
+>>>>>>> mint

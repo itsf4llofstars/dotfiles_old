@@ -11,6 +11,11 @@ alias vi='vim'
 alias vimm='vim main.py'
 alias ed='ed -E -v -p "ed: "'
 alias nano='nano -r 79'
+alias mu='micro'
+
+alias kittyrc='vim ~/.config/kitty/kitty.conf'
+alias critty='cd ~/.config/alacritty'
+alias ala='vim ~/.config/alacritty/alacritty.toml'
 
 alias kittyrc='vim ~/.config/kitty/kitty.conf'
 alias ala='vim ~/.config/alacritty/alacritty.toml'

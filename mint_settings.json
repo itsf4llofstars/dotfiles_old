@@ -2,6 +2,10 @@
   "workbench.preferredDarkColorTheme": "Monokai Dimmed",
   "workbench.startupEditor": "none",
   "workbench.iconTheme": "material-icon-theme",
+<<<<<<< HEAD
+=======
+  "workbench.colorTheme": "Vim Dark Hard",
+>>>>>>> mint
   "editor.fontFamily": "Liberation Mono Bold",
   "editor.fontWeight": "bold",
   "editor.minimap.enabled": true,
@@ -20,6 +24,7 @@
   "diffEditor.ignoreTrimWhitespace": false,
   "remote-explorer.foldersSortOrder": "alphabetical",
   "search.showLineNumbers": true,
+<<<<<<< HEAD
   "python.linting.enabled": true,
   "python.linting.lintOnSave": true,
   "python.linting.maxNumberOfProblems": 100,
@@ -27,6 +32,19 @@
   // "pylint.args": ["--rcfile=/home/bumper/python/pylint.conf"],
   // "pylint.showNotifications": "onError",
   "python.formatting.provider": "black",
+=======
+  "evenBetterToml.formatter.allowedBlankLines": 5,
+  "evenBetterToml.formatter.columnWidth": 80,
+  "python.linting.enabled": true,
+  "python.linting.lintOnSave": true,
+  "python.linting.maxNumberOfProblems": 100,
+  // "python.linting.ignorePatterns": ["**/site-packages/**/*.py", ".vscode/*.py"],
+  // "pylint.args": ["--rcfile=/home/bumper/python/pylint.conf"],
+  "pylint.showNotifications": "onError",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+>>>>>>> mint
   "vim.leader": "<space>",
   "vim.cursorStylePerMode.insert": "block",
   "vim.cursorStylePerMode.normal": "block",
@@ -34,6 +52,11 @@
   "vim.cursorStylePerMode.visual": "block",
   "vim.cursorStylePerMode.visualblock": "block",
   "vim.cursorStylePerMode.visualline": "block",
+<<<<<<< HEAD
+=======
+  "vim.highlightedyank.textColor": "#00FF00",
+  "vim.textwidth": 80,
+>>>>>>> mint
   "vim.easymotion": false,
   "vim.enableNeovim": false,
   "vim.vimrc.enable": true,
@@ -133,6 +156,7 @@
       "after": ["i"]
     }
   ],
+<<<<<<< HEAD
   "evenBetterToml.formatter.allowedBlankLines": 5,
   "evenBetterToml.formatter.columnWidth": 80,
   "workbench.colorTheme": "Vim Dark Hard",
@@ -141,4 +165,9 @@
   },
   "vim.highlightedyank.textColor": "#00FF00",
   "vim.textwidth": 79
+=======
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+>>>>>>> mint
 }
